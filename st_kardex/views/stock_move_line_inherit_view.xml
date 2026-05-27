@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.form.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='company_id']" position="before">-->
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                            <button name="action_get_stock_moves" icon="fa-truck" class="oe_stat_button"-->
+<!--                                    string="Transferencias" type="object"/>-->
+<!--                            <button name="action_get_account_moves" icon="fa-usd" class="oe_stat_button"-->
+<!--                                    string="Asientos Contables" type="object" groups="account.group_account_user"-->
+<!--                                    attrs="{'invisible': [('origin', '=', 'PM/')]}"/>-->
+<!--                            <button name="action_get_purchase_moves" icon="fa-plus" class="oe_stat_button"-->
+<!--                                    string="Compras" type="object"/>-->
+<!--                            <button name="action_get_sale_moves" icon="fa-signal" class="oe_stat_button"-->
+<!--                                    string="Ventas" type="object"/>-->
+
+<!--                        </div>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='picking_id']" position="replace" >
+                       <field name="picking_id" string="Transferencia"/>
+                        <field name="currency_id" invisible="1" />
+                </xpath>
+                <xpath expr="//group">
+                    <field name="location_id" position="attributes">
+                        <atribute name="optional">hide</atribute>
+                    </field>
+                    <field name="location_dest_id" position="attributes">
+                        <atribute name="optional">hide</atribute>
+                    </field>
+                </xpath>
+
+                <xpath expr="//group" position="after">
+                    <group>
+                        <group string="Valoracion Productos">
+<!--                            <field name="sd_qty"/>-->
+                            <field name="cost_valuation_total" />
+                            <field name="cost_valuation" />
+                            <field name="landed_cost_unit" string="Costo Nuevo LC" invisible="1"/>
+                            <field name="landed_cost_unit" string="Costo Nuevo LC" invisible="1"/>
+                            <field name="type_id" string="Tipo"/>
+                        </group>
+                        <group string="Valoracion Costo Destino">
+                            <field name="costo_dest_total"/>
+                            <field name="costo_dest"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inherit_view_inventory_tree">
+            <field name="name">inherit.stock.move.line.tree</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="before" >
+                    <button name="action_wizard_saldo" class="btn btn-primary" type="object" string="Ver saldo"/>
+                </xpath>
+                <xpath expr="//field[@name='qty_done']" position="after">
+<!--                    <field name="sd_qty"  optional="show"/>-->
+                    <field name="cost_valuation_total" optional="show"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="cost_valuation" optional="show"/>
+                    <field name="landed_cost_unit" string="Costo Nuevo LC" invisible="1"/>
+                    <field name="type_id" string="Tipo"/>
+                    <field name="sd_type" string="Tipo2" invisible="1"/>
+                </xpath>
+                <field name="location_id" position="replace">
+                    <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" optional="hide"/>
+                </field>
+                <field name="location_dest_id" position="replace">
+                    <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="button_click_action" model="ir.actions.server">
+            <field name="name">Actualizar Tipos</field>
+            <field name="binding_model_id" ref="st_kardex.model_stock_move_line" />
+            <field name="model_id" ref="st_kardex.model_stock_move_line"/>
+            <field name="state">code</field>
+            <field name="code">action = model._get_default_type_move()</field>
+<!--            <field name="model">stock.move.line</field>-->
+        </record>
+
+<!--        <record id="stock_move_line_view_search" model="ir.ui.view">-->
+<!--            <field name="name">stock.move.line.search</field>-->
+<!--            <field name="model">stock.move.line</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="Stock Moves">-->
+<!--                    <group expand="0" string="Group By">-->
+<!--                        <filter string="Date" name="by_date" domain="[]" context="{'group_by': 'date'}" position="after">-->
+<!--                            <filter string="Tipo" name="by_type" domain="[]" context="{'group_by': 'location_id'}"/>-->
+<!--                        </filter>-->
+<!--                    </group>-->
+<!--&lt;!&ndash;                    <xpath expr="//group" position="after">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <field name="quien yo?"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </xpath>&ndash;&gt;-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+        <record id="sd_inherit_filter_stock_move_line" model="ir.ui.view">
+            <field name="name">stock.move.line.form.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.stock_move_line_view_search"/>
+            <field name="arch" type="xml">
+                <group expand="0" position="inside">
+                    <filter string="Tipo" name="sd_type" domain="[]" context="{'group_by': 'sd_type'}"/>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

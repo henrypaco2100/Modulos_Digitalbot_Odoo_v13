@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_move_form_cambiar_modo_offline_wizard" model="ir.ui.view">
+            <field name="name">Cambiar Modo Offline</field>
+            <field name="model">wizard.modo.offline</field>
+            <field name="arch" type="xml">
+                <form string="Cambiar Modo Offline">
+                    <span>Estas seleccionando el modo fuera de linea para facturar. <br/> Durante este periodo tus facturas no se publicaran a impuestos nacionales.<br/> Deberas seguir los siguiente pasos para publicar sus facturas: <br/> <span class="o_form_label">1: Registrar un evento significativo colocando un rango de fechas y todos los campos respectivos <br/> 2: Registrar un paquete y enviar todas las facturas emitidas fuera de linea.<br/></span>
+                        <br/>¿Estas seguro de querer entrar al modo fuera de linea?</span>
+                    <footer>
+                        <button string="Cambiar Modo Fuera de Linea" name="cambiar_modo_offline" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
+

@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="assets_backend_libro" name="xls_assets_libro" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/st_facturacion_computarizada_bolivia_v13/static/src/js/action_manager_fact.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

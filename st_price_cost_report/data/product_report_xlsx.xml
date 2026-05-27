@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <report
+            id="partner_xlsx"
+            model="account.report"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="account_product_report.product_xlsx"
+            file="account_product_report.product_xlsx"
+            attachment_use="False"
+        />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+<odoo>
+    <data>
+        <function model="res.config.settings" name="enable_captcha"/>
+    </data>
+</odoo>

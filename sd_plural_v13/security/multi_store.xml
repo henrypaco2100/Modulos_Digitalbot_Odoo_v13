@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="sd_mrp_production_store_rule" model="ir.rule">
+        <field name="name">sd mrp production multi-store</field>
+        <field name="model_id" ref="mrp.model_mrp_production"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('store_ids', '=', False), ('store_ids', 'in', user.store_ids.ids)]</field>
+    </record>
+</odoo>

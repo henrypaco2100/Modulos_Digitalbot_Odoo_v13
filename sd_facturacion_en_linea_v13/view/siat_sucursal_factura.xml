@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_sucursal_factura_siat" model="ir.actions.act_window">
+                <field name="name">Sucursal Factura Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">sucursal.factura.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Sucursal Factura Siat
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_sucursal_factura_siat" model="ir.ui.view">
+            <field name="name">arbol.sucursal.factura.siat</field>
+            <field name="model">sucursal.factura.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sd_codigo_clasificador"/>
+                    <field name="sd_descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_sucursal_factura_siat" model="ir.ui.view">
+                <field name="name">fields.form.sucursal.factura.siat</field>
+                <field name="model">sucursal.factura.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+
+                        </header>
+                        <sheet>
+
+                            <group>
+                                <group>
+
+                                    <field name="sd_codigo_clasificador"/>
+                                    <field name="name"/>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

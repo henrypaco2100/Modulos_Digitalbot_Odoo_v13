@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		 <record model="ir.module.category" id="sd_padre_del_padre_permisos_facturacion_line">
+			<field name="name">Reporte Facturacion en Linea</field>
+			<field name="description">Modulo para gestion de facturacion en linea</field>
+			<field name="sequence">10</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="sd_permisos_reportes_facturacion_linea" model="ir.module.category">
+			<field name="name">Facturacion en linea</field>
+			<field name="sequence" eval="1"/>
+			<field name="parent_id" ref="sd_padre_del_padre_permisos_facturacion_line"/>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="sd_facturacion_electronica_en_linea_usuario_group" model="res.groups">
+			<field name="name">Facturacion  en linea Usuario</field>
+            <field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+<!--			<field name="trans_implied_ids" eval="[(4,ref('sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group'))]"/>-->
+
+		</record>
+    </data>
+	<data noupdate="1" >
+		<record id="sd_anulacion_factura_group" model="res.groups">
+			<field name="name">Anular factura en linea</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+	<data noupdate="1" >
+		<record id="sd_emision_masiva_group" model="res.groups">
+			<field name="name">Factura Masiva</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+    <data noupdate="1">
+		<record id="sd_facturacion_electronica_en_linea_group" model="res.groups">
+			<field name="name">Facturacion  en linea Administrador</field>
+            <field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+			<field name="implied_ids" eval="[(4,ref('sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group')), (4,ref('sd_facturacion_en_linea_v13.sd_anulacion_factura_group')), (4,ref('sd_facturacion_en_linea_v13.sd_emision_masiva_group'))]"/>
+		</record>
+    </data>
+
+    <data noupdate="1" >
+		<record id="sd_facturacion_en_linea_test_group" model="res.groups">
+			<field name="name">Test Facturacion  en linea</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+
+
+
+	<data noupdate="1" >
+		<record id="sd_facturas_cafc_group" model="res.groups">
+			<field name="name">Envio de factura con Cafc</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+	<data noupdate="1" >
+		<record id="sd_facturas_monto_adicional_group" model="res.groups">
+			<field name="name">Descuento adicional en factura en linea</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+
+
+<!--	<data noupdate="1" >-->
+<!--		<record id="sd_factura_actividades_group" model="res.groups">-->
+<!--			<field name="name">Test Facturacion  en linea</field>-->
+<!--		</record>-->
+<!--    </data>-->
+</odoo>

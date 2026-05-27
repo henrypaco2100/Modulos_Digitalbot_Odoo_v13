@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_emision_paquete_siat" model="ir.actions.act_window">
+                <field name="name">Emision Paquetes Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">siat.emision.paquete.offline</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Emision Paquetes
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_emision_paquete_siat" model="ir.ui.view">
+            <field name="name">arbol.emision.paquete.offline.siat</field>
+            <field name="model">siat.emision.paquete.offline</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sd_factura_online_id"/>
+                    <field name="sd_cuis"/>
+                    <field name="sd_fecha_inicio"/>
+                    <field name="sd_fecha_fin"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_emision_paquete_siat" model="ir.ui.view">
+                <field name="name">fields.form.emision.paquete.siat</field>
+                <field name="model">siat.emision.paquete.offline</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+                            <button name="registroEmisionPaquetes" class="oe_highlight" type="object" string="Recepcion de paquete" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                            <button name="validacionRecepcionPaquete" class="oe_highlight" type="object" string="Validacion de paquete" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                            <button name="cargar_facturas_paquetes" type="object" string="Obtener facturas" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                            <button name="publicar_facturas" type="object" string="Publicar facturas" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+
+                            <field name="state" widget="statusbar" statusbar_visible="draft,recepcion,validate"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" />
+                                </h1>
+                            </div>
+                            <group>
+                                <group string="principales">
+                                    <field name="sd_codigo_recepcion_paquetes" readonly="1"/>
+                                    <field name="sd_factura_online_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_journal_id" invisible="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_cuis" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_evento_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                </group>
+                                <group string="CUDF">
+                                    <field name="sd_cufd_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_codigoControlAntiguo" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_fecha_inicio" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_fecha_fin" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                </group>
+                                <group string="otros" style="wight=150px">
+                                    <field name="sd_codigo_sucursal" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_es_punto_venta" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_codigo_punto_venta" attrs="{'readonly': [('state', '=', 'validate')], 'invisible': [('sd_es_punto_venta', '=', False)]}"/>
+                                    <field name="sd_cafc" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_tipo_factura" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_codigo_documento_sector" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Facturas" name="facturas_paquete">
+                                    <field name="sd_invoice_ids" options="{'no_create': True, 'no_create_edit':True}" widget="many2many" attrs="{'readonly': [('state', '=', 'validate')]}" />
+                                </page>
+                            </notebook>
+<!--                            <notebook>-->
+
+<!--                                <page string="Nandina" name="sd_nandina">-->
+<!--                                    <field-->
+<!--                                    name="sd_nandina_ids"-->
+<!--                                    widget="section_and_note_one2many"-->
+<!--                                    mode="tree,form"-->
+<!--                                    >-->
+<!--                                        <form>-->
+<!--                                            <group>-->
+<!--                                                <group>-->
+<!--                                                    <field name="sd_product_id"/>-->
+<!--                                                    <field name="sd_codigo_nandina"/>-->
+<!--                                                </group>-->
+<!--                                            </group>-->
+<!--                                        </form>-->
+<!--                                        <tree string="CUFD" editable="bottom" delete="0" create="0">-->
+<!--                                            <field name="sd_product_id"/>-->
+<!--                                            <field name="sd_codigo_nandina"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+<!--                                </page>-->
+<!--                            </notebook>-->
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<odoo>
+    <template id="report_saledetails_withsubtotal" name="sale details" inherit_id="point_of_sale.report_saledetails">
+        <xpath expr="//div/table[@class='table table-sm']" position="replace">
+            <table  class="table table-sm">
+                <thead><tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach='products' t-as='line'>
+                    <t t-set="internal_reference" t-value="line['code'] and '[%s] ' % line['code'] or ''" />
+                    <td><t t-esc="internal_reference" /><t t-esc="line['product_name']" /></td>
+                    <td>
+                        <t t-esc="line['quantity']" />
+                        <t t-if='line["uom"] != "Units"'>
+                            <t t-esc='line["uom"]' />
+                        </t>
+                    </td>
+                    <td>
+                        <t t-esc='line["price_unit"]' />
+                    <t t-if='line["discount"] != 0'>
+                        Disc: <t t-esc='line["discount"]' />%
+                    </t>
+
+                    </td>
+                    <td>
+                        <t t-esc="line['quantity'] * line['price_unit'] *((100 - line['discount'])/100)" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </xpath>
+
+    </template>
+</odoo>

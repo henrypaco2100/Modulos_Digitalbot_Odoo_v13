@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="inherit_receipt_js" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/sd_facturacion_en_linea_correo_v13/static/src/js/enviar_correo_siat.js"></script>
+            <script type="text/javascript" src="/sd_facturacion_en_linea_correo_v13/static/src/js/inherit_models.js"></script>
+            <script type="text/javascript" src="/sd_facturacion_en_linea_correo_v13/static/src/js/inherit_pos_order.js"></script>
+
+            <script type="text/javascript" src="/sd_facturacion_en_linea_correo_v13/static/lib/qrcode.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+        </xpath>
+    </template>
+</odoo>

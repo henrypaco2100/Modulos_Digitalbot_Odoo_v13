@@ -1,0 +1,10 @@
+<record id="view_account_move_refund_inherit" model="ir.ui.view">
+    <field name="name">account.move.refund.inherit</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_account_move_refund_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//group[@name='base']/field[@name='date']" position="after">
+            <field name="sd_factura_original"/>
+        </xpath>
+    </field>
+</record>

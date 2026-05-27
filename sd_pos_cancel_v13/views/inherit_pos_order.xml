@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_pos_order_button_cancel" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.cancel</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='session_id']" position="after">
+                <field name="state_session" invisible='True'/>
+            </xpath>
+            <button name="refund" position="after">
+                <button  name="action_pos_order_cancel"  type="object" string="Cancelar"
+                         confirm='¿Esta seguro que desea "Cancelar" el pedido de punto de Venta? '
+                         attrs="{'invisible':['|',('state_session','=','closed'),('state','=','cancel')]}"
+                        groups="sd_pos_cancel_v13.sd_group_encargado_cancelar"/>
+            </button>
+        </field>
+    </record>
+
+    <record id="sd_inherit_pos_order_button_cancel_tree" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.cancel.tree</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree_no_session_id"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="state_session" invisible='True'/>
+                <button  name="action_pos_order_cancel" type="object" string="Cancelar"
+                         confirm='¿Esta seguro que desea "Cancelar" el pedido de punto de Venta '
+                         attrs="{'invisible':['|',('state_session','=','closed'),('state','=','cancel')]}"
+                        groups="sd_pos_cancel_v13.sd_group_encargado_cancelar"  />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

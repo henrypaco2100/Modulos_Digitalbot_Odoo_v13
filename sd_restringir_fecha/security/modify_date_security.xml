@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data >
+
+		<record id="group_modify_date_all" model="res.groups">
+			<field name="name">Modificar la fecha a cualquier Día</field>
+		</record>
+		<record id="group_modify_date_x_day" model="res.groups">
+			<field name="name">Modificar la fecha X dias Atras</field>
+		</record>
+
+
+</data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="mystyle_assets_automated" name="automated_sale_order assets" inherit_id="web.assets_backend">
+                <xpath expr="." position="inside">
+                    <link rel="stylesheet" type="text/scss" href="/bi_automated_sale_order/static/src/scss/style.scss"/>
+                    <link rel="stylesheet" href="/bi_automated_sale_order/static/src/scss/style.css"/>
+                </xpath>
+        </template>
+    </data>
+</openerp>

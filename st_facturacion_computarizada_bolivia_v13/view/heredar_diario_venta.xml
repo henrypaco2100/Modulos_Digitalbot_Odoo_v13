@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Diario venta-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="account_journal_bolivia_heredar_campos">
+            <field name="name">account.journal.bolivia.heredar.campos</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="fcb_es_computarizado" attrs="{'invisible': [('type', '!=', 'sale')]}" />
+                </field>
+                 <notebook position="inside">
+                    <page name="computarizado_bolivia" string="Computarizado" attrs="{'invisible': [('fcb_es_computarizado', '!=', True)]}" >
+                        <group >
+                            <group>
+                                <field name="fcb_tipo_factura"  attrs="{'required': [('fcb_es_computarizado','=',True),('type','=','sale')]}"/>
+                                <field name="fcb_numero_autorizacion_diario" attrs="{'required': [('fcb_es_computarizado','=',True),('type','=','sale')]}"/>
+                                <field name="fcb_llave_de_dosificacion" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_fecha_activacion" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_fecha_limite_emision" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                            </group>
+                            <group>
+                                <field name="fcb_casa_matriz" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_type_company" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_ciudad_matriz" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_direccion_matriz" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_telefono_matriz" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_actividad_economica" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                                <field name="fcb_tipo_de_sucursal_factura" attrs="{'invisible': [('fcb_casa_matriz','!=',False)]}"/>
+                                <field name="fcb_direccion_sucursal_factura" attrs="{'invisible': [('fcb_casa_matriz','!=',False)]}"/>
+                                <field name="fcb_ciudad_sucursal" attrs="{'invisible': [('fcb_casa_matriz','!=',False)]}"/>
+                                <field name="fcb_telefono_sucursal" attrs="{'invisible': [('fcb_casa_matriz','!=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="fcb_siguiente_Numero" attrs="{'required': [('type','=','sale'),('fcb_es_computarizado','=',True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

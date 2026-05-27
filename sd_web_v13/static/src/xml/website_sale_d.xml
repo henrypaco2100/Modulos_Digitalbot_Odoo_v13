@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-extend="website_sale.productsRecentlyViewed">
+        <t t-jquery="div.d-block" t-operation="replace">
+            <div class="d-block font-weight-bold" t-esc="product.price.replace('&lt;span class=&quot;oe_currency_value&quot;&gt;', '').replace('00&lt;/span&gt;', '')"/>
+        </t>
+    </t>
+
+<!--    <t t-extend="website_sale.productsSearchBar.autocomplete">-->
+<!--        <t t-jquery="b.text-nowrap" t-operation="replace">-->
+<!--            <b class="text-nowrap">-->
+<!--                <t t-raw="product['price'].replace('&lt;span class=&quot;oe_currency_value&quot;&gt;',''.replace('00&lt;/span&gt;&nbsp;', '')"/>-->
+<!--            </b>-->
+<!--        </t>-->
+<!--    </t>-->
+</templates>

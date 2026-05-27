@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- 
+			Financial Reports Contable
+		-->
+		<record id="bi_account_financial_report_profitandloss0" model="account.financial.report">
+			<field name="name">Estado de Resultado Contable</field>
+			<field name="sign">-1</field>
+			<field name="type">sum</field>
+			<field name="sd_tipo_reporte">estado_resultado</field>
+		</record>
+
+		<record id="bi_account_financial_report_income0" model="account.financial.report">
+			<field name="name">Ingresos Contable</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_other_income')), (4,ref('account.data_account_type_revenue'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_expense0" model="account.financial.report">
+			<field name="name">Gastos Contable</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">3</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_expenses')), (4,ref('account.data_account_type_depreciation'))]"/>
+		</record>
+		<record id="bi_account_financial_report_costo0" model="account.financial.report">
+			<field name="name">Costo Contable</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">2</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_direct_costs'))]"/>
+		</record>
+		<record id="bi_account_financial_report_tipo_resultado0" model="account.financial.report">
+			<field name="name">Tipo de Resultado Contable</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">result_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">4</field>
+		</record>
+
+		<record id="bi_account_financial_report_balancesheet0" model="account.financial.report">
+			<field name="name">Balance General Contable</field>
+			<field name="type">sum</field>
+			<field name="sd_tipo_reporte">balance_general</field>
+		</record>
+
+		<record id="bi_account_financial_report_assets0" model="account.financial.report">
+			<field name="name">ACTIVO CONTABLE</field>
+			<field name="parent_id" ref="bi_account_financial_report_balancesheet0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">balance_general</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_receivable')), (4,ref('account.data_account_type_liquidity')), (4,ref('account.data_account_type_current_assets')), (4,ref('account.data_account_type_non_current_assets'), (4,ref('account.data_account_type_prepayments'))), (4,ref('account.data_account_type_fixed_assets'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_liabilitysum0" model="account.financial.report">
+			<field name="name">PASIVO Y PATRIMONIO CONTABLE</field>
+			<field name="parent_id" ref="bi_account_financial_report_balancesheet0"/>
+			<field name="display_detail">no_detail</field>
+			<field name="type">sum</field>
+			<field name="st_tipo_reporte">balance_general</field>
+			<field name="st_numero_orden">2</field>
+		</record>
+
+		<record id="bi_account_financial_report_liability0" model="account.financial.report">
+			<field name="name">Pasivo y Patrimonio Contable</field>
+			<field name="parent_id" ref="bi_account_financial_report_liabilitysum0"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">balance_general_sub</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_payable')), (4,ref('account.data_account_type_equity')), (4,ref('account.data_account_type_current_liabilities')), (4,ref('account.data_account_type_non_current_liabilities'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_profitloss_toreport0" model="account.financial.report">
+			<field name="name">Beneficio (pérdida) para informar Contable</field>
+			<field name="parent_id" ref="bi_account_financial_report_liabilitysum0"/>
+			<field name="display_detail">no_detail</field>
+			<field name="type">account_report</field>
+			<field name="account_report_id" ref="bi_account_financial_report_profitandloss0"/>
+			<field name="st_tipo_reporte">balance_general_sub</field>
+			<field name="st_numero_orden">2</field>
+		</record>
+
+<!--		Contabilidad Interna -->
+		<record id="bi_account_financial_report_profitandloss1" model="account.financial.report">
+			<field name="name">Estado de Resultados Interno</field>
+			<field name="sign">-1</field>
+			<field name="type">sum</field>
+			<field name="sd_tipo_reporte">estado_resultado</field>
+		</record>
+
+		<record id="bi_account_financial_report_income1" model="account.financial.report">
+			<field name="name">Ingresos Interno</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_other_income')), (4,ref('account.data_account_type_revenue'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_expense1" model="account.financial.report">
+			<field name="name">Gastos Interno</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">3</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_expenses')), (4,ref('account.data_account_type_depreciation'))]"/>
+		</record>
+		<record id="bi_account_financial_report_costo1" model="account.financial.report">
+			<field name="name">Costo Interno</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">2</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_direct_costs'))]"/>
+		</record>
+		<record id="bi_account_financial_report_tipo_resultado1" model="account.financial.report">
+			<field name="name">Tipo de Resultado Interno</field>
+			<field name="sign">-1</field>
+			<field name="parent_id" ref="bi_account_financial_report_profitandloss1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">result_type</field>
+			<field name="st_tipo_reporte">estado_resultado</field>
+			<field name="st_numero_orden">4</field>
+		</record>
+
+		<record id="bi_account_financial_report_balancesheet1" model="account.financial.report">
+			<field name="name">Balance General Interno</field>
+			<field name="type">sum</field>
+			<field name="sd_tipo_reporte">balance_general</field>
+		</record>
+
+		<record id="bi_account_financial_report_assets1" model="account.financial.report">
+			<field name="name">ACTIVO INTERNO</field>
+			<field name="parent_id" ref="bi_account_financial_report_balancesheet1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">balance_general</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_receivable')), (4,ref('account.data_account_type_liquidity')), (4,ref('account.data_account_type_current_assets')), (4,ref('account.data_account_type_non_current_assets'), (4,ref('account.data_account_type_prepayments'))), (4,ref('account.data_account_type_fixed_assets'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_liabilitysum1" model="account.financial.report">
+			<field name="name">PASIVO Y PATRIMONIO INTERNO</field>
+			<field name="parent_id" ref="bi_account_financial_report_balancesheet1"/>
+			<field name="display_detail">no_detail</field>
+			<field name="type">sum</field>
+			<field name="st_tipo_reporte">balance_general</field>
+			<field name="st_numero_orden">2</field>
+		</record>
+
+		<record id="bi_account_financial_report_liability1" model="account.financial.report">
+			<field name="name">Pasivo y Patrimonio Interno</field>
+			<field name="parent_id" ref="bi_account_financial_report_liabilitysum1"/>
+			<field name="display_detail">detail_with_hierarchy</field>
+			<field name="type">account_type</field>
+			<field name="st_tipo_reporte">balance_general_sub</field>
+			<field name="st_numero_orden">1</field>
+			<field name="account_type_ids" eval="[(4,ref('account.data_account_type_payable')), (4,ref('account.data_account_type_equity')), (4,ref('account.data_account_type_current_liabilities')), (4,ref('account.data_account_type_non_current_liabilities'))]"/>
+		</record>
+
+		<record id="bi_account_financial_report_profitloss_toreport1" model="account.financial.report">
+			<field name="name">Beneficio (pérdida) para informar Interno</field>
+			<field name="parent_id" ref="bi_account_financial_report_liabilitysum1"/>
+			<field name="display_detail">no_detail</field>
+			<field name="type">account_report</field>
+			<field name="st_tipo_reporte">balance_general_sub</field>
+			<field name="st_numero_orden">2</field>
+			<field name="account_report_id" ref="bi_account_financial_report_profitandloss1"/>
+		</record>
+	</data>
+</odoo>

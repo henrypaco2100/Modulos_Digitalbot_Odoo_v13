@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="res_partner_bolivia_heredar_campor_Factura_a_contactos">
+            <field name="name">res.partner.bolivia.heredar.campo.Factura.a.contactos</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="st_nombre_compañia_facturar"/>
+                </field>
+            </field>
+    </record>
+   </data>
+</odoo>

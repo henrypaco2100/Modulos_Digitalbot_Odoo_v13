@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<!--<odoo>-->
+<!--   <data>-->
+<!--        <record model="ir.ui.view" id="sd_inherit_automated_sale_factura_siat">-->
+<!--            <field name="name">sd_inherit_automated_sale_factura_siat</field>-->
+<!--            <field name="model">automated.sale</field>-->
+<!--            <field name="inherit_id" ref="bi_automated_sale_order.form_automate_sale_order_workflow"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="company_id" position="after">-->
+<!--                    <field name="sd_metodo_pago"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--   </data>-->
+<!--</odoo>-->

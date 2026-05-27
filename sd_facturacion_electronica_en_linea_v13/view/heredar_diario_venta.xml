@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Diario venta-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="sd_journal_inherit_facturacion_electronica_linea">
+            <field name="name">sd_journal_inherit_facturacion_electronica_linea</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="fcb_es_electronico" attrs="{'invisible': [('type', '!=', 'sale')]}"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Facturacion Electronica" name="electronic_billing" attrs="{'invisible': [('fcb_es_electronico', '!=', True)]}">
+                        <group>
+                            <group>
+                                <field name="sd_codigo_cuis" />
+                                <field name="sd_fecha_vigencia_cuis" />
+                            </group>
+                            <group>
+                                <field name="sd_cufd" />
+                                <field name="sd_fecha_vigencia_cufd"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

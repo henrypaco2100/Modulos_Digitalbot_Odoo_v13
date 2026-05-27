@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Heredamos la vista res.partner.form -->
+        <record model="ir.ui.view" id="partner_form_inherit">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregamos un nuevo campo personalizado al formulario de contacto -->
+                <field name="name" position="after">
+                    <field name="st_nombre_compania_facturar"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

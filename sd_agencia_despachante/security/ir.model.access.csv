@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_agencia_despachante,access.despacho.importacion,model_despacho_importacion,,1,1,1,1
+access_sale_order_despacho_importacion,despacho_sale_order_permission,sale.model_sale_order,,1,1,1,1
+access_despacho_order_line,despacho.order.line,model_despacho_order_line,,1,1,1,1
+sd_access_despacho_order_line_task,despacho.order.line.task,model_despacho_order_line_task,,1,1,1,1
+sd_access_despacho_order_line_follow,despacho.order.line.follow,model_despacho_order_line_follow,,1,1,1,1

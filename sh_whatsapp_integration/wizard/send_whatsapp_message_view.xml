@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+	    <record id="sh_whatsapp_integration_send_whatsapp_message_form" model="ir.ui.view">
+	        <field name="name">sh.whatsapp.integration.send.whatsapp.message.form</field>
+	        <field name="model">sh.send.whatsapp.message.wizard</field>
+	        <field name="arch" type="xml">
+	            <form string="Send Whatsapp Message">
+	                <sheet>
+	                    <group>
+	                        <!-- <field name="partner_ids" widget="many2many_tags"/> -->
+	                        <field name="partner_ids"/>
+	                        <field name="message"/>
+	                        <field name="sale_order_id" invisible="1"/>
+	                        <field name="purchase_order_id" invisible="1"/>
+	                        <field name="account_invoice_id" invisible="1"/>
+	                        <field name="stock_picking_id" invisible="1"/>
+	                        <field name="account_payment_id" invisible="1"/>
+	                    </group>
+	                    
+	                    <group>
+	                        <p style="margin-left:160px;">
+	                        	<strong>Nota:</strong><br/>
+	                        	1) Utilice *texto* para poner el texto en negrita.<br/>
+								2) Utilice _texto_ para poner el texto en cursiva.<br/>
+								3) Utilice %0A antes/después del texto si desea agregar una línea en blanco.<br/>
+								4) use %20 antes/después de cualquier texto si desea dar espacio.<br/>
+								5) vaya a usuarios => preferencias para agregar firma.
+							</p>
+	                    </group>
+	                    
+	                    <!-- <group col="4">
+	                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+	                    </group> -->	                    
+	                </sheet>
+	                <footer>
+	                    <group>
+	                        <span>
+	                            <button string="Enviar" type="object" class="oe_highlight" name="action_send_whatsapp_message"/>
+	                            <button string="Cancelar" class="oe_link" special="cancel" />
+	                        </span>
+	                    </group>
+	                </footer>
+	            </form>
+	        </field>
+	    </record>
+	    <record id="sh_whatsapp_integration_send_whatsapp_message_action" model="ir.actions.act_window">
+	        <field name="name">Enviar Mensaje por Whatsapp</field>
+	        <field name="res_model">sh.send.whatsapp.message.wizard</field>
+	        <field name="view_mode">form</field>
+	        <field name="target">new</field>
+	    </record>
+    </data>
+</odoo>
+    

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_form_automated_sale_and_purchase" model="ir.ui.view">
+        <field name="name">view.form.field.automated.recibo.factura</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="/form/sheet/group/group/field[@name='ref']" position="before">
+               <field name="sd_is_numero_recibo_purchase" invisible="True"/>
+               <field name="sd_is_numero_factura_purchase" invisible="True"/>
+               <field name="sd_is_ref" invisible="True"/>
+               <field name="sd_is_nro_importacion" invisible="True"/>
+               <field name="sd_numero_recibo_purchase" attrs="{'invisible': [('sd_is_numero_recibo_purchase', '=', False)]}"/>
+               <field name="sd_numero_factura_purchase" attrs="{'invisible': [('sd_is_numero_factura_purchase', '=', False)]}"/>
+               <field name="sd_ref_entrega" attrs="{'invisible': [('sd_is_ref', '=', False)]}"/>
+               <field name="sd_nro_importacion" attrs="{'invisible': [('sd_is_nro_importacion', '=', False)]}"/>
+           </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sd_account_move_facturacion_bolivia_heredar_campos_compra">
+            <field name="name">sd.account.move.facturacion.bolivia.heredar.campos.compra</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="facturacion computarizado_bolivia_compra" string="Facturación" attrs="{'invisible': [('type','!=','in_invoice')]}" >
+                        <group >
+                            <group>
+                                <field name="fcb_es_factura_compra"/>
+                                <field name="fcb_numero_factura"/>
+                                <field name="fcb_autorizacion_compra" />
+                                <field name="fcb_codigo_control_compra" />
+                                <field name="fcb_link" widget="url"/>
+                            </group>
+                            <group>
+                                <field name="sd_codigo_aduana"/>
+                                <field name="fcb_numero_dim" />
+                                <field name="sd_numero_dui"/>
+                                <field name="fcb_tipo_compra" />
+                                <field name="fcb_cuf" string="Cód Autorización en Linea"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+    </record>
+    <data>
+        <record model="ir.ui.view" id="sd_account_move__filter_inherit__v13">
+            <field name="name">sd.account.move._filter.inherit.v13</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <search position="inside">
+                    <field name="sd_nro_importacion"/>
+                    <filter name="mi_facturacion_compra" string="Es Facturación Compra" domain="[('fcb_es_factura_compra', '=', True)]"/>
+                </search>
+                <group position="inside">
+                    <filter string="Nro Importación" name="sd_nro_importacion_account_v13" domain="[]" context="{'group_by': 'sd_nro_importacion'}"/>
+                </group>
+            </field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="sd_account_move_tree_facturacion_en_linea_compra">
+            <field name="name">sd.account.move.tree.facturacion.en.linea.compra</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="fcb_numero_factura" optional="show" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="fcb_autorizacion_compra" optional="hide" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                    <field name="fcb_codigo_control_compra" optional="hide" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                    <field name="fcb_numero_dim" optional="hide" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                    <field name="fcb_tipo_compra" optional="hide" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                    <field name="fcb_cuf" optional="hide" string="Cód Autorización" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                    <field name="fcb_link" optional="hide" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

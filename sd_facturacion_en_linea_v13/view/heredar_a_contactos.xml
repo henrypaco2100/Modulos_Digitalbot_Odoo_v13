@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <data>
+        <record model="ir.ui.view" id="sd_heredar_campos_facturacion_electronica_linea">
+            <field name="name">sd_heredar_campos_facturacion_electronica_linea</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="before">
+                    <field name="st_nombre_compania_facturar"/>
+                    <field name="sd_codigo_tipo_documento" />
+<!--                    <field name="sd_nro_documento"/>-->
+
+                </field>
+                <field name="vat" position="after">
+                    <field name="sd_extension" attrs="{'invisible': [('sd_codigo_tipo_documento', '!=', '1')]}"/>
+                    <field name="sd_es_caso_especial"/>
+                    <field name="sd_nro_tarjeta" widget="mask" options="{'mask': '9999-9999'}"/>
+                </field>
+                <xpath expr="/form/sheet/group/group/field[@name='vat']"  position="attributes">
+                    <attribute name='string'>NIT/CI/CEX</attribute>
+                </xpath>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="res_currency_tipo_moneda">
+            <field name="name">res.currency.inherit.tipo.moneda</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_subunit_label']" position="after">
+                    <field name="sd_tipo_moneda" options="{'no_create': True, 'no_create_edit':True}"/>
+                </xpath>
+            </field>
+       </record>
+   </data>
+</odoo>

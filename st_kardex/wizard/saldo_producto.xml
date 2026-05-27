@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model='ir.ui.view' id='sd_form_saldo_producto'>
+        <field name="name">Financiamineto al Cliente</field>
+        <field name="model">saldo.producto</field>
+        <field name="arch" type="xml">
+            <form string="quien yo?">
+                <center>
+                    <h1><field name="name" readonly="True"/></h1>
+                </center>
+                <group>
+                    <group>
+                        <field name="sd_date_start" readonly="False"/>
+                        <field name="sd_date_end"/>
+                        <field name="stock_move_line_id" invisible="True"/>
+<!--                        <field name="sd_stock_warehouse_ids" options="{'no_create': True}" readonly="False" widget="many2many_tags"/>-->
+<!--                        <field name="sd_stock_location_ids" options="{'no_create': True}" readonly="False" widget="many2many_tags"/>-->
+                        <field name="sd_is_lote" readonly="False"/>
+                    </group>
+<!--                    <group col="2">-->
+<!--                        <field name="sd_date_start" readonly="False"/>-->
+<!--                        <field name="sd_date_end"/>-->
+<!--                    </group>-->
+                </group>
+                <button string="Cargar" name="cargar_tabla" type="object"/>
+                <center>
+                    <h1><field name="sd_date_start" readonly="True" invisible="True"/></h1>
+                    <field name="sd_saldo_producto_line_ids" readonly="True">
+                        <tree create="false" edit="false" delete="false">
+                            <field name="name" readonly="True"/>
+                            <field name="sd_cantidad"/>
+                            <field name="sd_costo_unit"/>
+                            <field name="sd_saldo"/>
+                        </tree>
+                    </field>
+                </center>
+                <footer>
+                    <button string="Cerrar" class="btn btn-primary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model='ir.actions.act_window' id='sd_action_saldo_producto'>
+        <field name="name">Saldo de Producto hasta la fecha</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">saldo.producto</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

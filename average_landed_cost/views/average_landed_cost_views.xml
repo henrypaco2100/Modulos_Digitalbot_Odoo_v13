@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_stock_landed_cost_form_l10n_mx_stock">
+        <field name="name">view.stock.landed.cost.form.l10n_mx_stock</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='compute_landed_cost']" position="replace">
+<!--                                    <field name="amount_total" widget="monetary"/>-->
+                <button colspan="2" name="compute_landed_cost" string="Compute" type="object" class="oe_right btn-secondary"/>
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']" position="after">
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="amount_total" widget="monetary"/>
+                    <button colspan="2" name="compute_average_landed_cost" string="Calcular Nuevo Costo" type="object" class="oe_right btn-secondary" />
+                </group>
+                <div class="oe_clear"/>
+                <separator string="Costo Nuevo del Producto"/>
+                <field name="avg_landed_cost_lines">
+                    <form string="Costo Nuevo del Producto">
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="average_landed_cost"/>
+                            </group>
+                            <group>
+                                <field name="cost_landed_unit"/>
+                            </group>
+                        </group>
+                    </form>
+                    <tree string="Calculo del Nuevo Costo" editable="bottom" create="0">
+                        <field name="product_id" readonly="1"/>
+                        <field name="cost_product" readonly="1"/>
+                        <field name="costo_destino_producto" readonly="1"/>
+                        <field name="average_landed_cost" readonly="1"/>
+                        <field name="cost_porcent" readonly="1"/>
+                        <field name="cost_landed_unit" readonly="1"/>
+                         <field name="sd_total_producto" readonly="1"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

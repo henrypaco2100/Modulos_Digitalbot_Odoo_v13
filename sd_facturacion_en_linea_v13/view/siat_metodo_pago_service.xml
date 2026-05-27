@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_metodo_pago_service_siat" model="ir.actions.act_window">
+                <field name="name">Metodo Pago Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">metodo.pago.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Metodo Pago Siat
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_metodo_pago_service_siat" model="ir.ui.view">
+            <field name="name">arbol.metodo.pago.service.siat</field>
+            <field name="model">metodo.pago.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sd_codigo_clasificador"/>
+                    <field name="sd_descripcion"/>
+                    <field name="company_id"/>
+                    <field name="sd_activo" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_metodo_pago_service_siat" model="ir.ui.view">
+                <field name="name">fields.form.metodo.pago.service.siat</field>
+                <field name="model">metodo.pago.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="sd_codigo_clasificador"/>
+                                    <field name="sd_descripcion"/>
+                                    <field name="company_id"/>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

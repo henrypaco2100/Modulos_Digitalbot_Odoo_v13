@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- heredar button crear factura computarizada -->
+<odoo>
+        <record model="ir.ui.view" id="account_move_create_factura_Computarizada">
+            <field name="name">account.move.create.invoice.computer</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <button name="button_cancel" position="after">
+                    <button name="open_wizard_create_invoice_computer"
+                            type="object" string="Crear Factura Computarizada"
+                            attrs="{'invisible' : ['|','|',('state','!=','posted'),('type','!=','out_invoice'),('fcb_es_computarizado','=',True)]}"
+                           groups="st_facturacion_computarizada_bolivia_v13.group_invoice_move_computer_bolivia"
+                    />
+<!--                            class="oe_edit_only"-->
+                </button>
+            </field>
+        </record>
+    <!--    crear formulario wizard-->
+        <record model='ir.ui.view' id='st_wizard_crear_Factura_computarizada_form'>
+                <field name="name">Crear Factura Computarizada</field>
+                <field name="model">account.move.wizard.computer</field>
+                <field name="arch" type="xml">
+                    <form string="Crear Factura Computarizada" >
+                        <group>
+                            <group >
+                                <field name="move_id" invisible="True" />
+                                <field name="partner_id" readonly="1"/>
+                                <field name="fcb_nit_a_facturar"/>
+                                <field name="fcb_nombre_a_facturar"/>
+                                <field name="ref"/>
+                            </group>
+
+                             <group  >
+                                 <field name ="invoice_date"/>
+                                 <field name="invoice_payment_term_id" attrs="{'invisible': [('invoice_payment_term_id', '=', False)]}"/>
+                                 <field name="invoice_date_due" attrs="{'invisible': [('invoice_payment_term_id', '=', True)]}"/>
+                                 <field name="company_id" invisible="1"/>
+                                 <field name="journal_id"/>
+                                 <field name="currency_id"/>
+                            </group>
+                        </group>
+                        <h4 >Linea de Factura</h4>
+                        <group>
+                        <field name="computer_invoice_line_ids" nolabel="1">
+                            <tree editable="bottom" delete="0" create="0">
+                                <field name="company_id" invisible="1"/>
+                                <field name="product_id"  readonly="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="account_id" readonly="1"/>
+                                <field name="quantity" readonly="1"/>
+                                <field name="product_uom_id" readonly="1"/>
+                                <field name="price_unit"/>
+                                <field name="tax_ids" required="1" widget="many2many_tags"/>
+                                <field name="price_subtotal" />
+                            </tree>
+                        </field>
+                    </group>
+                        <footer>
+                            <button name="create_invoices" string="Crear y Mostrar Factura" default_focus="1"
+                                    type="object" class="btn-primary"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"   />
+                        </footer>
+                    </form>
+                </field>
+            </record>
+<!--        Account Compute line wizard-->
+            <record id="accoun_move_computer_line_wizard" model="ir.ui.view">
+                    <field name="name">Account move computer line wizard</field>
+                    <field name="model">account.move.computer.line</field>
+                    <field name="priority">100</field>
+                    <field name="arch" type="xml">
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="name" />
+                                    <field name="account_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom_id" />
+                                    <field name="price_unit"/>
+                                    <field name="tax_ids" />
+                                    <field name="price_subtotal"/>
+                                    <field name="move_id" invisible="1"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </record>
+        <record model='ir.actions.act_window' id='st_action_wizard_crear_factura_computarizada'>
+            <field name="name">Crear Factura Computarizada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move.wizard.computer</field>
+            <field name="view_mode">form</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+        </record>
+</odoo>

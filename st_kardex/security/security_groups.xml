@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+
+        <record id="sd_grupo_reporte_kardex" model="res.groups">
+            <field name="name">Reporte / Imprimir Kardex</field>
+            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+        </record>
+        <record id="sd_tecnico_cargar_tipo_movimiento" model="res.groups">
+            <field name="name">Reporte / Cargar Tipo de Movimiento</field>
+            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+        </record>
+    </data>
+</odoo>

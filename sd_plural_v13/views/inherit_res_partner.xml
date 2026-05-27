@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_account_account_pro_and_Reg_in_res_partner" model="ir.ui.view">
+        <field name="name">sd.inherit.account.account.pro.and.Reg.res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="sd_es_autor"/>
+            </field>
+            <page name="accounting" position="inside">
+                <group>
+                    <group string="PRO Y REG">
+                        <button name="create_account_pro_and_reg" type="object" string="Crear Cuentas PRO y REG" groups="base.group_system,account.group_account_manager"/>
+                        <field name="sd_cuenta_pro" groups="base.group_system,account.group_account_manager"/>
+                        <field name="sd_cuenta_reg" groups="base.group_system,account.group_account_manager"/>
+                    </group>
+                    <group string="COE PRO Y COE REG">
+                        <button name="create_account_coe_and_coe_reg" type="object" string="Crear Cuentas COE y COE REG" groups="base.group_system,account.group_account_manager"/>
+                        <field name="sd_porcentaje_cuenta_coe" groups="base.group_system,account.group_account_manager"/>
+                        <field name="sd_cuenta_coe" groups="base.group_system,account.group_account_manager"/>
+                        <field name="sd_cuenta_coe_reg" groups="base.group_system,account.group_account_manager"/>
+                    </group>
+                </group>
+            </page>
+            <field name="name" position="after">
+                <button name="fill_name_doc_partner" class="btn btn-primary" type="object" string="Rellenar Nom/Doc" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>

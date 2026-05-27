@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sd_inherit_compra_mejora_form" model="ir.ui.view">
+             <field name="name">inherit.purchase.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'in', ('done','purchase','cancel'))]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='purchase_delivery_invoice']/group/group" position="inside">
+                    <field name="sd_picking_name" />
+                    <field name="sd_items_name"/>
+                </xpath>
+                  <xpath expr="//page[@name='purchase_delivery_invoice']/group/group" position="inside">
+                    <field name="sd_invoice_name" string ="Facturas"/>
+                </xpath>
+            </field>
+        </record>
+    <record id="sd_inherit_compra_mejora_tree" model="ir.ui.view">
+             <field name="name">inherit.purchase.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='state']" position="after">
+                     <field name="sd_picking_name" optional="show"/>
+                     <field name="sd_invoice_name" optional="show"/>
+                     <field name="sd_items_name" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+    <record id="sd_inherit_compra_mejora_tree_pedido_compra" model="ir.ui.view">
+             <field name="name">inherit.purchase.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='invoice_status']" position="after">
+                        <field name="sd_picking_name" optional="show"/>
+                        <field name="sd_invoice_name" optional="show"/>
+
+                </xpath>
+            </field>
+        </record>
+</odoo>
+

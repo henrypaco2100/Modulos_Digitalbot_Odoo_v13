@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_template_wizard_custom" model="ir.ui.view">
+            <field name="name">custom.landed.cost.wizard.form</field>
+            <field name="model">custom.landed.cost.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h5>Cargar costo adicional</h5>
+                    <group>
+                        <field name="custom_templ_id"  class="col-md-6"/>
+                    </group>
+                    <footer>
+                        <button name="action_custom_load" type="object" string="Cargar"
+                            class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_custom_template_wizard" model="ir.actions.act_window">
+            <field name="name">Plantilla de costo en Destino</field>
+            <field name="res_model">custom.landed.cost.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_template_wizard_custom"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

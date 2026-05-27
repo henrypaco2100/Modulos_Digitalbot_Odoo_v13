@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Factura fiscal 1-->
+        <report
+            id="sd_action_imprimir_facturacion_siat"
+            groups="sd_facturacion_en_linea_correo_v13.sd_facturas_pdf_1_group"
+            string="Factura Fiscal"
+            model="account.move"
+            report_type="qweb-pdf"
+            file="sd_facturacion_en_linea_correo_v13.report_factura_siat"
+            name="sd_facturacion_en_linea_correo_v13.report_factura_siat"
+        />
+        <template id="sd_layout_facturacion_siat_account_move">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+        <!-- Factura fiscal 2-->
+        <report
+            id="sd_action_imprimir_facturacion_siat_2"
+            groups="sd_facturacion_en_linea_correo_v13.sd_facturas_pdf_2_group"
+            string="Factura Fiscal"
+            model="account.move"
+            report_type="qweb-pdf"
+            file="sd_facturacion_en_linea_correo_v13.report_factura_siat_2"
+            name="sd_facturacion_en_linea_correo_v13.report_factura_siat_2"
+
+        />
+        <template id="sd_layout_facturacion_siat_account_move_2">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+        <!--  Factura fiscal rollo -->
+        <report
+                id="sd_action_imprimir_facturacion_siat_rollo"
+                groups="sd_facturacion_en_linea_correo_v13.sd_facturas_pdf_rollo_group"
+                string="Factura Fiscal (rollo)"
+                model="account.move"
+                report_type="qweb-pdf"
+                file="sd_facturacion_en_linea_correo_v13.report_rollo"
+                name="sd_facturacion_en_linea_correo_v13.report_rollo"
+        />
+        <template id="sd_layout_facturacion_siat_account_move_rollo">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+        </template>
+        <!--  Factura fiscal rollo pos -->
+        <report
+                id="sd_action_imprimir_facturacion_siat_rollo_pos"
+                groups="sd_facturacion_en_linea_correo_v13.sd_facturas_pdf_rollo_pos_group"
+                string="Factura Fiscal POS (rollo)"
+                model="pos.order"
+                report_type="qweb-pdf"
+                file="sd_facturacion_en_linea_correo_v13.report_rollo_pos"
+                name="sd_facturacion_en_linea_correo_v13.report_rollo_pos"
+        />
+        <template id="sd_layout_facturacion_siat_account_move_rollo_pos">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+        </template>
+    </data>
+</odoo>

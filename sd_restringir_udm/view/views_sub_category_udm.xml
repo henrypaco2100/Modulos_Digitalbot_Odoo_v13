@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--	heredar vista formulario-->
+    <record id="sub_Categoria_udm_vista" model="ir.ui.view">
+			<field name="name">sub.Categoria.udm.vista</field>
+			<field name="model">sub.category.udm</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+    </record>
+	<record  id="sub_Categoria_tree_Arbol_udm" model="ir.actions.act_window">
+            <field name="name">SubCategoria udm</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sub.category.udm</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    crear el formulario subcategoria UDM
+                </p>
+            </field>
+		</record >
+<!--	menu subcategoria Inventario-->
+	<menuitem
+			id="menu_subcategoria_udm_restringir"
+			name="SubCategoria UDM"
+			parent="stock.product_uom_menu"
+			sequence="2"
+            action="sub_Categoria_tree_Arbol_udm"
+        />
+<!--    menu subcategoria udm Compra-->
+    <menuitem
+			id="menu_subcategoria_udm_compra"
+			name="SubCategorias de las unidades de medida"
+			parent="purchase.menu_product_in_config_purchase"
+			sequence="9"
+            action="sub_Categoria_tree_Arbol_udm"
+        />
+<!--	menu subcategoria udm Venta-->
+		<menuitem
+			id="menu_subcategoria_udm_venta"
+			name="SubCategorias de las unidades de medida"
+			parent="sale.prod_config_main"
+			sequence="6"
+            action="sub_Categoria_tree_Arbol_udm"
+        />
+
+</odoo>

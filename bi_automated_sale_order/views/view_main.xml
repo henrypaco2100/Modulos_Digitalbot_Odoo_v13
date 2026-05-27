@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="form_automate_sale_order_workflow" model="ir.ui.view">
+			<field name="name">form.automate.sale.order</field>
+			<field name="model">automated.sale</field>
+			<field name="arch" type="xml">
+				<form>
+					<group style="width: 50%"  colspan="2">
+						<field name="name"/>
+						<field name="payment_journal"/>
+						<field name="sales_journal" />
+						<field name ="company_id" />
+					</group>
+					<group  colspan="2" style="width: 50%">
+						<field name="st_almacen"/>
+						<field name="st_secuencia"/>
+						<field name="st_secuencia_quotation"/>
+					</group>
+				<group col="2" colspan="1">
+					<group string="Opciones del flujo de trabajo">
+						<field name="validation_order"/>
+						<field name="validation_picking"/>
+						<field name="force_transfer"/>
+						<field name="create_incoice"/>
+						<field name="validate_invoice"/>
+						<field name="register_payment"/>
+<!--						<field name="force_invoice"/>-->
+					</group>
+					<group string="Configuracion de la Orden">
+						<field name="shipping_policy" widget="selection" />
+						<field name="invoicing_policy" widget="selection" />
+					</group>
+				</group>
+				<group col="2" colspan="1">
+					<group string="Contabilidad">
+						<field name="work_order_process_id_p2"/>
+                    	<field name="i_impuestos_flujo2" widget="many2many_tags"/>
+					</group>
+					<group string="Otros">
+						<field name="sd_is_numero_recibo"/>
+						<field name="sd_is_numero_factura"/>
+						<field name="sd_is_ref"/>
+					</group>
+				</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="tree_automate_sale_order_workflow" model="ir.ui.view">
+			<field name="name">tree.automate.sale.order</field>
+			<field name="model">automated.sale</field>
+			<field name="arch" type="xml">
+				<tree >
+					<field name="sequence" widget="handle"/>
+					<field name="name"  />
+					<field name="validation_order"/>
+					<field name="validation_picking"/>
+					<field name="force_transfer"/>
+					<field name="validate_invoice"/>
+<!--					<field name="force_invoice"/>-->
+				</tree>
+			</field>
+		</record>
+
+		<record id="auto_sale_workflow" model="ir.actions.act_window">
+            		<field name="name">Automatizacion del Flujo de Trabajo</field>
+            		<field name="res_model">automated.sale</field>
+            		<field name="binding_view_types">form</field>
+            		<field name="view_mode">tree,form</field>
+            		<field name="view_id" eval="False"/>
+            		<field name="help" type="html">
+             			<p class="oe_view_nocontent_create">
+							Haga clic para agregar una nueva entrada de venta automatizada.
+              			</p>
+            		</field>
+		</record>
+
+		<record id="view_button_automate_sale_order" model="ir.ui.view">
+            <field name="name">sale.order.form.button.automate</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            	<header position="inside">
+					<button name="action_automate" id="action_automate"
+							string="Validar Venta" class="btn-primary" type="object" attrs="{'invisible': [('state', 'in', ('sale','cancel','done'))]}"
+  						/>
+			   </header>
+        	</field>
+		</record>
+
+		<record id="view_automate_sale_order_field" model="ir.ui.view">
+            <field name="name">sale.order.button.automate.field</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='partner_id']" position = "after">
+					<field name="work_process_order_id" attrs="{'readonly':[('state','=','sale')]}" />
+					<field name="sd_register_payment" invisible="1"/>
+					<field name="sd_glosa_payment" attrs="{ 'invisible':[('sd_register_payment','=',False)],'readonly':[('state','=','sale')]}"/>
+					<field name="sd_is_nro_recibo" invisible="True"/>
+				    <field name="sd_is_nro_factura" invisible="True"/>
+					<field name="sd_is_ref" invisible="True"/>
+				    <field name="sd_numero_recibo" attrs="{'invisible': [('sd_is_nro_recibo', '=', False)],'readonly':[('state','=','sale')]}"/>
+				    <field name="sd_numero_factura" attrs="{'invisible': [('sd_is_nro_factura', '=', False)],'readonly':[('state','=','sale')]}"/>
+					<field name="sd_ref_entrega" attrs="{'invisible': [('sd_is_ref', '=', False)],'readonly':[('state','=','sale')]}"/>
+
+			   </xpath>
+        	</field>
+		</record>
+
+		<record id="view_res_partner_is_automate" model="ir.ui.view">
+			<field name="name">view.res.partner.is.automated</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+			   <xpath expr="//group[@name='sale']" position="inside">
+				   <field name="is_automated" />
+				   <field name="work_process_id" attrs="{'invisible': [('is_automated', '=', False)]}"/>
+			   </xpath>
+			</field>
+		</record>
+		
+		<menuitem 
+			id="menu_auto_sale"
+			name="Auto Sales Workflow"
+			parent="account.menu_finance_configuration"
+			action="auto_sale_workflow"
+			sequence="1"/>
+
+	</data>
+</odoo>

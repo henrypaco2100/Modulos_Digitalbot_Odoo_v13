@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <!-- Heredar fecha ajuste de inventario-->
+        <record model="ir.ui.view" id="sd_form_inherit_date_adjustment_inventory">
+         <field name="name">sd_form_inherit_date_adjustment_inventory</field>
+         <field name="model">stock.inventory</field>
+         <field name="inherit_id" ref="stock.view_inventory_form"/>
+         <field name="arch" type="xml">
+              <button name="action_start" position="after">
+
+                  <button name="action_inherit_date_force"
+                         string="Actualizar Fecha"
+                         type="object"
+                         groups="sd_landed_cost_adjustment_inventory.sd_group_adjustment_inventory"
+                         attrs="{'invisible' : [('state','!=','done')]}"
+                  />
+             </button>
+
+             <xpath expr="//field[@name='accounting_date']" position="after">
+                 <field name="compute_field" invisible="1"/>
+                <field name="date"
+                       invisible="False"
+                       attrs="{'readonly': [('compute_field','=',False)]}"
+                />
+<!--                       groups="sd_landed_cost_adjustment_inventory.sd_group_adjustment_inventory"-->
+             </xpath>
+         </field>
+        </record>
+
+        <!-- Heredar fecha a Costo de destino-->
+        <record model="ir.ui.view" id="sd_form_inherit_date_landed_costs">
+         <field name="name">sd_form_inherit_date_landed_costs</field>
+         <field name="model">stock.landed.cost</field>
+         <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+         <field name="arch" type="xml">
+              <button name="button_cancel" position="after">
+                 <button name="action_inherit_date_force"
+                         string="Actualizar Fecha"
+                         type="object"
+                         groups="sd_landed_cost_adjustment_inventory.sd_group_landed_cost_date"
+                         attrs="{'invisible' : [('state','!=','done')]}"
+                 />
+             </button>
+             <xpath expr="//field[@name='date']" position="replace">
+                 <field name="compute_field" invisible="1"/>
+                 <field name="sd_date"
+                        invisible="False"
+                        attrs="{'readonly': [('compute_field','=',False)]}"
+                />
+             </xpath>
+         </field>
+        </record>
+
+        <!-- coste de destino lista -->
+
+        <record model="ir.ui.view" id="sd_form_inherit_date_landed_costs_tree">
+         <field name="name">sd_form_inherit_date_landed_costs_tree</field>
+         <field name="model">stock.landed.cost</field>
+         <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="replace">
+                <field name="sd_date"/>
+            </xpath>
+         </field>
+        </record>
+	</data>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_emision_masiva_siat" model="ir.actions.act_window">
+                <field name="name">Emision Masiva Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">siat.emision.masiva</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Emision Masiva
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_emision_masiva_siat" model="ir.ui.view">
+            <field name="name">arbol.emision.masiva.siat</field>
+            <field name="model">siat.emision.masiva</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sd_factura_online_id"/>
+                    <field name="sd_cuis"/>
+                    <field name="state"/>
+<!--                    <field name="status_name" widget="badge" decoration-success = "state == 'validate'"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_emision_masiva_siat" model="ir.ui.view">
+                <field name="name">fields.form.emision.masiva.siat</field>
+                <field name="model">siat.emision.masiva</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+                            <button name="registroEmisionMasiva" class="oe_highlight" type="object" string="Recepcion Masiva" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group"/>
+                            <button name="validacionRecepcionMasiva" class="oe_highlight" type="object" string="Validacion Masiva" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group"/>
+<!--                            <button name="cargar_facturas_paquetes" type="object" string="Obtener facturas" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>-->
+                            <button name="action_enviar_correo_masivo" type="object" string="Enviar Correo" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group"/>
+                            <button name="wizard_pagos_masivo_factura" type="object" string="Realizar pagos" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group"/>
+                            <button name="action_verificar_estado_facturas_siat" type="object" string="Verificar Facturas" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_usuario_group"/>
+                            <button name="action_anular_factura_masiva" type="object" string="Anular Facturas" groups="sd_facturacion_en_linea_v13.sd_anulacion_factura_group" confirm='¿Esta seguro que desea "Anular" la emisión de Factura Masiva?'/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,recepcion,validate,cancel"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" />
+                                </h1>
+                            </div>
+                            <group>
+                                <group string="principales">
+                                    <field name="sd_codigo_recepcion_masiva" readonly="1"/>
+                                    <field name="sd_factura_online_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_journal_id" invisible="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_cuis"/>
+                                </group>
+
+                                <group string="otros" style="wight=150px">
+                                    <field name="sd_codigo_sucursal" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_es_punto_venta" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_codigo_punto_venta" attrs="{'readonly': [('state', '=', 'validate')], 'invisible': [('sd_es_punto_venta', '=', False)]}"/>
+<!--                                    <field name="sd_cafc" attrs="{'readonly': [('state', '=', 'validate')]}"/>-->
+                                    <field name="sd_tipo_factura" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_codigo_documento_sector" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+                                    <field name="sd_motivo_online" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Facturas" name="facturas_paquete">
+                                    <field name="sd_invoice_ids" options="{'no_create': True, 'no_create_edit':True}" widget="many2many">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="invoice_origin"/>
+                                            <field name="sd_nro_factura_siat"/>
+                                            <field name="invoice_date_due"/>
+                                            <field name="sd_fecha_emision"/>
+                                            <field name="invoice_partner_display_name"/>
+                                            <field name="amount_total_signed"/>
+                                            <field name="amount_residual_signed"/>
+                                            <field name="state"/>
+                                            <field name="sd_estado_siat" widget="label_selection" options="{'classes': {'sin_publicar': 'warning','anulada': 'danger','valida': 'success'}}"
+                                                optional="show"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

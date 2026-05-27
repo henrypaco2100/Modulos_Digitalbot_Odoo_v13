@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- dato por defecto de fecha  dias = 5-->
+    <data noupdate="1">
+        <record id="dia_fecha_factura_predeterminado" model="date.day.modify">
+            <field name="name">fecha orden y fecha efectiva</field>
+            <field name="campo_dias">5</field>
+        </record>
+    </data>
+    <!-- creamos el arbol para la vista en contabilidad, fecha x dias atras -->
+	<data>
+        <record  id="modificacion_X_dias_fecha_factura" model="ir.actions.act_window">
+            <field name="name">Restringir Fecha</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">date.day.modify</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    crear el formulario Restringir Fecha
+                </p>
+            </field>
+		</record >
+        <!-- MOdulo de Ventas-->
+         <record model="ir.ui.view" id="sale_order_mostrar_field_fecha_cotizacion">
+             <field name="name">sale.order.mostrar.field.fecha.cotizacion</field>
+             <field name="model">sale.order</field>
+             <field name="inherit_id" ref="sale.view_order_form"/>
+             <field name="arch" type="xml">
+                 <!-- le damos permiso solo a los usuarios que esten en el grupo para modificar fecha cotizacion -->
+                 <xpath expr="//field[@name='date_order']"  position="attributes">
+                     <attribute name='groups'>sd_restringir_fecha.group_modify_date_all, sd_restringir_fecha.group_modify_date_x_day</attribute>
+                 </xpath>
+                 <xpath expr="//div[@class='o_td_label']"  position="attributes">
+
+                     <attribute name='groups'>sd_restringir_fecha.group_modify_date_all, sd_restringir_fecha.group_modify_date_x_day</attribute>
+                 </xpath>
+             </field>
+        </record>
+        <!-- modulo de trasferencia  -->
+        <record model="ir.ui.view" id="stock_picking_mostrar_field_fecha_efectiva">
+            <field name="name">stock.picking.mostrar.field.fecha.efectiva</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- le damos permiso al campo fecha efectiva-->
+                <xpath expr="//field[@name='date_done']"  position="attributes">
+                    <attribute name='attrs'>{'invisible':False}</attribute>
+                    <attribute name='readonly'>0</attribute>
+                    <attribute name='groups'>sd_restringir_fecha.group_modify_date_all, sd_restringir_fecha.group_modify_date_x_day</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- modulo de compra-->
+        <record model="ir.ui.view" id="purchase_order_mostrar_field_fecha_cotizacion">
+             <field name="name">purchase.order.mostrar.field.fecha.cotizacion</field>
+             <field name="model">purchase.order</field>
+             <field name="inherit_id" ref="purchase.purchase_order_form"/>
+             <field name="arch" type="xml">
+                 <!-- le damos permiso solo a los usuarios que esten en el grupo para modificar fecha cotizacion -->
+                 <xpath expr="//field[@name='date_order']"  position="attributes">
+                     <attribute name='groups'>sd_restringir_fecha.group_modify_date_all, sd_restringir_fecha.group_modify_date_x_day</attribute>
+                 </xpath>
+             </field>
+        </record>
+
+        <!-- tree diseñamos el arbol segun los datos del objeto-->
+        <record id="tree_fecha_dias_x_atras" model="ir.ui.view">
+			<field name="name">date.day.modify.tree.fecha_x_dias_atras</field>
+			<field name="model">date.day.modify</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+                    <field name="campo_dias"/>
+				</tree>
+			</field>
+		</record>
+        <!-- ocultamos el button "crear" en el arbol-->
+        <record id="date_day_modify_hide_form_create" model="ir.ui.view">
+            <field name="name">date.day.modify.hide.form.create</field>
+            <field name="model">date.day.modify</field>
+            <field name="inherit_id" ref="sd_restringir_fecha.tree_fecha_dias_x_atras"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree" position="attributes">
+                    <attribute name="create">false</attribute>
+
+                </xpath>
+            </field>
+        </record>
+         <!-- formulario, diseñamos el formulario segun sus atributos o campos del objeto-->
+        <record id="date_day_modify_form_create_fecha_dia" model="ir.ui.view">
+			<field name="name">date.day.modify.hide.form.fecha.dias.create</field>
+			<field name="model">date.day.modify</field>
+			<field name="arch" type="xml">
+				<form>
+					<group col="4" colspan="2">
+                        <field name="name"/>
+                        <field name="campo_dias"/>
+                    </group>
+				</form>
+			</field>
+		</record>
+
+        <!-- ocultamos el button "crear" en el formulario del objeto fecha dias-->
+        <record id="date_day_modify_ocultar_crear_en_formulario" model="ir.ui.view">
+            <field name="name">date.day.modify.hide.form.create.fecha_dia</field>
+            <field name="model">date.day.modify</field>
+            <field name="inherit_id" ref="sd_restringir_fecha.date_day_modify_form_create_fecha_dia"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form" position="attributes">
+                    <attribute name="create">false</attribute>
+
+                </xpath>
+            </field>
+        </record>
+        <menuitem
+			id="menu_fecha_order"
+			name="Restringir Fecha"
+			parent="account.menu_finance_configuration"
+			sequence="1"
+            action="modificacion_X_dias_fecha_factura"
+        />
+	</data>
+</odoo>

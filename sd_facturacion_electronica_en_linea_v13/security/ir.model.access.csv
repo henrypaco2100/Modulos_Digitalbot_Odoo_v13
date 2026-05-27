@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sd_electronic_billing_accesos_permiso,electronic_billing_accesos_permiso,model_electronic_billing,sd_facturacion_electronica_en_linea_group,1,1,1,1
+sd_electronic_billing_follow,electronic_billing_follow_accesos_permiso,model_electronic_billing_follow,sd_facturacion_electronica_en_linea_group,1,1,1,1

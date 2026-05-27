@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+   <data>
+		<record model="ir.ui.view" id="wizard_wizard_report_open_invoice_form_view">
+			<field name="name">wizard.report.open.invoice.form</field>
+			<field name="model">wizard.report.open.invoice</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="wizard get report open invoice">
+					<sheet>
+						<group>
+							<field name="start_date" invisible="1"/>
+							<field name="end_date" invisible="1"/>
+							<field name="branch_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="day"/>
+							<field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="sale_zone_id" options="{'no_create': True, 'no_open': True}"/>
+						</group>
+						<footer>
+							<button name="generate_report" string="Print Pdf"
+								type="object" class="btn-primary" />
+							<button name="generate_report" string="Print Excel"
+                        		type="object" class="oe_highlight"
+                        		context="{'excel_report':1}"/>
+							<button class="btn-secondary" special="cancel" string="Cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="act_wizard_get_report_open_invoice">
+			<field name="name">Action Accounts Receivable Report</field>
+            <field name="res_model">wizard.report.open.invoice</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem id="wizard_get_report_open_invoice"
+			name="Print Accounts Receivable Report"
+			parent="account.menu_finance_reports"
+			action="act_wizard_get_report_open_invoice"
+			sequence="17"/>
+   </data>
+</odoo>

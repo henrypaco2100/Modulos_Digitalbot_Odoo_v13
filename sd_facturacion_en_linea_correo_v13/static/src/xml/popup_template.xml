@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="sd_popups_template" >
+    <t t-name="CardNumberPopupWidget">
+        <div class="popup card-number-popup">
+            <div class="popup-header">
+                <h2 class="popup-title">Ingrese el número de tarjeta</h2>
+            </div>
+            <div class="popup-body">
+                <input class="card-number-input" type="text" placeholder="Número de tarjeta"/>
+            </div>
+            <div class="popup-footer">
+                <button class="button confirm">Confirmar</button>
+                <button class="button cancel">Cancelar</button>
+            </div>
+        </div>
+    </t>
+</template>

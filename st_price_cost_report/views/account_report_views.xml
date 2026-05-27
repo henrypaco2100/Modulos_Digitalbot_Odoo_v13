@@ -1,0 +1,154 @@
+<odoo>
+    <data>
+<!--        <record id="odoo_report_view_form" model="ir.ui.view">-->
+<!--            <field name="name">Odoo Report View</field>-->
+<!--            <field name="model">account.report</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Account Product Report">-->
+<!--                    <sheet>-->
+<!--                        <header>-->
+<!--                            <button name="set_origin" type="object" string="Get Data"/>-->
+<!--                            <button name="clear_lines" type="object" string="Clear Lines"/>-->
+<!--                        </header>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                            <field name="date_start"/>-->
+<!--                            <field name="date_end"/>-->
+<!--                        </group>-->
+<!--                        <separator string="Lineas"/>-->
+<!--                        <group col="1" colspan="6">-->
+<!--                            <field name="report_lines_ids" nolabel="1">-->
+<!--                                <tree>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="name_stock"/>-->
+<!--                                    <field name="cliente"/>-->
+<!--                                    <field name="invoice_date"/>-->
+<!--                                    <field name="deliver_date"/>-->
+<!--                                    <field name="journal_id"/>-->
+<!--                                    <field name="product"/>-->
+<!--                                    <field name="description"/>-->
+<!--                                    <field name="quantity"/>-->
+<!--                                    <field name="quantity_done"/>-->
+<!--                                    <field name="stock_pick_type"/>-->
+<!--                                    <field name="location"/>-->
+<!--                                    <field name="price_unit"/>-->
+<!--                                    <field name="valuation_cost"/>-->
+<!--                                    <field name="tax_id"/>-->
+<!--                                    <field name="price_subtotal"/>-->
+<!--                                    <field name="value"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        <record id="odoo_report_view_tree" model="ir.ui.view">-->
+<!--            <field name="name">Odoo report view tree</field>-->
+<!--            <field name="model">account.report</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Account product Report">-->
+<!--                    <field name="name"/>-->
+<!--                    <field name="date_start"/>-->
+<!--                    <field name="date_end"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        <record id="odoo_report_view_action" model="ir.actions.act_window">-->
+<!--            <field name="name">Odoo report view action</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">account.report</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; This Menu Item must have a parent and an action &ndash;&gt;-->
+<!--        &lt;!&ndash; This Menu Item Must have a parent &ndash;&gt;-->
+<!--        <menuitem id="account_product_report_cat" name="Reports" parent="account.menu_finance_reports" sequence=""/>-->
+<!--        <menuitem id="st_price_cost_report" name="Account Report"-->
+<!--                  parent="account_product_report_cat" action="odoo_report_view_action"/>-->
+        <record id="odoo_report_view_form" model="ir.ui.view">
+            <field name="name">Reporte de Ventas Precio Costo</field>
+            <field name="model">account.report</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Ventas Precio Costo">
+                    <sheet>
+<!--                        <header>-->
+<!--                            <button name="set_origin" type="object" string="Get Data"/>-->
+<!--                            <button name="clear_lines" type="object" string="Clear Lines"/>-->
+<!--                        </header>-->
+                        <group>
+<!--                            <field name="name"/>-->
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+<!--                            <field name="report_lines_ids" nolabel="1" invisible="1"/>-->
+<!--                        </group>-->
+<!--                        <separator string="Lineas"/>-->
+<!--                        <group col="1" colspan="6">-->
+<!--                            <field name="report_lines_ids" nolabel="1">-->
+<!--                                <tree>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="name_stock"/>-->
+<!--                                    <field name="cliente"/>-->
+<!--                                    <field name="invoice_date"/>-->
+<!--                                    <field name="deliver_date"/>-->
+<!--                                    <field name="journal_id"/>-->
+<!--                                    <field name="product"/>-->
+<!--                                    <field name="description"/>-->
+<!--                                    <field name="quantity"/>-->
+<!--                                    <field name="quantity_done"/>-->
+<!--                                    <field name="stock_pick_type"/>-->
+<!--                                    <field name="location"/>-->
+<!--                                    <field name="price_unit"/>-->
+<!--                                    <field name="valuation_cost"/>-->
+<!--                                    <field name="tax_id"/>-->
+<!--                                    <field name="price_subtotal"/>-->
+<!--                                    <field name="value"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="set_origin" string="imprimir" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button name="print_excel" string="Imprimir Excel" type="object" default_focus="1"
+                            class="oe_highlight" context="{'report_type':'excel'}"/>
+                        <button string="Cancelar" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="odoo_report_view_tree" model="ir.ui.view">
+            <field name="name">Reporte de Ventas Precio Costo</field>
+            <field name="model">account.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Ventas Precio Costo">
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </tree>
+            </field>
+        </record>
+<!--        <record id="odoo_report_view_action" model="ir.actions.act_window">-->
+<!--            <field name="name">Odoo report view action</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">account.report</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
+<!--        <menuitem id="bi_menu_finance_report" name="Reportes financieros" parent="account.menu_finance_reports"/>-->
+        <record id="odoo_report_view_action" model="ir.actions.act_window">
+            <field name="name">Reporte de Ventas Precio Costo</field>
+            <field name="res_model">account.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="odoo_report_view_form"/>
+<!--            <field name="context"-->
+<!--                   eval="{'default_account_report_id':ref('bi_financial_pdf_reports.bi_account_financial_report_balancesheet0')}"/>-->
+            <field name="target">new</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="account_product_report_cat" name="Reporte de Facturas" parent="account.menu_finance_reports" sequence=""/>
+        <menuitem id="account_product_report" name="Reporte Precio Costo"
+                  parent="account_product_report_cat" action="odoo_report_view_action"/>
+    </data>
+</odoo>

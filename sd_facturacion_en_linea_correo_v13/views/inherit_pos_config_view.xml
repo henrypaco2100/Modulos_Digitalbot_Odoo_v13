@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sd_inherit_pos_config">
+            <field name="name">sd_inherit_pos_config</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='iface_invoicing']" position="inside">
+                    <div class="o_setting_right_pane">
+                        <label for="sd_fcb_es_electronico">En linea</label>
+                        <field name="sd_fcb_es_electronico"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sd_download_pdf">Descarga pdf</label>
+                        <field name="sd_download_pdf"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

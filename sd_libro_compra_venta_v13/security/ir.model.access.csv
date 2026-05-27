@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sd_access_wizard_compra_venta,Sd Wizard Compra Venta,model_wizard_compra_venta,,1,1,1,1
+sd_access_wizard_solo_compra,Sd Wizard Compra,model_wizard_solo_compra,,1,1,1,1
+sd_access_wizard_libro_compra_iva,Sd Wizard Libro Compra Iva,model_wizard_libro_compra_iva,,1,1,1,1
+sd_access_compras_iva,Compra IVA,model_compra_iva,,1,1,1,1

@@ -1,0 +1,66 @@
+
+.my_container {
+    font-family: 'VT323', monospace;
+
+    font-size: 0.65rem;
+}
+
+.my_table, .my_product_table {
+    width: 90%;
+    border: transparent;
+    font-size: 0.65rem;
+}
+
+.my_table,.my_product_table {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 0.65rem;
+}
+
+
+.my_product_table tr:first-child {
+    border-bottom: 1px;
+    border-style: dashed;
+    font-size: 0.65rem;
+}
+
+.cntr {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 0.65rem;
+}
+.my_section{
+    width: 98%;
+    position: relative;
+    padding: 0 5px;
+    font-size: 0.65rem;
+}
+
+.detail_section{
+    text-align:left;
+    font-size: 0.65rem;
+}
+.date_section{
+    position: absolute;
+    text-align: left;
+    right: 0;
+    top:-90px;
+    font-size: 0.65rem;
+}
+
+.label_section{
+    position: absolute;
+    text-align: right;
+    right: 0;
+    top:20px;
+    font-size: 0.65rem;
+}
+
+
+.my_table  tr td:nth-child(3n+3) {
+    text-align: right;
+    font-size: 0.65rem;
+}
+
+

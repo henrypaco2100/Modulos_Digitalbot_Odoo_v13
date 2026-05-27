@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="sd_report_balance_v3">
+    <t t-call="web.html_container">
+        <t t-call="bi_financial_pdf_reports.sd_internal_layout_template_balance_v3">
+            <div class="header" style="font-size: 12px; height:130px">
+                <div style="width:99%; height:15px;margin-left:1%">
+                    <p><span  t-esc="data['company_name']"/></p>
+                </div>
+                <div  style="width:99%; height:15px;margin-left:1%;">
+                    <p>Nit:<span style="width:100%; height:50%" t-esc="data['nit']"/></p>
+                </div>
+                <div style="width:100%; height:30px;font-size: 18px;font-weight: bold;">
+                    <center><p  t-esc="data['name']"/></center>
+                </div>
+                <div style="width:100%; height:40px;">
+                    <div style="width:80%; height:100%;float:left;">
+                        <div style="width:40%; height:50%;float:left;margin-left:40%;">
+                            <center>
+                                <p>
+                                    Expresado en  <span  t-esc="data['currency']"/>
+                                </p>
+                            </center>
+                        </div>
+                        <div style="width:40%; height:50%;float:left;margin-left:40%;" >
+                            <center t-if="data['date_from'] and data['date_to']"><p>Periodo del <span t-esc="data['date_from']" /> al <span t-esc="data['date_to']" /></p></center>
+                        </div>
+                    </div>
+                    <div style="width:20%; height:98%;float:right;" >
+                        <center><p style="margin-top:2%">Página <span class="page"/> de <span class="topage"/></p></center>
+                    </div>
+                </div>
+
+            </div>
+            <div class="page">
+<!--                INICIO DE LA TABLA 1 Con DEBITO Y CREDITO-->
+
+                <t t-if="data['debit_credit'] == 1">
+                    <table class="table table-sm table-bordered">
+                      <thead class="thead-light" align="center">
+                        <tr>
+                          <th align="center" scope="col" width="15%">CUENTA</th>
+                          <th align="center" scope="col" width="40%">TITULO</th>
+                          <th align="center" scope="col" width="15%">DEBITO</th>
+                          <th align="center" scope="col" width="15%">CREDITO</th>
+                          <th align="center" scope="col" width="15%">MONTO</th>
+                        </tr>
+                      </thead>
+                      <tbody align="left">
+                        <t  t-foreach="data.get('report_lines')" t-as="a" t-if="data['debit_credit'] == 1">
+                            <t t-if="a['level'] != 0">
+                                <t t-if="a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: normal;text-transform: uppercase'"/></t>
+                                <t t-if="not a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: bold;text-decoration: underline;text-transform: uppercase'"/></t>
+                                <tr>
+        <!--                            <td align="center"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>-->
+                                    <td><div style="font-size: 12px"> <span t-att-style="style" t-esc="a.get('number_cuenta')"/></div></td>
+                                    <td><div style="font-size: 12px"><span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                            <span t-att-style="style" t-esc="a.get('name')"/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('debit')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('credit')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('balance')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+
+                                </tr>
+                            </t>
+                        </t>
+                      </tbody>
+                    </table>
+                </t>
+
+<!--                TABLA 2 SIN DEBITO NI CREDITO NI FILTROS-->
+
+                <t t-if="not data['enable_filter'] and not data['debit_credit']">
+                    <table class="table table-sm table-bordered">
+                      <thead class="thead-light" align="center">
+                        <tr>
+                          <th align="center" scope="col" width="15%">CUENTA</th>
+                          <th align="center" scope="col" width="70%">TITULO</th>
+                          <th align="center" scope="col" width="15%">MONTO</th>
+                        </tr>
+                      </thead>
+                      <tbody align="left">
+                        <t  t-foreach="data.get('report_lines')" t-as="a" t-if="not data['enable_filter'] and not data['debit_credit']">
+                            <t t-if="a['level'] != 0">
+                                <t t-if="a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: normal;text-transform: uppercase'"/></t>
+                                <t t-if="not a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: bold;text-decoration: underline;text-transform: uppercase'"/></t>
+                                <tr>
+        <!--                            <td align="center"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>-->
+                                    <td><div style="font-size: 12px"> <span t-att-style="style" t-esc="a.get('number_cuenta')"/></div></td>
+                                    <td><div style="font-size: 12px"><span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                            <span t-att-style="style" t-esc="a.get('name')"/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('balance')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+                                </tr>
+                            </t>
+                        </t>
+                      </tbody>
+                    </table>
+                </t>
+
+<!--                TABLA CON FILTRO FILTROS HABILITAR COMPARACION-->
+
+                <t t-if="data['enable_filter'] == 1 and not data['debit_credit']">
+                    <table class="table table-sm table-bordered">
+                      <thead class="thead-light" align="center">
+                        <tr>
+                          <th align="center" scope="col" width="15%">CUENTA</th>
+                          <th align="center" scope="col" width="55%">TITULO</th>
+                          <th align="center" scope="col" width="15%">MONTO</th>
+                          <th align="center" scope="col" width="15%"><div><span t-esc="data['label_filter'].upper()"/></div></th>
+                        </tr>
+                      </thead>
+                      <tbody align="left">
+                        <t  t-foreach="data.get('report_lines')" t-as="a" t-if="data['enable_filter'] == 1 and not data['debit_credit']">
+                            <t t-if="a['level'] != 0">
+                                <t t-if="a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: normal;text-transform: uppercase'"/></t>
+                                <t t-if="not a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: bold;text-decoration: underline;text-transform: uppercase'"/></t>
+                                <tr>
+        <!--                            <td align="center"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>-->
+                                    <td><div style="font-size: 12px"> <span t-att-style="style" t-esc="a.get('number_cuenta')"/></div></td>
+                                    <td><div style="font-size: 12px"><span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                            <span t-att-style="style" t-esc="a.get('name')"/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('balance')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+                                    <td align="right"><div style="font-size: 12px"><span t-att-style="style" t-esc="a.get('balance_cmp')" t-options = '{"widget": "float", "precision": 2}'/></div></td>
+                                </tr>
+                            </t>
+                        </t>
+                      </tbody>
+                    </table>
+                </t>
+
+<!--                <t  t-foreach="data.get('report_lines')" t-as="a" t-if="data['enable_filter'] == 1 and not data['debit_credit']">-->
+<!--                    <t t-if="a['level'] != 0">-->
+<!--                        <t t-if="a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: normal;text-transform: uppercase'"/></t>-->
+<!--                        <t t-if="not a.get('level') &gt; 4"><t t-set="style" t-value="'font-weight: bold;text-decoration: underline;text-transform: uppercase'"/></t>-->
+<!--                        <div style="width:100%; height:20px;font-size: 12px;">-->
+<!--                            <div style="width:15%;float:left;margin-left:2px;height:100%;border-right:1px solid #000000;">-->
+<!--                                <p> <span t-att-style="style" t-esc="a.get('number_cuenta')"/></p>-->
+<!--                            </div>-->
+<!--                            <div style="width:55%;float:left;height:100%;border-right:1px solid #000000;">-->
+<!--                                <p><span style="color: white;" t-esc="'..' * a.get('level', 0)"/>-->
+<!--                                    <span t-att-style="style" t-esc="a.get('name')"/></p>-->
+<!--                            </div>-->
+<!--                            <div style="width:15%;float:left;height:100%;text-align: right;border-right:1px solid #000000;">-->
+<!--                                <p><span t-att-style="style" t-esc="a.get('balance')" t-options = '{"widget": "float", "precision": 2}'/></p>-->
+<!--                            </div>-->
+<!--                            <div style="width:15%;float:right;height:100%;text-align: right;">-->
+<!--                                <p><span t-att-style="style" t-esc="a.get('balance_cmp')" t-options = '{"widget": "float", "precision": 2}'/></p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </t>-->
+            </div>
+            <div class="footer">
+
+            </div>
+        </t>
+<!--            <t t-call="web.internal_layout">-->
+
+    </t>
+<!--        </t>-->
+</template>
+<record id="sd_reporte_formato_papel_balance_general_v3" model="report.paperformat">
+    <field name="name">Balance General v3</field>
+    <field name="default" eval="True" />
+    <field name="format">Letter</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">42</field>
+    <field name="margin_bottom">9</field>
+    <field name="margin_left">5</field>
+    <field name="margin_right">5</field>
+    <field name="header_line" eval="False" />
+    <field name="header_spacing">33</field>
+    <field name="dpi">80</field>
+    <field name="report_ids" eval="[(4, ref('bi_financial_pdf_reports.action_report_balancesheet_v3'))]"/>
+</record>
+</odoo>
+
+
+
+

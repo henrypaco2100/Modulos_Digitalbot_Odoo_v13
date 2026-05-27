@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_leyenda_service_siat" model="ir.actions.act_window">
+                <field name="name">Leyenda Factura Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">leyenda.factura.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Leyenda Factura Siat
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_leyenda_service_siat" model="ir.ui.view">
+            <field name="name">arbol.leyenda.service.siat</field>
+            <field name="model">leyenda.factura.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sd_codigo_actividad_id"/>
+                    <field name="sd_descripcion_leyenda"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_leyenda_service_siat" model="ir.ui.view">
+                <field name="name">fields.form.leyenda.service.siat</field>
+                <field name="model">leyenda.factura.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="sd_codigo_actividad_id" readonly="1"/>
+                                    <field name="sd_descripcion_leyenda" readonly="1"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </group>
+                            </group>
+<!--                            <notebook>-->
+
+<!--                                <page string="Nandina" name="sd_nandina">-->
+<!--                                    <field-->
+<!--                                    name="sd_nandina_ids"-->
+<!--                                    widget="section_and_note_one2many"-->
+<!--                                    mode="tree,form"-->
+<!--                                    >-->
+<!--                                        <form>-->
+<!--                                            <group>-->
+<!--                                                <group>-->
+<!--                                                    <field name="sd_product_id"/>-->
+<!--                                                    <field name="sd_codigo_nandina"/>-->
+<!--                                                </group>-->
+<!--                                            </group>-->
+<!--                                        </form>-->
+<!--                                        <tree string="CUFD" editable="bottom" delete="0" create="0">-->
+<!--                                            <field name="sd_product_id"/>-->
+<!--                                            <field name="sd_codigo_nandina"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+<!--                                </page>-->
+<!--                            </notebook>-->
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="id_account_financial_report_line" model="ir.ui.view">
+        <field name="name">account bi financial report line </field>
+        <field name="model">account.financial.report.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" invisible="1"/>
+                        <field name="sd_report_id"/>
+                        <field name="sd_operacion_report"/>
+                        <field name="sd_report_bi_financial_id" invisible="1"/>
+
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+     <record id="id_account_financial_report_line_tree" model="ir.ui.view">
+            <field name="name">account bi financial report line tree</field>
+            <field name="model">account.financial.report.line</field>
+            <field name="arch" type="xml">
+                <tree string="lineas del reporte">
+                    <field name="sd_report_id"/>
+                    <field name="sd_operacion_report"/>
+                </tree>
+            </field>
+        </record>
+</odoo>

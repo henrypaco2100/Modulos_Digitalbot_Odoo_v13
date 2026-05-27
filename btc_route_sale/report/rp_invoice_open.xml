@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="rp_invoice_open_report_btc_view">
+            <t t-call="web.basic_layout">
+                <div class="header">
+                  <div class="row">
+                            <div class="col-6">
+                                     <p>
+                                    </p>
+                                    <div><b> <span t-esc="o.company_id.partner_id.name" style="text-transform: uppercase;" /> </b></div>
+                             </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-3">
+                      </div>
+                      <div class="col-3">
+                          <b>
+                              <h5 style="text-align: center; text-transform: uppercase;">Invoice Open Report</h5>
+                          </b>
+                       </div>
+                      <div class="col-3">
+                      </div>
+                  </div>
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+                <div class="page" >
+
+                            <table class="table table-sm" style="!important;">
+                                 <thead style="font-size:12px !important;">
+                                    <tr>
+                                        <th style="width: 30% !important;">
+                                            <strong>Group</strong>
+                                        </th>
+                                        <th style="width: 8% !important;">
+                                            <strong>Customer Code</strong>
+                                        </th>
+                                         <th style="width: 12% !important;">
+                                           <strong>commercial</strong>
+                                        </th>
+                                        <th style=" width: 8% !important;">
+                                            <strong>Day</strong>
+                                        </th>
+
+                                        <th style=" width: 15% !important;">
+                                            <strong>Zone</strong>
+                                        </th>
+                                        <th style="width: 8% !important;">
+                                            <strong>Date of Receipt</strong>
+                                        </th>
+                                        <th style="width: 8% !important;">
+                                            <strong>Invoice number</strong>
+                                        </th>
+                                        <th style="text-align: right; width: 28% !important;">
+                                            <strong>Sales Total</strong>
+                                        </th>
+                                        <th style="text-align: right; width: 25% !important;">
+                                            <strong>Payments</strong>
+                                        </th>
+                                        <th style="text-align: right; width: 25% !important;">
+                                            <strong>Due</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 14% !important;">
+                                            <strong>Days</strong>
+                                        </th>
+                                        <th style="text-align: left; width: 15% !important;">
+                                            <strong>State</strong>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:12px !important;">
+                                    <!--<t t-set="journals" t-value="o.get_sale_journal()"/>-->
+                                    <t t-set="branchs" t-value="o.invoice_ids.mapped(lambda x:x.branch_id)"/>
+                                    <t t-foreach="branchs" t-as="branch">
+                                    <tr style="font-size:12px !important;">
+                                        <td colspan="2">
+                                            <t t-set="invoice_ids" t-value="o.invoice_ids.filtered(lambda x:x.branch_id.id == branch.id)"/>
+                                            <t t-set="count_branch" t-value="len(invoice_ids)" />
+                                            <strong t-esc="'{branch_sale} ({count})'.format(branch_sale=branch.display_name, count=count_branch)"/><br/>
+                                         </td>
+                                        <td></td> <td></td> <td></td>  <td></td> <td></td>
+                                        <td style="text-align: right !important;">
+                                            <t t-set="amount_total_suc" t-value="sum(rec.amount_total for rec in invoice_ids)"/>
+                                            <strong t-esc="'{0:,.2f}'.format(round(amount_total_suc,2))"/>
+                                        </td>
+                                        <td style="text-align: right !important;">
+                                            <t t-set="amount_paid_tmp_suc" t-value="sum(rec.amount_paid_tmp for rec in invoice_ids)"/>
+                                            <strong t-esc="'{0:,.2f}'.format(round(amount_paid_tmp_suc,2))"/>
+                                        </td>
+                                        <td style="text-align: right !important;">
+                                            <t t-set="amount_residual_suc" t-value="sum(rec.amount_residual for rec in invoice_ids)"/>
+                                            <strong t-esc="'{0:,.2f}'.format(round(amount_residual_suc,2))"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+
+                                        <t t-set="total" t-value="0"/>
+                                        <t t-set="sorted_invoices_ids" t-value="invoice_ids.sorted(key=lambda r: r.partner_id.display_name)"/>
+                                        <t t-set="partner_ids" t-value="sorted_invoices_ids.mapped(lambda x: x.partner_id)"/>
+
+
+                                        <t t-foreach="partner_ids" t-as="partner_id">
+                                            <t t-set="lines" t-value="sorted_invoices_ids.filtered(lambda x:x.partner_id.id == partner_id.id)"/>
+                                             <t t-set="count_partner" t-value="len(lines)" />
+                                            <tr>
+                                                <td style="padding: 1 !important;">
+                                                    <span t-esc="'{partner_name} ({count})'.format(partner_name=partner_id.name, count=count_partner)"/>
+                                                </td>
+                                                <td></td> <td></td> <td></td> <td></td>  <td></td> <td></td>
+                                                <td style="text-align: right !important;">
+                                                    <t t-set="amount_total_par" t-value="sum(rec.amount_total for rec in lines)"/>
+                                                    <strong t-esc="'{0:,.2f}'.format(round(amount_total_par,2))"/>
+                                                </td>
+                                                <td style="text-align: right !important;">
+                                                    <t t-set="amount_paid_tmp_par" t-value="sum(rec.amount_paid_tmp for rec in lines)"/>
+                                                    <strong t-esc="'{0:,.2f}'.format(round(amount_paid_tmp_par,2))"/>
+                                                </td>
+                                                <td style="text-align: right !important;">
+                                                    <t t-set="amount_residual_par" t-value="sum(rec.amount_residual for rec in lines)"/>
+                                                    <strong t-esc="'{0:,.2f}'.format(round(amount_residual_par,2))"/>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+
+                                            </tr>
+                                              <tr t-foreach="lines" t-as="line">
+
+                                                  <td style="padding: 1 !important;">
+                                                  </td>
+                                                    <td style="padding: 1 !important;">
+                                                        <span t-esc="line.partner_id.partner_code"/>
+                                                    </td>
+                                                    <td style="padding: 1 !important;">
+                                                         <span t-field="line.user_id"/>
+                                                    </td>
+
+                                                    <td style="padding: 1 !important;">
+                                                        <span t-field="line.day"/>
+                                                    </td>
+                                                  <td style="padding: 1 !important;">
+                                                        <span t-field="line.sale_zone_id"/>
+                                                  </td>
+                                                  <td style="padding: 1 !important;">
+                                                        <span t-field="line.date"/>
+                                                    </td>
+
+                                                    <td style="padding: 1 !important;">
+                                                        <span t-field="line.nro_factura"/>
+
+                                                    </td>
+
+
+                                                <td style="text-align: right; padding: 1 !important;">
+                                                    <span t-esc="'{0:,.2f} {money}'.format(round(line.amount_total,2), money=line.currency_id.symbol)"/>
+                                                </td>
+                                                  <td style="text-align: right; padding: 1 !important;">
+                                                      <span t-esc="'{0:,.2f}'.format(round(line.amount_paid_tmp,2))"/>
+                                                  </td>
+                                                    <td style="text-align: right; padding: 1 !important;">
+                                                        <span t-esc="'{0:,.2f}'.format(round(line.amount_residual,2))"/>
+                                                    </td>
+                                                    <td style="padding: 1 !important;">
+                                                        <t t-set="diff_days" t-value="o.get_days_difference(date_begin=line.invoice_date_due)"/>
+                                                        <span t-esc="diff_days"/>
+                                                    </td>
+                                                    <td style="padding: 1 !important;">
+                                                        <span t-field="line.state"/>
+                                                    </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+
+                            </table>
+
+
+
+                </div>
+            </t>
+        </template>
+
+        <template id="rp_invoice_open_report_btc">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="btc_route_sale.rp_invoice_open_report_btc_view" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

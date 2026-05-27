@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sd_form_inherit_stock_picking_plural">
+             <field name="name">sd_form_inherit_stock_picking_plural</field>
+             <field name="model">stock.picking</field>
+             <field name="inherit_id" ref="stock.view_picking_form"/>
+             <field name="arch" type="xml">
+                 <xpath expr="//field[@name='move_ids_without_package']/tree" position="attributes">
+                     <attribute name="decoration-muted">scrapped == True or state == 'cancel'</attribute>
+<!--                     <attribute name="decoration-success">state == 'done' and is_locked == True</attribute>-->
+                 </xpath>
+                 <field name="product_uom_qty" position="after">
+                     <field name="sd_pvp_product"/>
+                 </field>
+                 <field name="product_uom_qty" position="attributes">
+                     <attribute name="sum">Total Demanda</attribute>
+                 </field>
+                 <field name="quantity_done" position="attributes">
+                     <attribute name="sum">Total Hecho</attribute>
+                 </field>
+                 <field name="origin" position="after">
+                     <field name="sd_es_devolucion"/>
+                 </field>
+             </field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="sd_form_inherit_stock_picking_stock_move_line_detailed_operation_tree_mejoras">
+             <field name="name">sd_form_inherit_stock_picking_stock_move_line_detailed_operation_tree_mejoras</field>
+             <field name="model">stock.move.line</field>
+             <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+             <field name="arch" type="xml">
+                 <tree position="attributes">
+                     <attribute name="decoration-muted">(state == 'cancel' and is_locked == True)</attribute>
+<!--                     <attribute name="decoration-success">(state == 'done' and is_locked == True)</attribute>-->
+                 </tree>
+                 <field name="product_uom_qty" position="before">
+                     <field name="sd_pvp_product"/>
+                 </field>
+                 <field name="qty_done" position="attributes">
+                     <attribute name="sum">Total Cantidad Realizada</attribute>
+                 </field>
+<!--                 <field name="product_uom_qty" position="attributes">-->
+<!--                     <attribute name="sum">Total Cantidad Demandada</attribute>-->
+<!--                 </field>-->
+             </field>
+        </record>
+    </data>
+</odoo>

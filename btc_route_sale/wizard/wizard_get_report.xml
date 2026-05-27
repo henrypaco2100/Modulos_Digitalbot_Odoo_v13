@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+   <data>
+		<record model="ir.ui.view" id="wizard_get_report_payment_bleichner_form_view">
+			<field name="name">wizard.get.report.payment.custom.bcl.form</field>
+			<field name="model">wizard.get.report.payment.custom.bcl</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="wizard get report">
+					<sheet>
+						<group>
+							<field name="start_date"/>
+							<field name="end_date"/>
+							<field name="day"/>
+							<field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="branch_id" options="{'no_create': True, 'no_open': True}"/>
+							<field name="sale_zone_id" options="{'no_create': True, 'no_open': True}"/>
+						</group>
+						<footer>
+							<button name="generate_report" string="Print Pdf"
+								type="object" class="btn-primary" />
+							<button name="generate_report" string="Print Excel"
+                        		type="object" class="oe_highlight"
+                        		context="{'excel_report':1}"/>
+							or
+							<button class="btn-secondary" special="cancel" string="Cancel" />
+						</footer>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="act_wizard_get_report_payment_bleichner">
+			<field name="name">Collection Report</field>
+            <field name="res_model">wizard.get.report.payment.custom.bcl</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem id="wizard_get_report_bleichner"
+			name="Generate Collection Report"
+			parent="account.menu_finance_reports"
+			action="act_wizard_get_report_payment_bleichner"
+			sequence="16"/>
+   </data>
+</odoo>

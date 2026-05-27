@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+
+	<record id="sd_evento_significativo_cron" model="ir.cron">
+        <field name="name">Crear evento por contingencia fuera de linea</field>
+        <field name="model_id" ref="model_online_billing_siat"/>
+        <field name="user_id">2</field>
+        <field name="state">code</field>
+        <field name="code">model.cron_consultar_estado_conexion()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+</odoo>

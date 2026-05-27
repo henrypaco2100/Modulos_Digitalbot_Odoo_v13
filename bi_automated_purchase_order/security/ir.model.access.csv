@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_automated_purchase_order,purchase_access_automated_permission,model_automated_purchase,,1,1,1,1
+access_product_product_order,purchase_product_product_permission,product.model_product_product,,1,0,0,0
+access_product_template_order,purchase_product_template_permission,product.model_product_template,,1,0,0,0
+access_automated_purchase_tax,purchase_access_automated_purchase_tax,model_automated_purchase_tax,,1,1,1,1
+access_automated_purchase_account,purchase_access_automated_purchase_account,model_automated_purchase_account,,1,1,1,1
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Factura ventas -->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="account_move_bolivia_heredar_campos">
+            <field name="name">account.move.bolivia.heredar.campos</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="fcb_codigo_de_control" attrs="{'invisible': [('fcb_codigo_de_control','=',False)]}"/>
+                    <field name="fcb_numero_factura_computarizada" attrs="{'invisible': [('fcb_numero_factura_computarizada','=',False)]}"/>
+                </field>
+                <field name="ref" position="after">
+                    <field name="met_pago" string="Metodo de Pago"/>
+                    <field name="cuf_id"/>
+                    <field name="cufd_id"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="fcb_nit_a_facturar" attrs="{'invisible': [('fcb_es_computarizado','=',False)], 'readonly':[('state','=','posted')]}"/>
+                    <field name="fcb_nombre_a_facturar" attrs="{'invisible': [('fcb_es_computarizado','=',False)],'readonly':[('state','=','posted')]}"/>
+                    <field name="fcb_es_computarizado" invisible='True'/>
+                </field>
+                <button name="button_cancel" position="after">
+                    <button name="imprimir_factura_computarizada_pdf" type="object" string="Imprimir Factura Computarizada"
+                            attrs="{'invisible' : ['|','|',('state','!=','posted'),('type','!=','out_invoice'),('fcb_codigo_de_control','=',False)]}"
+                            groups="st_facturacion_computarizada_bolivia_v13.group_invoice_move_computer_bolivia"
+                                />
+                </button>
+            </field>
+    </record>
+   </data>
+</odoo>

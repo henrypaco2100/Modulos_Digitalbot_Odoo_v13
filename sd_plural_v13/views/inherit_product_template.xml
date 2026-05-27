@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sd_inherit_product_template_form_view" model="ir.ui.view">
+            <field name="name">inherit.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/group" position="after">
+                    <group string="Datos de la Publicacion">
+                        <group>
+                            <field name="sd_autor"/>
+                            <field name="sd_autor_id" domain="[('sd_es_autor','=',True)]" options="{'no_create': True}"/>
+                            <field name="sd_tematica"/>
+                            <field name="sd_coleccion"/>
+                            <field name="sd_gestion_publicacion"/>
+                            <field name="sd_edicion"/>
+                            <field name="sd_deposito_legal"/>
+                            <field name="sd_codigo_interno"/>
+                            <field name="sd_observaciones"/>
+                        </group>
+                        <group>
+                            <field name="sd_paginas"/>
+                            <field name="sd_formato"/>
+                            <field name="sd_tipo_tapa"/>
+                            <field name="sd_precio_FOB_USD"/>
+                            <field name="sd_tiraje"/>
+                            <field name="sd_comentarios"/>
+                        </group>
+                    </group>
+                    <group string="Informacion Adicional">
+                        <field name="sd_informacion_adicional" nolabel="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='property_account_income_id']" position="after">
+                    <field name="sd_libro_lcv"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sd_tree_view_product_template" model="ir.ui.view">
+            <field name="name">inherit.tree.product.template</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='name']" position="after">
+                    <field name="sd_paginas" optional="show"/>
+                    <field name="sd_formato" optional="show"/>
+                    <field name="sd_tipo_tapa" optional="show"/>
+                    <field name="sd_codigo_interno" optional="hide" invisible="1"/>
+                    <field name="sd_informacion_adicional" optional="hide"/>
+                    <field name="sd_autor" optional="hide"/>
+                    <field name="sd_tematica" optional="hide"/>
+                    <field name="sd_coleccion" optional="hide"/>
+                    <field name="sd_gestion_publicacion" optional="hide"/>
+                    <field name="sd_edicion" optional="hide"/>
+                    <field name="sd_deposito_legal" optional="hide"/>
+                    <field name="sd_observaciones" optional="hide"/>
+                    <field name="sd_precio_FOB_USD" optional="hide"/>
+                    <field name="sd_tiraje" optional="hide"/>
+                    <field name="sd_comentarios" optional="hide"/>
+                </xpath>
+                <xpath expr="/tree/field[@name='list_price']" position="before">
+                    <field name="sd_libro_lcv" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        heredar cuentas PRO Y REG EN PRODUCTO TEMPLATE-->
+        <record id="sd_inherit_account_account_pro_and_Reg" model="ir.ui.view">
+            <field name="name">sd.inherit.account.account.pro.and.Reg</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <page name="invoicing" position="inside">
+                    <group>
+                        <group string="PRO Y REG">
+                            <field name="sd_cuenta_pro" groups="account.group_account_user"/>
+                            <field name="sd_cuenta_reg" groups="account.group_account_user"/>
+                        </group>
+                        <group string="Importe">
+                            <field name="sd_tipo_importe" groups="account.group_account_user"/>
+                            <field name="sd_amount_impuesto" groups="account.group_account_user"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="COE PRO Y COE REG">
+                            <field name="sd_cuenta_coe" groups="account.group_account_user"/>
+                            <field name="sd_cuenta_coe_reg" groups="account.group_account_user"/>
+                        </group>
+                    </group>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

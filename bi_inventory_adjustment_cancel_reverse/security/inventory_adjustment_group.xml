@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <record id="group_inventory_adjustment" model="res.groups">
+            <field name="name">Inventario / Cancelar ajuste de inventario</field>
+            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+        </record>
+        
+    </data>  
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="sd_account_view_move_form_inherit_lc" model="ir.ui.view">
+        <field name="name">account.view.move.form.inherit.lc</field>
+        <field name="model">account.move</field>
+            <field name="inherit_id" ref="stock_landed_costs.account_view_move_form_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_create_landed_costs']" position="attributes">
+                    <attribute name='attrs'>{'invisible': True}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

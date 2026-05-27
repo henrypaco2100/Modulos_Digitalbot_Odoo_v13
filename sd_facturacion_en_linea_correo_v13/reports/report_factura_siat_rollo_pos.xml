@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_rollo_pos">
+        <t t-call="web.html_container"><!--;border-radius:22px 5px;-->
+            <t t-foreach="docs" t-as="factura">
+                <t t-call="sd_facturacion_en_linea_correo_v13.sd_layout_facturacion_siat_account_move_rollo_pos">
+<!--                    <div class="header" style="position:relative">-->
+<!--                        <div style="text-align: center; font-size: 11px"><strong>FACTURA</strong></div>-->
+<!--                        <div style="text-align: center; font-size: 11px"><strong>CON DERECHO A CREDITO FISCAL</strong></div>-->
+<!--                        <div style="text-align: center; font-size: 11px; text-transform: uppercase" t-esc="factura.company_id.name"></div>-->
+<!--                        <div style="text-align: center; font-size: 11px" t-esc="factura.obtener_sucursal_report()"></div>-->
+<!--                        <div style="text-align: center; font-size: 11px">No. Punto de Venta <span style="padding-left:5px" t-esc="factura.obtener_nro_punto_venta()"></span></div>-->
+<!--                        <div style="text-align: center; font-size: 11px; text-transform: uppercase"><span t-esc="factura.obtener_direccion()"/> </div>-->
+<!--                        <div style="text-align: center; font-size: 11px">Tel.: <span t-esc="factura.company_id.phone"/> </div>-->
+<!--                        <div style="text-align: center; font-size: 11px; text-transform: uppercase"><span t-esc="factura.obtener_municipio()"/> </div>-->
+<!--                    </div>-->
+                    <t t-esc="factura.get_report_height('sd_factura_formato_papel_facturacion_en_linea_siat_rollo_pos')"/>
+                    <div class="page">
+                        <div style="text-align: center; font-size: 11px"><strong>FACTURA</strong></div>
+                        <div style="text-align: center; font-size: 11px"><strong t-esc="factura.get_tipo_factura()"/></div>
+                        <div style="text-align: center; font-size: 11px; text-transform: uppercase" t-esc="factura.company_id.name"></div>
+                        <div style="text-align: center; font-size: 11px" t-esc="factura.obtener_sucursal_report()"></div>
+                        <div style="text-align: center; font-size: 11px">No. Punto de Venta <span style="padding-left:5px" t-esc="factura.obtener_nro_punto_venta()"></span></div>
+                        <div style="text-align: center; font-size: 11px; text-transform: uppercase"><span t-esc="factura.obtener_direccion()"/> </div>
+                        <div style="text-align: center; font-size: 11px">Tel.: <span t-esc="factura.company_id.phone"/> </div>
+                        <div style="text-align: center; font-size: 11px; text-transform: uppercase"><span t-esc="factura.obtener_municipio()"/> </div>
+                        <div style="width:100%; font-size: 11px; border-top:1px solid #000000">
+                            <div style="height: 5px"></div>
+                            <div style="text-align: center; font-size: 11px"><strong>NIT</strong></div>
+                            <div style="text-align: center; font-size: 11px"><span t-esc="factura.journal_id.sd_factura_online_id.sd_nit_em"/></div>
+                            <div style="text-align: center; font-size: 11px"><strong>FACTURA N°</strong></div>
+                            <div style="text-align: center; font-size: 11px"><span t-esc="factura.sd_nro_factura_siat"/></div>
+                            <div style="text-align: center; font-size: 11px"><strong>COD. AUTORIZACION</strong></div>
+                            <div style="text-align: center; font-size: 11px"><span t-esc="factura.sd_cuf"/></div>
+                            <div style="height: 5px"></div>
+                        </div>
+                        <div style="width:100%; font-size: 11px; border-top:1px solid #000000">
+                            <div style="height: 5px"></div>
+                            <div class="row">
+                                <div style="width: 53%; text-align: right"><strong>NOMBRE/RAZON SOCIAL:</strong></div>
+                                <div style="width: 5%"></div>
+                                <div style="width: 42%"><span style="text-transform: uppercase;" t-esc="factura.get_razon_social()"/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 53%; text-align: right"><strong>NIT/CI/CEX:</strong></div>
+                                <div style="width: 5%"></div>
+                                <div style="width: 42%"><span t-esc="factura.numero_documento_completo()"/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 53%; text-align: right"><strong>COD CLIENTE:</strong></div>
+                                <div style="width: 5%"></div>
+                                <div style="width: 42%"><span t-esc="factura.partner_id.id"/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 53%; text-align: right"><strong>FECHA DE EMISION:</strong></div>
+                                <div style="width: 5%"></div>
+<!--                                <div style="width: 42%"><span t-esc="factura.obtener_fecha_emision()"/> <span style="padding-left:10px" t-esc="factura.obtener_hora_emision()"/></div>-->
+                            </div>
+                            <div style="height: 5px"></div>
+                        </div>
+                        <div style="width:100%; font-size: 11px; border-top:1px solid #000000">
+                            <div style="height: 5px"></div>
+                            <div style="text-align: center; font-size: 11px"><strong>DETALLE</strong></div>
+                            <t t-foreach="factura.invoice_line_ids" t-as="linea">
+                                <div style="font-size: 11px; text-align: left"><strong><span t-esc="linea.name"/></strong></div>
+                                <div class="row" style="font-size: 11px"><div style="width: 20px"/>Unidad de medida: <span t-esc="linea.product_id.sd_unidad_medida_id.name"/></div>
+                                <div class="row" style="width: 100%">
+                                    <div style="width: 20px"/>
+                                    <div style="width: 60%">
+                                        <span t-esc="linea.price_unit" t-options = '{"widget": "float", "precision": 2}'/> X
+                                        <span t-esc="linea.quantity"  t-options = '{"widget": "float", "precision": 2}'/> -
+                                        <span t-esc="factura.get_discount_monto(linea.discount, linea.price_unit)" t-options = '{"widget": "float", "precision": 2}'/>
+                                    </div>
+                                    <div style="width: 5px"></div>
+                                    <div style="text-align: right; width: 35%"><span t-esc="(linea.quantity*linea.price_unit)-factura.get_discount_monto(linea.discount, linea.price_unit)/factura.currency_id.rate" t-options = '{"widget": "float", "precision": 2}'/></div>
+                                </div>
+                            </t>
+                            <div style="height: 5px"></div>
+                        </div>
+                        <div style="width:100%; font-size: 11px; border-top:1px solid #000000">
+                            <div style="height: 5px"></div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right">SUBTOTAL Bs: </div>
+                                <div style="width: 33%; text-align: right"><span t-esc="factura.get_sub_total()/factura.currency_id.rate" t-options = '{"widget": "float", "precision": 2}'/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right">DESCUENTO Bs: </div>
+                                <div style="width: 33%; text-align: right"><span t-esc="factura.sd_descuento_adicional/factura.currency_id.rate" t-options = '{"widget": "float", "precision": 2}'/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right">TOTAL Bs: </div>
+                                <div style="width: 33%; text-align: right"><span t-esc="(factura.get_sub_total()-factura.sd_descuento_adicional)/factura.currency_id.rate" t-options = '{"widget": "float", "precision": 2}'/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right">MONTO GIFT CARD Bs: </div>
+                                <div style="width: 33%; text-align: right"><span t-esc="factura.sd_cantidad_gift_card/factura.currency_id.rate" t-options = '{"widget": "float", "precision": 2}'/></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right"><strong>MONTO A PAGAR Bs: </strong></div>
+                                <div style="width: 33%; text-align: right"><strong><span t-esc="factura.sd_monto_total_sujeto_iva" t-options = '{"widget": "float", "precision": 2}'/></strong></div>
+                            </div>
+                            <div class="row">
+                                <div style="width: 65%; text-align: right; font-size: 9px"><strong>IMPORTE BASE CREDITO FISCAL Bs: </strong></div>
+                                <div style="width: 33%; text-align: right; font-size: 9px"><strong><span t-esc="factura.sd_monto_total_sujeto_iva" t-options = '{"widget": "float", "precision": 2}'/></strong></div>
+                            </div>
+                            <div style="height: 25px"/>
+                            <div><strong>Son: <span t-esc="factura.numero_to_letras(factura.sd_monto_total_sujeto_iva)" /> Bolivianos</strong></div>
+                            <div style="height: 5px"/>
+                        </div>
+                        <div style="width:100%; height: 5px; border-top:1px solid #000000"/>
+                        <div style="font-size: 10px; text-align: center">ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY</div>
+                        <div style="height: 5px"/>
+                        <div style="font-size: 8px; text-align: center"><span t-esc="factura.obtener_leyenda_factura()"/></div>
+                        <div style="height: 5px"/>
+                        <div style="font-size: 9px; text-align: center"><span t-esc="factura.obtener_leyenda_emision()"/></div>
+                        <div style="height: 5px"/>
+                        <div style="width: 100%; float: center;font-size: 10px">
+                            <center>
+                                <div>
+                                    <img t-attf-src="data:image/png;base64,{{factura.generate_factura_qr_siat()}}"
+                                         alt="Red dot" height="150px" width="150px"/>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+<!--                    <div class="footer">-->
+<!--                        <div style="width:100%; height: 5px; border-top:1px solid #000000"/>-->
+<!--                        <div style="font-size: 10px; text-align: center">ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY</div>-->
+<!--                        <div style="height: 5px"/>-->
+<!--                        <div style="font-size: 8px; text-align: center"><span t-esc="factura.obtener_leyenda_factura()"/></div>-->
+<!--                        <div style="height: 5px"/>-->
+<!--                        <div style="font-size: 9px; text-align: center"><span t-esc="factura.obtener_leyenda_emision()"/></div>-->
+<!--                        <div style="height: 5px"/>-->
+<!--                        <div style="width: 100%; float: center;font-size: 10px">-->
+<!--                            <center>-->
+<!--                                <div>-->
+<!--                                    <img t-attf-src="data:image/png;base64,{{factura.generate_factura_qr_siat()}}"-->
+<!--                                         alt="Red dot" height="150px" width="150px"/>-->
+<!--                                </div>-->
+<!--                            </center>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                 </t>
+            </t>
+        </t>
+    </template>
+
+
+<record id="sd_factura_formato_papel_facturacion_en_linea_siat_rollo_pos" model="report.paperformat">
+    <field name="name">Facturacion en Linea Siat</field>
+    <field name="default" eval="True" />
+    <field name="format">custom</field>
+    <field name="page_height">0</field>
+    <field name="page_width">80</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">0</field>
+    <field name="margin_bottom">0</field>
+    <field name="margin_left">5</field>
+    <field name="margin_right">5</field>
+    <field name="header_line" eval="False" />
+    <field name="header_spacing">0</field>
+    <field name="dpi">90</field>
+    <field name="report_ids" eval="[(4, ref('sd_facturacion_en_linea_correo_v13.sd_action_imprimir_facturacion_siat_rollo_pos'))]"/>
+</record>
+
+
+</odoo>

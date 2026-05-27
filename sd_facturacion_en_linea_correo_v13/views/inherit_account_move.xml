@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Factura ventas -->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="sd_account_move_bolivia_siat_heredar_imprimir">
+            <field name="name">account.move.bolivia.heredar.button.imprimir</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//group[@name='cuf_facturacion']" position="after">-->
+<!--                    <group>-->
+<!--                        <button name="action_imprimir_factura_enviar_correo_siat" type="object" string="Volver a enviar correo" style="float:right"-->
+<!--                            attrs="{'invisible' : ['|','|',('state','!=','posted'),('type','!=','out_invoice'),('sd_is_facturacion_linea','=',False)]}"  class="oe_highlight"-->
+<!--                        />-->
+<!--                    </group>-->
+
+<!--
+groups="sd_facturacion_en_linea.sd_facturacion_electronica_en_linea_group,sd_facturacion_en_linea.sd_facturacion_electronica_en_linea_usuario_group"
+-->
+<!--                </xpath>-->
+<!--                <button name="action_invoice_sent" position="after">-->
+<!--                    <button name="anular_factura_2" type="object" string="Enviar anular"-->
+<!--                            attrs="{'invisible' : ['|','|',('state','!=','cancel'),('type','!=','out_invoice'),('sd_is_facturacion_linea','=',False)]}"-->
+<!--                    />-->
+<!--                </button>-->
+                <field name="partner_id" position="after">
+                    <field name="sd_is_facturacion_linea" invisible="1"/>
+                    <field name="sd_sucursal" invisible="1"/>
+                    <field name="sd_sucursal_str" invisible="1"/>
+                </field>
+            </field>
+    </record>
+
+        <record model="ir.ui.view" id="sd_account_move_bolivia_siat_heredar_imprimir_2">
+            <field name="name">account.move.bolivia.heredar.button.imprimir.2</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="sd_facturacion_en_linea_v13.account_move_factura_online"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='cuf_facturacion']" position="after">
+                    <group>
+                        <button name="action_imprimir_factura_enviar_correo_siat_sudo" type="object" string="Volver a enviar correo" style="float:right"
+                            attrs="{'invisible' : ['|',('state','!=','posted'),('sd_is_facturacion_linea','=',False)]}"  class="oe_highlight"
+                        />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+   </data>
+</odoo>

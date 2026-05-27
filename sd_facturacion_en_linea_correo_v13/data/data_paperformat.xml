@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <record id="point_of_sale.pos_invoice_report" model="ir.actions.report">-->
+<!--        <field name="name">Invoice</field>-->
+<!--        <field name="model">pos.order</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">sd_facturacion_en_linea_correo_v13.report_rollo_pos</field>-->
+<!--        <field name="paperformat_id" ref="sd_factura_formato_papel_facturacion_en_linea_siat_rollo_pos"/>-->
+<!--    </record>-->
+</odoo>
+

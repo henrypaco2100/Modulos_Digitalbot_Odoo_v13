@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="odoo_report_author_view_form" model="ir.ui.view">
+            <field name="name">Odoo Report by Author</field>
+            <field name="model">report.by.author</field>
+            <field name="arch" type="xml">
+                <form string="INFORME POR VENTA DE PUBLICACIONES">
+                    <sheet>
+                        <group>
+                            <field name="date_start" readonly="False"/>
+                            <field name="date_end" readonly="False"/>
+                            <field name="autor_id" domain="[('sd_es_autor','=',True)]" options="{'no_create': True}" readonly="False" widget="many2many_tags"/>
+                            <field name="product_id" options="{'no_create': True}" readonly="False" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="excel_file" readonly="1" filename="file_name"/>
+                            <field name="file_name" invisible="True"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <!--<button name="print_pdf" string="Imprimir" type="object" default_focus="1"
+                                class="oe_highlight"/>-->
+                        <button name="action_report_kardex" string="Imprimir Excel" type="object" default_focus="1"
+                            class="oe_highlight" context="{'report_type':'excel'}"/>
+                        <button string="Cancelar" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="odoo_report_view_tree" model="ir.ui.view">
+            <field name="name">Odoo report view tree</field>
+            <field name="model">report.by.author</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte Kardex Fisico Valorado">
+<!--                    <field name="name"/>-->
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="odoo_report_author_view_action" model="ir.actions.act_window">
+            <field name="name">Informe por Venta de Publicaciones</field>
+            <field name="res_model">report.by.author</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="odoo_report_author_view_form"/>
+            <field name="target">new</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="report_by_author" name="Informe por autor" parent="stock.menu_warehouse_report" sequence="400"/>
+        <menuitem id="report_by_author_action" name="Informe por Venta de Publicaciones" action="odoo_report_author_view_action"
+                  parent="report_by_author"/>
+    </data>
+</odoo>

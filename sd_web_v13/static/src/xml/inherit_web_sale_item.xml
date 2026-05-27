@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_website_sale_products_item" inherit_id="website_sale.products_item" name="Custom Products Item">
+        <xpath expr="//div[@class='product_price']" position="replace">
+<!--            <span itemprop="price" t-esc="product.sd_price_2_decimal"/>-->
+            <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'float', 'precision': 2}"/>
+                <span itemprop="price" style="display:none;" t-esc="combination_info['price']"/>
+                <span t-esc="website.currency_id.symbol" />
+            </div>
+<!--            <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'float','precision':2}"/>-->
+        </xpath>
+    </template>
+
+</odoo>

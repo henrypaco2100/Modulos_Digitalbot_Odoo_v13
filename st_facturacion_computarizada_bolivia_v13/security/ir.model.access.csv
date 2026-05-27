@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_date_account_modify,generar_codigo_control_prueba,model_facturacion_computarizada_bolivia,,1,1,1,1

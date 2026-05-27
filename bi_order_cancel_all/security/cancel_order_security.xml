@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+        
+    <data>
+        <record id="group_sale_cancel" model="res.groups">
+            <field name="name">Sale Order Cancel Button</field>
+            <field name="implied_ids" eval="[(4, ref('stock_picking_cancel_extended.group_picking_cancel'))]"/>
+        </record>
+        
+        <record id="group_purchase_cancel" model="res.groups">
+            <field name="name">Purchase Order Cancel Button</field>
+            <field name="implied_ids" eval="[(4, ref('stock_picking_cancel_extended.group_picking_cancel'))]"/>
+        </record>
+    </data>
+        
+</odoo>

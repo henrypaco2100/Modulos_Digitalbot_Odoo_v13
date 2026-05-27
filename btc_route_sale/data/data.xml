@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="btc_report_open_invoice_route_format" model="report.paperformat" >
+            <field name="name">Facturas/Cuentas por Cobrar</field>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top" eval="40"/>
+            <field name="margin_bottom" eval="20"/>
+            <field name="margin_left" eval="7"/>
+            <field name="margin_right" eval="7"/>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing" eval="35"/>
+            <field name="dpi" eval="90"/>
+        </record>
+
+         <record id="btc_report_rp_payment_sale_route_format" model="report.paperformat" >
+            <field name="name">Carta Reporte Cobranza</field>
+            <field name="format">Letter</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top" eval="40"/>
+            <field name="margin_bottom" eval="20"/>
+            <field name="margin_left" eval="7"/>
+            <field name="margin_right" eval="7"/>
+            <field name="header_line" eval="0"/>
+            <field name="header_spacing" eval="35"/>
+            <field name="dpi" eval="90"/>
+             <!--<field name="report_ids" eval="[(6,0, [ref('btc_route_sale.payment_sale_report_btc_v2')])]"/>-->
+        </record>
+
+        <record id="btc_report_rp_cash_flow_route_format" model="report.paperformat">
+            <field name="name">Ticket Report</field>
+            <!--<field name="default" eval="False"/>
+            <field name="disable_shrinking" eval="True"/>-->
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">8</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="dpi">96</field>
+        </record>
+
+        <record id="paperformat_cash_flow_paper" model="report.paperformat">
+            <field name="name">Thermal Paper</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">225</field>
+            <!--<field name="page_height">75</field>-->
+            <field name="page_width">72</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">96</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model='ir.ui.view' id='sd_action_create_wizard_anular_factura_form'>
+        <field name="name">Anular factura</field>
+        <field name="model">online.billing.wizard.anular</field>
+        <field name="arch" type="xml">
+            <form string="Anular factura">
+                 <div class="oe_title">
+                    <h1>
+                        ¿Está seguro que desea anular esta factura?
+                    </h1>
+                 </div>
+                <group>
+                    <group>
+                        <field name="sd_motivo_online" />
+                        <field name="invoice_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_anular_factura_online" string="Anular"
+                            type="object" class="btn-primary" />
+                    <button string="Cancelar" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model='ir.actions.act_window' id='sd_action_create_wizard_anular_factura'>
+        <field name="name">Anulación de Factura</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">online.billing.wizard.anular</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

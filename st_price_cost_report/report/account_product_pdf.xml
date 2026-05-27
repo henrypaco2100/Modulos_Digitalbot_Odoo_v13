@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+                <report
+                    id="account_product_report_pdf"
+                    model="account.report"
+                    report_type="qweb-pdf"
+                    string="INFORME DE VENTAS PRECIO COSTO"
+                    name="st_price_cost_report.account_product_pdf_report"
+                    file="st_price_cost_report.account_product_pdf_report"
+
+                />
+
+        <template id="account_product_pdf_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <center><h2>"INFORME DE VENTAS PRECIO COSTO"</h2></center>
+                            <br></br>
+                            <div class="row mt32 mb32">
+                                <div style="width:33.33%;">
+                                    <t t-if="o.date_start">
+                                        <strong>Fecha de :</strong>
+                                    <p>
+                                        <span t-esc="o.date_start"/>
+                                    </p>
+                                    </t>
+                                </div>
+                                <div style="width:33.33%;">
+                                    <t t-if="o.date_end">
+                                        <strong>Fecha hasta :</strong>
+                                    <p>
+                                        <span t-esc="o.date_end"/>
+                                    </p>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <table style="width:2400px" class="table table-striped">
+                                    <thead class="thead-blue">
+                                        <tr>
+                                            <th>Pedido de Venta</th>
+                                            <th>Codigo de Factura</th>
+                                            <th>Documento de Entrega</th>
+                                            <th>Cliente</th>
+                                            <th>Fecha de Orden</th>
+                                            <th>Fecha Entregada</th>
+                                            <th>Producto</th>
+                                            <th>Descripción Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Cantidad Facturada</th>
+<!--                                            <th>Cantidad Entregada</th>-->
+                                            <th>Operación de Entrega</th>
+                                            <th>Ubicacion de Origen</th>
+                                            <th>Ubicacion de Destino</th>
+<!--                                            <th>Precio Unitario</th>-->
+                                            <th>Sub Total Factura</th>
+                                            <th>Costo Total</th>
+                                            <th>Utilidad</th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
+                                    <t t-foreach='o.report_lines_ids' t-as='line'>
+                                        <tr style="width:2400px">
+                                            <th><t t-esc="line.name"/></th>
+                                            <th><t t-esc="line.name_fact"/></th>
+                                            <th><t t-esc="line.name_stock"/></th>
+                                            <th><t t-esc="line.cliente"/></th>
+                                            <th><t t-esc="line.invoice_date"/></th>
+                                            <th><t t-esc="line.deliver_date"/></th>
+<!--                                            <th><t t-esc="line.journal_id"/></th>-->
+                                            <th><t t-esc="line.product"/></th>
+                                            <th><t t-esc="line.description"/></th>
+                                            <th><t t-esc="line.quantity"/></th>
+                                            <th><t t-esc="line.quantity_invoiced"/></th>
+<!--                                            <th><t t-esc="line.quantity_done"/></th>-->
+                                            <th><t t-esc="line.stock_pick_type"/></th>
+                                            <th><t t-esc="line.location"/></th>
+                                            <th><t t-esc="line.location_dest_id"/></th>
+<!--                                            <th><t t-esc="line.location_dest_id"/></th>-->
+<!--                                            <th><t t-esc="line.valuation_cost"/></th>-->
+<!--                                            <th><t t-esc="line.price_unit"/></th>-->
+                                            <th><t t-esc="line.price_subtotal"/></th>
+                                            <th><t t-esc="line.value"/></th>
+                                            <th><t t-esc="line.utility"/></th>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="account_product_report_pdf" model="ir.actions.report">
+            <field name="paperformat_id" ref="account_product_paperformat"/>
+        </record>
+
+    </data>
+</odoo>

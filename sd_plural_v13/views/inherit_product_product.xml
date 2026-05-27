@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sd_tree_view_product_product" model="ir.ui.view">
+            <field name="name">inherit.tree.product.product</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='name']" position="after">
+                    <field name="sd_paginas" optional="show"/>
+                    <field name="sd_formato" optional="show"/>
+                    <field name="sd_tipo_tapa" optional="show"/>
+                    <field name="sd_codigo_interno" optional="hide" invisible="1"/>
+                    <field name="sd_informacion_adicional" optional="hide"/>
+                    <field name="sd_autor" optional="hide"/>
+                    <field name="sd_tematica" optional="hide"/>
+                    <field name="sd_coleccion" optional="hide"/>
+                    <field name="sd_gestion_publicacion" optional="hide"/>
+                    <field name="sd_edicion" optional="hide"/>
+                    <field name="sd_deposito_legal" optional="hide"/>
+                    <field name="sd_observaciones" optional="hide"/>
+
+                    <field name="sd_precio_FOB_USD" optional="hide"/>
+                    <field name="sd_tiraje" optional="hide"/>
+                    <field name="sd_comentarios" optional="hide"/>
+                </xpath>
+                <xpath expr="/tree/field[@name='lst_price']" position="before">
+                    <field name="sd_libro_lcv" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

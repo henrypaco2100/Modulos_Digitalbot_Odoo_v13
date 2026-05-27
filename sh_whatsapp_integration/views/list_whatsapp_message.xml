@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_whatsapp_mass_kanban">
+            <field name="name">whatsapp.mass.kanban</field>
+            <field name="model">whatsapp.mass</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" archivable="false" class="o_kanban_small_column o_opportunity_kanban" >
+                    <field name='state' readonly="1"/>
+                    <field name='sd_mensaje' readonly="1"/>
+                    <field name="contacto_domain"/>
+                    <field name='sd_sale_name'/>
+                    <field name='sd_purchase_name'/>
+                    <field name='sd_fecha_inicial'/>
+                    <field name='sd_fecha_envio'/>
+
+                    <field name='sd_url'/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class=" oe_kanban_card oe_kanban_global_click oe_kanban_mass_mailing">
+                                <div class="o_dropdown_kanban dropdown" t-if="!selection_mode">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#" data-display="static" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        <t t-if="widget.deletable">
+                                            <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                        </t>
+                                        <a role="menuitem" class="dropdown-item o_kanban_mailing_active" name="toggle_active" type="object">
+
+                                        </a>
+                                    </div>
+                                </div>
+                                 <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <div class="row"  attrs="{'invisible': [('contacto_domain', '=', False)]}">
+                                                <h3 class="my-1 col-8 o_text_overflow text-primary">
+                                                    <field name="sd_descriptivo"/>
+                                                </h3>
+                                                <div class=" border col-3 px-0 mt-2" >
+                                                    <h6 style="font-size:11px; color:green">
+                                                        <field name="sd_fecha_inicial" />
+                                                    </h6>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                     <div class="row" >
+                                         <div class="col-12">
+                                             <div class="o_kanban_record_body" t-if="!selection_mode" attrs="{'invisible': [('contacto_domain', '=', False)]}">
+
+                                                 <div class="d-flex justify-content-center" >
+                                                    <div  class="overflow-hidden" style="width:250px; height:50px; background: ">
+                                                        <h6>Mensaje:</h6>
+                                                        <field name="sd_mensaje"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </div>
+
+                                     </div>
+                                     <div style="float:right">
+                                         <button string="Enviar" class="btn btn-primary" name="send_whatsapp_direct" type="object" attrs="{'invisible': ['|',('contacto_domain', '=', False), ('state','=', 'send')]}">
+                                            <span>Crear mensajes</span>
+                                         </button>
+                                     </div>
+
+                                     <button string="Volver a enviar" class="btn btn-dark" name="change_state" type="object" attrs="{'invisible': [('state','in', ('draft', 'send'))]}">
+                                            <span>Volver a crear</span>
+                                     </button>
+
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_whatsapp_mass_mailing_form">
+            <field name="name">whatsapp.mass.form</field>
+            <field name="model">whatsapp.mass</field>
+            <field name="arch" type="xml">
+                <form string="Mensaje Whatsapp">
+                    <header style="min-height:31px;">
+                        <button name="send_whatsapp_direct" type="object" attrs="{'invisible': [('state', 'in', ('in_queue', 'send'))]}" class="oe_highlight" string="Enviar"
+                            confirm="¿Esta seguro de enviar este mensaje?"/>
+                        <button name="action_cancel" type="object" attrs="{'invisible': [('state', '!=', 'in_queue')]}" class="btn-secondary" string="Cancel"/>
+                        <button name="action_retry_failed" type="object" attrs="{'invisible': ['|', ('state', '!=', 'send') ]}" class="oe_highlight" string="Retry"/>
+
+                        <field name="state" readonly="1" widget="statusbar"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <button name="action_list_message_tree" class="oe_stat_button" icon="fa-arrows-v" type="object" help="List view of operations" >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_text">Mensajes</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="sd_mensaje" string="Mensaje" attrs="{'readonly': [('state', '=', 'send')]}"/>
+                                <label for="contacto_domains" string="Recipients"/>
+                                    <div name="contacto_domain_containers">
+
+                                        <div >
+                                            <field name="contacto_domain" widget="domain"
+                                            attrs="{'readonly': [('state', '=', 'send')]}" options="{'model': 'res.partner'}"/>
+                                        </div>
+                                    </div>
+
+
+                                <field name="sd_descriptivo" />
+                            </group>
+                            <group>
+                                <field name="sd_fecha_inicial"/>
+                                <field name="sd_fecha_envio" readonly='True'/>
+                                <field name="sd_documento" string="Adjunto"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_whatsapp_mass_tree">
+            <field name="name">whatsapp.mass.tree</field>
+            <field name="model">whatsapp.mass</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+
+                <tree string="Whatsapp">
+                    <field name="state" invisible="1"/>
+                    <field name="sd_mensaje" attrs="{'readonly': [('state', '=', 'send')]}"/>
+                    <field name="sd_descriptivo"  options="{'model': 'res.partner'}"/>
+                    <field name="sd_fecha_inicial"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record  id="action_arbol_whatsapp_mass" model="ir.actions.act_window">
+            <field name="name">Mensajes masivos Whatsapp</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whatsapp.mass</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear mensaje masivo
+                </p>
+            </field>
+		</record >
+
+
+
+
+
+         <menuitem id="whatsapp_mass_menu_principal"
+                  name="Whatsapp" sequence="6" web_icon="sh_whatsapp_integration,static/description/icon.png"/>
+
+        <menuitem id="whatsapp_submenu" name="Mensaje masivo" parent="whatsapp_mass_menu_principal"
+                 />
+        <menuitem id="whatsapp_submenu_mass" name="Inicio" parent="whatsapp_submenu"
+                 action="action_arbol_whatsapp_mass" sequence="1"/>
+
+        <menuitem id="whatsapp_menu_list_contact" name="Lista de contactos" parent="whatsapp_submenu"
+                action="action_arbol_list_contact_message"/>
+    </data>
+</odoo>
+

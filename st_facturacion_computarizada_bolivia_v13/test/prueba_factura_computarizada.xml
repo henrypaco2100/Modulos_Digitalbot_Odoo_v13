@@ -1,0 +1,90 @@
+   <!-- creamos el arbol para la vista en contabilidad, fecha x dias atras -->
+	<data>
+        <record  id="arbol_tree_generar_codigo_control" model="ir.actions.act_window">
+            <field name="name">Prueba Codigo de Control</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">facturacion.computarizada.bolivia</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    crear el formulario Prueba Control
+                </p>
+            </field>
+		</record >
+    <!-- tree diseñamos el arbol segun los datos del objeto-->
+        <record id="tree_diseñamos_arbol_generar_codigo_Control" model="ir.ui.view">
+			<field name="name">rpueba Codigo de Control arbol</field>
+			<field name="model">facturacion.computarizada.bolivia</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="prueba_codigo_control"/>
+				</tree>
+			</field>
+		</record>
+         <!-- formulario, diseñamos el formulario segun sus atributos o campos del objeto-->
+        <record id="create_codigo_control_prueba_validacion_factura" model="ir.ui.view">
+			<field name="name">create.codigo.control.prueba.validacion.factura.computarizada</field>
+			<field name="model">facturacion.computarizada.bolivia</field>
+			<field name="arch" type="xml">
+				<form>
+					<group >
+                        <field name="prueba_numero_autorizacion"/>
+                        <field name="prueba_numero_factura"/>
+                        <field name="prueba_Nit_cliente"/>
+                        <field name="prueba_fecha_emision"/>
+                        <field name="prueba_monto"/>
+                        <field name="prueba_llave_dosificacion"/>
+                    </group>
+                    <footer>
+                        <button name="generar_codigo_control_prueba" type="object" default_focus="1"
+                                string="Generar Codigo Control" class="oe_highlight"/><br/>
+                        <group>
+                             <field name="prueba_codigo_control"/>
+                        </group>
+
+                    </footer>
+<!--                    <br/>-->
+
+<!--                        <button name="generar_Verhoeff_prueba" type="object" default_focus="1"-->
+<!--                                string="Generar Verhoeff paso 1" class="oe_highlight"/>-->
+<!--                    <group>-->
+<!--                        <field name="prueba_Verhoeff"/>-->
+<!--                        <field name="prueba_digitos_generados"/>-->
+<!--                    </group>-->
+<!--                    <br/>-->
+<!--                    <button name="generar_Subcadena" type="object" default_focus="1"-->
+<!--                                string="Generar subcadena paso 2" class="oe_highlight"/>-->
+<!--                    <group>-->
+<!--                        <field name="prueba_generar_subcadena"/>-->
+<!--                    </group>-->
+<!--                    <br/>-->
+<!--                    <button name="generar_con_AllegedRC4_paso3" type="object" default_focus="1"-->
+<!--                                string="Generado por AllegedRC4 paso 3" class="oe_highlight"/>-->
+<!--                    <group>-->
+<!--                        <field name="prueba_pase_3_AllegedRC4"/>-->
+<!--                    </group>-->
+<!--                    <br/>-->
+<!--                    <button name="generar_sumatoria_ASCII_paso_4" type="object" default_focus="1"-->
+<!--                                string="Generar sumatoria ASCII PASO 4" class="oe_highlight"/>-->
+<!--                    <group>-->
+<!--                        <field name="prueba_sumatoria_ascii"/>-->
+<!--                    </group>-->
+<!--                    <br/>-->
+<!--                    <button name="generar_base_64_paso5" type="object" default_focus="1"-->
+<!--                                string="generar base_64 paso5" class="oe_highlight"/>-->
+<!--                    <group>-->
+<!--                        <field name="prueba_base_64"/>-->
+<!--                    </group>-->
+
+				</form>
+			</field>
+		</record>
+    <menuitem
+			id="codigo_control_prueba_generar"
+			name="Generar Codigo Control"
+			parent="account.menu_finance_configuration"
+			sequence="5"
+            action="arbol_tree_generar_codigo_control"
+            groups="base.group_no_one"
+        />
+    </data>

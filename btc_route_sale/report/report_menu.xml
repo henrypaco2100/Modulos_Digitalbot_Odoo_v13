@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+		<record id="payment_sale_report_btc_v2" model="ir.actions.report">
+			<field name="name">Payment Route Sale</field>
+			<field name="model">rp.payment.sale.route</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">btc_route_sale.rp_payment_sale_report_btc_v2</field>
+			<field name="report_file">btc_route_sale.rp_payment_sale_report_btc_v2</field>
+			<field name="print_report_name">'Collection Report'</field>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="btc_route_sale.btc_report_rp_payment_sale_route_format"/>
+		</record>
+
+		<record id="invoice_open_report_btc" model="ir.actions.report">
+			<field name="name">Open Invoice Route Sale</field>
+			<field name="model">rp.open.invoice.report</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">btc_route_sale.rp_invoice_open_report_btc</field>
+			<field name="report_file">btc_route_sale.rp_invoice_open_report_btc</field>
+			<field name="print_report_name">'Invoice Open Report'</field>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="btc_route_sale.btc_report_open_invoice_route_format"/>
+		</record>
+
+		<record id="invoice_open_report_btc_pu" model="ir.actions.report">
+			<field name="name">Open Invoice Route Sale PU</field>
+			<field name="model">rp.open.invoice.report.pu</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">btc_route_sale.rp_invoice_open_report_btc_pu</field>
+			<field name="report_file">btc_route_sale.rp_invoice_open_report_btc_pu</field>
+			<field name="print_report_name">'Invoice Open Payable Report'</field>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="btc_route_sale.btc_report_open_invoice_route_format"/>
+		</record>
+
+		<record id="cash_flow_report_btc" model="ir.actions.report">
+			<field name="name">Report Cash Flow</field>
+			<field name="model">rp.cash.flow</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">btc_route_sale.rp_cash_flow_btc</field>
+			<field name="report_file">btc_route_sale.rp_cash_flow_btc</field>
+			<field name="print_report_name">'Cash Flow Report'</field>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="btc_route_sale.paperformat_cash_flow_paper"/>
+			<!--<field name="paperformat_id" ref="btc_route_sale.btc_report_rp_cash_flow_route_format"/>-->
+		</record>
+		<!--<record id="payment_sale_report_btc" model="ir.actions.report">
+			<field name="name">Payment Route Sale</field>
+			<field name="model">wizard.get.report.payment.custom.bcl</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">btc_route_sale.rp_payment_sale_report_btc</field>
+			<field name="report_file">btc_route_sale.rp_payment_sale_report_btc</field>
+			<field name="print_report_name">'Payslip - %s' % (object.employee_id.name)</field>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="btc_route_sale.btc_report_format_entries"/>
+		</record>-->
+
+      <record id="payment_sale_report_btc_xlsx" model="ir.actions.report">
+            <field name="name">Print to XLSX</field>
+            <field name="model">product.template</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">report_xlsx.rp_payment_sale_bleichner_xlsx</field>
+            <field name="report_file">Reporte de Cobranzas</field>
+        </record>
+
+		<record id="invoice_open_report_btc_xlsx" model="ir.actions.report">
+            <field name="name">Print to XLSX</field>
+            <field name="model">product.template</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">report_xlsx.rp_invoice_open_xlsx</field>
+            <field name="report_file">Reporte de Cuentas por Cobrar</field>
+        </record>
+
+		<record id="invoice_open_pu_report_btc_xlsx" model="ir.actions.report">
+            <field name="name">Print to XLSX</field>
+            <field name="model">product.template</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">report_xlsx.rp_invoice_open_pu_xlsx</field>
+            <field name="report_file">Reporte de Cuentas por Pagar</field>
+        </record>
+
+<!--        <record id="action_report_collection_partner_done" model="ir.actions.report">
+            <field name="name">Aged Partner Balance</field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">btc_route_sale.report_collectionpartnerdone</field>
+            <field name="report_file">btc_route_sale.report_collectionpartnerdone</field>
+			<field name="binding_type">report</field>
+			<field name="print_report_name">'Collection Report V2'</field>
+        </record>-->
+
+	</data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record model="ir.ui.view" id="view_list_contact_message_tree">
+            <field name="name">list.contact.message.tree</field>
+            <field name="model">list.contact.message</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="Lista de Mensajes">
+                    <field name="state" invisible="1"/>
+                    <field name="sd_whatsapp_mass_id"/>
+                    <field name="sd_contacto_id" />
+                    <field name="sd_mensaje_1"/>
+                    <field name="sd_descripcion"/>
+                    <field name="sd_url"/>
+                    <field name="sd_fecha_inicial"/>
+                    <button name="action_enviar_message"
+                                string="Enviar" type="object"
+                            attrs="{'invisible': [('state', '=', 'send')]}"
+                                />
+                </tree>
+            </field>
+        </record>
+
+
+        <record  id="action_arbol_list_contact_message" model="ir.actions.act_window">
+            <field name="name">Mensajes masivos por contacto Whatsapp</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">list.contact.message</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear mensaje masivo
+                </p>
+            </field>
+		</record >
+
+    </data>
+</odoo>

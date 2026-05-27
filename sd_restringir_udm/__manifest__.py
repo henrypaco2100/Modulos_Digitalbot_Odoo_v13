@@ -1,0 +1,21 @@
+{
+    'name': 'Restringir unidades de medida(UDM)',
+    'version': '1.0',
+    'category': 'Fabricacion',
+    'summary': '',
+    'sequence': '10',
+    'author': 'soluciones digitales para impulsar su negocio',
+    'maintainer': 'soluciones digitales para impulsar su negocio',
+    'depends': ['product','purchase','account'],
+    'data': [
+        'security/ir.model.access.csv',
+        'view/views_sub_category_udm.xml',
+        'view/inherit_uom_uom.xml',
+        'view/inherit_mrp.xml',
+        # 'view/inherit_invoice.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

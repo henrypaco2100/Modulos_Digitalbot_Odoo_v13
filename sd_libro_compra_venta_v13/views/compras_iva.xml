@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_compras_iva" model="ir.actions.act_window">
+                <field name="name">Compras Iva</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">compra.iva</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Compra Iva
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_compras_iva" model="ir.ui.view">
+            <field name="name">arbol.compras.iva</field>
+            <field name="model">compra.iva</field>
+            <field name="arch" type="xml">
+                <tree>
+<!--                    <field name="sd_origen"/>-->
+                    <field name="sd_move_id"/>
+                    <field name="sd_fecha_fact" string="Fecha"/>
+                    <field name="partner_id" string="Razón social"/>
+                    <field name="sd_nro_fact" string="Fac."/>
+                    <field name="account_account_id"/>
+                    <field name="sd_importe_total" string="Total Compras"/>
+                    <field name="sd_importe_nscf" string="No sujeto a CF"/>
+                    <field name="sd_subtotal" string="Subtotal"/>
+                    <field name="sd_importe_base" string="Base CF"/>
+                    <field name="sd_credito_fiscal" string="CF"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_compras_iva" model="ir.ui.view">
+                <field name="name">fields.form.compras.iva</field>
+                <field name="model">compra.iva</field>
+                <field name="arch" type="xml">
+                    <form string="Compras IVA">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="sd_fecha_fact" string="Fecha"/>
+                                    <field name="partner_id" string="Razón social"/>
+                                    <field name="sd_nit" string="NIT"/>
+                                    <field name="sd_nro_fact" string="Fac."/>
+                                    <field name="sd_nro_dui" string="DUI."/>
+                                    <field name="sd_autorizacion"/>
+                                    <field name="sd_cuf"/>
+                                    <field name="sd_importe_total" string="Total Compras"/>
+                                    <field name="account_account_id"/>
+                                    <field name="account_analytic_id"/>
+                                    <field name="sd_origen"/>
+                                    <field name="sd_move_id"/>
+                                    <field name="sd_especificacion"/>
+                                </group>
+                                <group>
+                                    <field name="sd_importe_nscf" string="No sujeto a CF"/>
+                                    <field name="sd_subtotal" string="Subtotal"/>
+                                    <field name="sd_descuentos_iva" string="Dsctos. R2_e"/>
+                                    <field name="sd_importe_base" string="Base CF"/>
+                                    <field name="sd_credito_fiscal" string="CF"/>
+                                    <field name="sd_codigo_control"/>
+                                    <field name="sd_tipo"/>
+                                    <field name="store_id"/>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+
+    </data>
+</odoo>

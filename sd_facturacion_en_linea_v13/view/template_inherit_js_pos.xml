@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="inherit_view_client_models_pos" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/sd_facturacion_en_linea_v13/static/src/js/inherit_models.js"></script>
+            <script type="text/javascript" src="/sd_facturacion_en_linea_v13/static/src/js/extend_hide_complement.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+        </xpath>
+    </template>
+</odoo>

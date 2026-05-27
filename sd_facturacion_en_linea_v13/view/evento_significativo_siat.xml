@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_evento_significativo_siat" model="ir.actions.act_window">
+                <field name="name">Eventos Significativos Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">eventos.significativos.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Eventos Significativos
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_evento_significativo_siat" model="ir.ui.view">
+            <field name="name">arbol.evento.significativo.siat</field>
+            <field name="model">eventos.significativos.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sd_cuis"/>
+                    <field name="sd_cufd_antiguo"/>
+                    <field name="sd_fecha_ini"/>
+                    <field name="sd_fecha_fin"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_mensaje_service_siat" model="ir.ui.view">
+                <field name="name">fields.form.evento.significativo.siat</field>
+                <field name="model">eventos.significativos.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+                            <button name="registroEvento" class="oe_highlight" type="object" string="Confirmar Evento"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,register"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="sd_factura_online_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_codigo_recepcion_evento_significativo" readonly="1"/>
+                                    <field name="sd_cuis" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_evento_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </group>
+                                <group>
+                                    <field name="sd_cufd_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_cufd_antiguo" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_fecha_ini" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_fecha_inicio" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                    <field name="sd_fecha_fin" attrs="{'readonly':[('state', '=', 'register')]}"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

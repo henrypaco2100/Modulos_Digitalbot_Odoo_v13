@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_sale_mejora_order_form" model="ir.ui.view">
+        <field name="name">inherit.sale.mejora_order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'in', ('done','sale','cancel'))]}</attribute>
+                </xpath>
+             <xpath expr="//page[@name='other_information']/group/group" position="inside">
+                 <field name="sd_invoice_name_sale" string="Facturas"/>
+                 <field name="sd_pickname_name_sale" string="Entrega"/>
+            </xpath>
+
+        </field>
+
+    </record>
+    <record id="sd_inherit_sale_mejora_tree" model="ir.ui.view">
+         <field name="name">inherit.sale.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='activity_exception_decoration']" position="after">
+                 <field name="sd_invoice_name_sale" optional="show"/>
+                 <field name="sd_pickname_name_sale" optional="show"/>
+                 <field name="sd_items__sale_name" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sd_inherit_sale_mejora_search_filter_quotation" model="ir.ui.view">
+         <field name="name">sd.inherit.sale.search.filter.quotation</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+             <xpath expr="//filter[@name='my_quotation']" position="attributes">
+                 <attribute name="domain">[('state','in',('draft', 'sent'))]</attribute>
+                 <attribute name="string">Cotizaciones</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='draft']"  position="attributes">
+                 <attribute name="domain">[('user_id', '=', uid)]</attribute>
+                 <attribute name="string">Mis presupuestos</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+

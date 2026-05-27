@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Heredamos la vista res.partner.form -->
+        <record model="ir.ui.view" id="pos_payment_method_form_inherit">
+            <field name="name">pos.payment.method.form.inherit</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Agregamos un nuevo campo personalizado al formulario de contacto -->
+                <field name="company_id" position="after">
+                    <field name="sd_metodo_pago_siat"/>
+                    <field name="sd_es_tarjeta"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

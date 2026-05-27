@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="custom_invoice_template" inherit_id="point_of_sale.report_invoice">
+            <xpath expr="//div[@class='pos-sale-ticket']" position="replace">
+                <t t-call="report_rollo_pos"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

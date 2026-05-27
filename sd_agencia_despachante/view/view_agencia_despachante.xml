@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="action_arbol_agencia_despcachante" model="ir.actions.act_window">
+            <field name="name">Despacho de Importacion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">despacho.importacion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Formulario Despacho de Importacion
+                </p>
+            </field>
+		</record >
+        <record id="arbol_despacho_importacion_order" model="ir.ui.view">
+			<field name="name">arbol.despacho.importacion.order</field>
+			<field name="model">despacho.importacion</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="st_cliente_id"/>
+<!--					<field name="st_sale_ref_id"/>-->
+<!--					<field name="st_account_ref_id"/>-->
+					<field name="st_numero_dim"/>
+                    <field name="state"/>
+					<field name="st_fecha_declaracion"/>
+					<field name="st_ultimo_mensaje"/>
+				</tree>
+			</field>
+		</record>
+        <record id="tree_agencia_despachante_campos" model="ir.ui.view">
+			<field name="name">fields.tree.agencia.despachante</field>
+			<field name="model">despacho.importacion</field>
+			<field name="arch" type="xml">
+                <form  string="Despacho Importacion" class="o_sale_order">
+                    <header>
+                        <button name="action_Abrir_Declaracion" type="object" string="Confimar Declaracion"
+                                class="btn-primary" attrs="{'invisible': [('state', 'in', ('opened','closed','cancel'))]}"/>
+
+                        <button name="action_Cerrar_Declaracion" type="object" string="Cerrar Declaracion" class="btn-primary"
+                                attrs="{'invisible': [('state', 'in', ('closed','draft','cancel'))]}" confirm='¿Esta seguro que desea "Cerrar" esta Declaracion? '/>
+                        <button name="action_cancel" type="object" string="Cancelar"
+                                attrs="{'invisible': [('state', 'in', ('cancel'))]}" confirm='¿Esta seguro que desea "Cancelar" esta Declaracion? '/>
+                        <button name="action_change_draft" type="object" string="Cambiar a Borrador"
+                                attrs="{'invisible': [('state', 'in', ('closed','draft','opened'))]}"/>
+                        <button name="action_invoice_register_payment" type="object" string="Registrar Pago"
+                                attrs="{'invisible': [('state', 'in', ('cancel','draft','closed'))]}" />
+<!--                        <button name="action_invoice_register_payment" type="object" string="Registrar Prestamo"-->
+<!--                                attrs="{'invisible': [('state', 'in', ('cancel','draft','closed'))]}" />-->
+                        <button name="action_create_sale" type="object" string="Crear Venta"
+                                attrs="{'invisible': [('state', 'in', ('cancel','draft','closed'))]}" />
+
+                        <button name="action_make_planilla" type="object" string="Generar Planilla"  attrs="{'invisible': [('state', 'in', ('cancel','draft','closed'))]}" />
+
+                        <button name="action_print_planilla" type="object" string="Imprimir Planilla"  attrs="{'invisible': [('state', 'in', ('cancel','draft','closed'))]}" />
+                        <!--   Estados-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,opened,closed,cancel"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_get_sale_moves" icon="fa-signal" class="oe_stat_button"
+                                string="Ventas" type="object" />
+                            <button name="action_get_sale_moves" icon="fa-usd" class="oe_stat_button"
+                                string="Pagos" type="object" />
+                        </div>
+                        <group>
+                            <group>
+                                <field name="st_numero_dim"/>
+                                <field name="st_cliente_id"/>
+<!--                                <field name="st_sale_ref_id"/>-->
+                                <field name="st_aduana_destino"/>
+                            </group>
+                            <group>
+<!--                                <field name="st_account_ref_id"/>-->
+                                <field name="st_fecha_declaracion"/>
+                                <field name="st_ultimo_mensaje"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Linea gasto" name="despacho_lines">
+                                <field
+                                name="despacho_line"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                attrs="{'readonly': [('state', '=', 'closed')]}"
+                                >
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="st_producto_id"/>
+                                                <field name="st_seccion"/>
+                                                <field name="st_precio"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree string="Despacho Lineas" editable="bottom">
+                                        <field name="st_producto_id"/>
+                                        <field name="st_seccion"/>
+                                        <field name="st_precio"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Tareas" name="sd_tareas">
+                                <field
+                                name="despacho_line_task"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                attrs="{'readonly': [('state', '=', 'closed')]}"
+                                >
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="st_name"/>
+                                                <field name="st_description"/>
+                                                <field name="st_manager"/>
+                                                <field name="st_time" widget="float_time"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree string="Tareas" editable="bottom">
+                                        <field name="st_name"/>
+                                        <field name="st_description"/>
+                                        <field name="st_manager"/>
+                                        <field name="st_time" widget="float_time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="seguimiento" name="sd_seguimientos">
+                                <field
+                                name="despacho_line_follow"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                attrs="{'readonly': [('state', '=', 'closed')]}"
+                                >
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="st_ultimo_msj"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree string="Seguimiento" editable="bottom" delete="0" create="0">
+                                        <field name="st_ultimo_msj"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+			</field>
+		</record>
+        <menuitem id="agencia_despachante_menu_principal"
+                  name="Despacho" sequence="6" web_icon="sd_agencia_despachante,static/description/icon.png"/>
+        <menuitem id="agencia_despachante_menu_secundario" name="Declaracion" parent="agencia_despachante_menu_principal"
+                action="action_arbol_agencia_despcachante"/>
+        <menuitem id="sd_menu_gastos_despachante" name="Informe" parent="agencia_despachante_menu_principal"
+                action="action_arbol_agencia_despcachante"/>
+
+    </data>
+</odoo>

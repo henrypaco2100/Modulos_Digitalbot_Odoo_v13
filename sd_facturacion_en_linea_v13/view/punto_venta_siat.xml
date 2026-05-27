@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_punto_venta_siat" model="ir.actions.act_window">
+                <field name="name">Punto Venta Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">punto.venta.factura</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Punto Venta Siat
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_punto_venta_siat" model="ir.ui.view">
+            <field name="name">arbol.punto.venta.siat</field>
+            <field name="model">punto.venta.factura</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sd_descripcion"/>
+                    <field name="sd_factura_online_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_punto_venta_siat" model="ir.ui.view">
+                <field name="name">fields.form.punto.venta.siat</field>
+                <field name="model">punto.venta.factura</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+                            <button name="registrar_punto_venta" class="oe_highlight" type="object" string="Registrar Punto Venta"
+                            />
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" />
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="sd_descripcion"/>
+                                    <field name="sd_codigo_tipo_punto_venta_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                    <field name="sd_factura_online_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                    <field name="sd_cuis"/>
+                                    <field name="sd_codigo_punto_venta"/>
+                                </group>
+
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

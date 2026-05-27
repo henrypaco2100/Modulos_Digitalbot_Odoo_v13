@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_landed_cost_template_emp,access_landed_cost_template_emps,model_landed_cost_template,stock.group_stock_user,1,1,1,1
+access_stock_landed_cost_emp,access_stock_landed_cost_emps,model_custom_landed_cost_lines,stock.group_stock_user,1,1,1,1

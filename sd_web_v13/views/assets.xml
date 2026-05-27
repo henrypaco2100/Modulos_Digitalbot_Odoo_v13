@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <template id="assets_backend_web_plural" name="Backend Assets Plural" inherit_id="website_sale.assets_frontend">
+		<xpath expr="." position="inside">
+			<script type="text/javascript" src="/sd_web_v13/static/src/js/inherit_website.js"/>
+        </xpath>
+   </template>
+</odoo>

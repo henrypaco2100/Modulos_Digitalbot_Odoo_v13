@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for sale.order -->
+        <record id="product_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Producto siat Access</field>
+            <field name="model_id" ref="model_product_service_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="online_billing_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Facturacion principal siat Access</field>
+            <field name="model_id" ref="model_online_billing_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="sucursal_factura_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Sucursal factura siat Access</field>
+            <field name="model_id" ref="model_sucursal_factura_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="metodo_pago_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Metodo pago siat Access</field>
+            <field name="model_id" ref="model_metodo_pago_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="leyenda_factura_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Leyenda Factura siat Access</field>
+            <field name="model_id" ref="model_leyenda_factura_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="eventos_significativos_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Evento significativo siat Access</field>
+            <field name="model_id" ref="model_eventos_significativos_siat"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="emision_paquete_offline_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Emision Paquetes siat Access</field>
+            <field name="model_id" ref="model_siat_emision_paquete_offline"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="emision_masiva_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Emision Masiva siat Access</field>
+            <field name="model_id" ref="model_siat_emision_masiva"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="punto_venta_factura_siat_facturacion_rule" model="ir.rule">
+            <field name="name">Punto Venta siat Access</field>
+            <field name="model_id" ref="model_punto_venta_factura"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

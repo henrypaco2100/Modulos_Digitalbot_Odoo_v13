@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<record id="form_automate_purchase_order_workflow" model="ir.ui.view">
+			<field name="name">form.automate.purchase.order</field>
+			<field name="model">automated.purchase</field>
+			<field name="arch" type="xml">
+				<form>
+					<group style="width: 50%"  colspan="2">
+						<field name="name"/>
+						<field name="payment_journal"/>
+						<field name = "type" invisible="1"/>
+						<field name ="company_id" />
+						<field name="purchase_journal" />
+					</group>
+					<group  colspan="2" style="width: 50%">
+						<field name="st_entregar_a" />
+						<field name="st_secuencia" />
+						<field name="st_secuencia_quotation" />
+					</group>
+				<group col="2" colspan="1">
+					<group string="Opciones del flujo de trabajo">
+						<field name="validation_order"/>
+						<field name="validation_picking"/>
+						<field name="force_transfer"/>
+						<field name="create_incoice"/>
+						<field name="validate_invoice"/>
+						<field name="register_payment"/>
+<!--						<field name="force_invoice"/>-->
+					</group>
+					<group string="Configuracion de la Orden">
+						<field name="control_policy" widget="selection" />
+					</group>
+				</group>
+				<group col="2" colspan="1">
+					<group string="Contabilidad">
+						<field name="work_order_process_id_p2"/>
+                    	<field name="i_impuestos_flujo2" widget="many2many_tags"/>
+					</group>
+					<group string="Otros">
+						<field name="sd_is_numero_recibo"/>
+						<field name="sd_is_numero_factura"/>
+						<field name="sd_is_ref"/>
+						<field name="sd_is_numero_importacion"/>
+						<field name="sd_is_facturacion"/>
+						<field name="sd_is_impuesto_por_pagar"/>
+					</group>
+				</group>
+
+				<notebook>
+					<page string="Impuesto por Pagar"  attrs="{'invisible': [('sd_is_impuesto_por_pagar', '=', False)]}">
+						<field name="sd_automated_purchase_tax_ids">
+							 <tree>
+								<field name="name"/>
+								<field name="sd_porcentaje"/>
+							    <field name="journal_id"/>
+								<field name="sd_account_ids"/>
+							</tree>
+						</field>
+					</page>
+				</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="tree_automate_purchase_order_workflow" model="ir.ui.view">
+			<field name="name">tree.automate.purchase.order</field>
+			<field name="model">automated.purchase</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="validation_order"/>
+					<field name="validation_picking"/>
+					<field name="force_transfer"/>
+					<field name="validate_invoice"/>
+<!--					<field name="force_invoice"/>-->
+				</tree>
+			</field>
+		</record>
+
+		<record id="auto_purchase_workflow" model="ir.actions.act_window">
+            		<field name="name">Automatizacion del flujo de trabajo</field>
+            		<field name="res_model">automated.purchase</field>
+            		<field name="binding_view_types">form</field>
+            		<field name="view_mode">tree,form</field>
+            		<field name="view_id" eval="False"/>
+            		<field name="help" type="html">
+             			<p class="oe_view_nocontent_create">
+                			Click to add a new automated purchase entry.
+              			</p>
+            		</field>
+		</record>
+
+		<record id="view_button_automate_purchase_order" model="ir.ui.view">
+            <field name="name">purchase.order.form.button.automate</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+            	<header position="inside">
+					<button name="action_automate" id="action_automate"
+                        string="Validar Compra" class="btn-primary" type="object" attrs="{'invisible': [('state', 'in', ('purchase','cancel','done'))]}"
+  						/>
+			    </header>
+            	<xpath expr="//field[@name='date_order']" position="after">
+<!--            		<field name="is_related" invisible="1"/>-->
+					<field name="work_process_order_id" attrs="{'readonly':[('state','=','purchase')] }" string="Tipo de Compra"  />
+			    </xpath>
+				<xpath expr="//field[@name='company_id']" position="after">
+            		<field name="sd_is_impuesto_por_pagar" invisible="1"/>
+					<field name="sd_automated_purchase_tax_id" attrs="{ 'invisible':[('sd_is_impuesto_por_pagar','=',False)],'readonly':[('state','=','purchase')]}" options="{'no_create': True}"/>
+					<field name="sd_register_payment" invisible="1"/>
+					<field name="sd_glosa_payment" attrs="{ 'invisible':[('sd_register_payment','=',False)],'readonly':[('state','=','purchase')]}"/>
+			    </xpath>
+				<xpath expr="/form/sheet/notebook/page/group/field[@name='amount_total']" position="after">
+						<div class="oe_subtotal_footer_separator oe_inline" attrs="{'invisible': [('sd_is_impuesto_por_pagar', '=', False)]}"></div>
+						<field name="sd_impuesto_retencion" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('sd_is_impuesto_por_pagar', '=', False)]}"/>
+						<div class="oe_subtotal_footer_separator oe_inline" attrs="{'invisible': [('sd_is_impuesto_por_pagar', '=', False)]}">
+							<label for="sd_amount_total_impuesto_retencion" />
+						</div>
+						<field name="sd_amount_total_impuesto_retencion" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('sd_is_impuesto_por_pagar', '=', False)]}"/>
+				</xpath>
+
+				<xpath  expr="/form/sheet/group/group/field[@name='partner_id'] " position="after">
+					<field name="sd_is_nro_recibo" invisible="True"/>
+				    <field name="sd_is_nro_factura" invisible="True"/>
+					<field name="sd_is_ref" invisible="True"/>
+					<field name="sd_is_numero_importacion" invisible="True"/>
+				    <field name="sd_numero_recibo" attrs="{'invisible': [('sd_is_nro_recibo', '=', False)]}"/>
+				    <field name="sd_numero_factura" attrs="{'invisible': [('sd_is_nro_factura', '=', False)]}"/>
+					<field name="sd_ref_entrega" attrs="{'invisible': [('sd_is_ref', '=', False)]}"/>
+					<field name="sd_numero_importacion" attrs="{'invisible': [('sd_is_numero_importacion', '=', False)]}"/>
+				</xpath>
+
+        	</field>
+		</record>
+
+
+		<record id="view_res_partner_is_automate" model="ir.ui.view">
+			<field name="name">view.res.partner.is.automated</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+			   <xpath expr="//group[@name='purchase']" position="inside">
+					<field name="is_automated_compra" />
+					<field name="work_process_id_compra" attrs="{'invisible': [('is_automated_compra', '=', False)]}"/>
+			   </xpath>
+			</field>
+		</record>
+
+		
+		
+		<menuitem 
+			id="menu_auto_purchase"
+			name="Auto Purchase Workflow"
+			parent="account.menu_finance_configuration"
+			action="auto_purchase_workflow"
+			sequence="1"/>
+		
+</odoo>

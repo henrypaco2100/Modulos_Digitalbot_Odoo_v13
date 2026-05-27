@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sd_form_inherit_mrp_production">
+             <field name="name">sd_form_inherit_mrp_production</field>
+             <field name="model">mrp.production</field>
+             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+             <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/group" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+                 <xpath expr="/form/sheet/group" position="before">
+                     <group>
+                         <group>
+                             <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                             <field name="sd_client_id" options="{'no_create': True}"/>
+                             <label for="product_qty"/>
+                             <div class="o_row">
+                                <field name="product_qty" class="mr-1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}" force_save="1" groups="uom.group_uom" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <button type="action" name="623" context="{'default_mo_id': id}" string="Update" class="oe_link" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'done','cancel')), ('id', '=', False)]}"/>
+                             </div>
+                             <field name="sd_tipo_impresion"/>
+                             <field name="sd_paginas_total"/>
+                             <field name="sd_paginas_otro"/>
+                             <field name="date_deadline" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                             <field name="user_id"/>
+                             <field name="sd_account_analitica_out" groups="analytic.group_analytic_accounting"/>
+                             <field name="sd_total_costo"/>
+                             <field name="currency_id" invisible="1"/>
+                         </group>
+                         <group>
+                             <field name="bom_id" context="{'default_product_tmpl_id': product_tmpl_id}" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                             <field name="sd_nit"/>
+                             <field name="sd_category_product_id"/>
+                             <field name="sd_formato"/>
+                             <field name="sd_paginas_bn"/>
+                            <field name="sd_paginas_color"/>
+                             <div class="o_row o_td_label">
+                                <label for="date_planned_start" string="Fecha planificada" attrs="{'invisible': [                                                 ('routing_id', '!=', False),                                                 ('state', 'in', ['draft', 'confirmed'])                                         ]}"/>
+                            </div>
+                             <div class="o_row">
+                                <field name="date_planned_start" attrs="{'invisible': [                                             ('routing_id', '!=', False),                                             ('state', 'in', ['draft', 'confirmed']),                                         ], 'readonly': [                                        '|',                                         '&amp;',                                             ('routing_id', '=', False),                                             ('state', 'in', ['done', 'cancel']),                                         '&amp;',                                             ('routing_id', '!=', False),                                             ('state', 'not in', ['draft', 'confirmed'])]}"/>
+                                <label for="date_planned_finished" string="a" attrs="{'invisible': [                                     '|',                                         ('id', '=', False),                                         '&amp;',                                             ('routing_id', '!=', False),                                             ('state', 'in', ['draft', 'confirmed'])                                 ]}"/>
+                                <field name="date_planned_finished" required="1" attrs="{'readonly': [                                     '|',                                         '&amp;',                                             ('routing_id', '=', False),                                             ('state', 'in', ['done', 'cancel']),                                         ('routing_id', '!=', False)                                 ], 'invisible': [                                     ('routing_id', '!=', False),                                     ('state', 'in', ['draft', 'confirmed'])                                 ]}"/>
+                            </div>
+                            <field name="origin"/>
+                             <field name="sd_componentes_extras" />
+                             <field name="sd_costo_previsto"/>
+                         </group>
+                         <label for="sd_nota" string="Notas" class="o_light_label" style="font-weight: bold"/>
+                         <field name="sd_nota"/>
+                     </group>
+                     <group string="Informacion adicional">
+                         <group>
+                             <field name="sd_ISBN"/>
+                             <field name="sd_autor_id" domain="[('sd_es_autor','=',True)]"/>
+                             <field name="sd_autor_2_id" domain="[('sd_es_autor','=',True)]" />
+                             <field name="sd_contrato"/>
+                         </group>
+                         <group>
+                             <field name="sd_diagramacion_id"/>
+                             <field name="sd_correccion_id"/>
+                             <field name="sd_tapa_id"/>
+                             <field name="sd_cotizacion"/>
+                         </group>
+                     </group>
+                 </xpath>
+             </field>
+        </record>
+        <record model="ir.ui.view" id="sd_form_inherit_mrp_production_costo_total">
+             <field name="name">sd_form_inherit_mrp_production_costo_total</field>
+             <field name="model">mrp.production</field>
+             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+             <field name="arch" type="xml">
+                 <field name="move_raw_ids" position="after">
+                     <label for="sd_extras_move_ids" attrs="{'invisible': [('sd_componentes_extras', '=', False)]}"/>
+                     <field name="sd_extras_move_ids" context="{'final_lots': show_final_lots, 'tree_view_ref': 'mrp.view_stock_move_raw_tree', 'form_view_ref': 'mrp.view_stock_move_lots', 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'draft', 'default_sd_material_extra_production_id': id, 'default_picking_type_id': picking_type_id}" attrs="{'readonly': ['&amp;', ('state', '!=', 'draft'), ('is_locked', '=', True)],'invisible': [('sd_componentes_extras', '=', False)]}"/>
+                 </field>
+                 <button name='button_scrap' position="attributes">
+                    <attribute name="invisible">1</attribute>
+                 </button>
+             </field>
+        </record>
+        <record model="ir.ui.view" id="sd_tree_inherit_mrp_production">
+             <field name="name">sd.tree.inherit.mrp.production</field>
+             <field name="model">mrp.production</field>
+             <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+             <field name="arch" type="xml">
+                 <field name="product_id" position="after">
+                     <field name="sd_category_product_id" optional='show'/>
+                     <field name="sd_total_costo"/>
+                     <field name="sd_costo_previsto"/>
+                     <field name="sd_client_id" optional='hide'/>
+                     <field name="sd_autor_id"  optional='hide'/>
+                     <field name="sd_autor_2_id"  optional='hide'/>
+                     <field name="sd_formato"  optional='hide'/>
+                     <field name="sd_ISBN"  optional='hide'/>
+                     <field name="sd_correccion_id" optional='hide'/>
+                     <field name="sd_diagramacion_id" optional='hide'/>
+                     <field name="sd_tapa_id" optional='hide'/>
+                     <field name="sd_paginas_bn" optional='hide'/>
+                     <field name="sd_paginas_color" optional='hide'/>
+                     <field name="sd_paginas_total" optional='hide'/>
+                     <field name="create_uid" optional='show'/>
+                 </field>
+                 <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-muted">state in ('cancel')</attribute>
+                 </xpath>
+             </field>
+        </record>
+        <record model="ir.ui.view" id="sd_inherit_tree_stock_move_mrp">
+             <field name="name">sd.inherit.tree.stock.move.mrp</field>
+             <field name="model">stock.move</field>
+             <field name="inherit_id" ref="mrp.view_stock_move_raw_tree"/>
+             <field name="arch" type="xml">
+                 <field name="product_id" position="after">
+                     <field name="sd_stock_disponible"/>
+                 </field>
+                 <field name="quantity_done" position="after">
+<!--                     <field name="sd_precio_servicio"/>-->
+                     <field name="sd_valuation" invisible="1"/>
+                     <field name="sd_valuation_abs" string="Costo" sum="Total" attrs="{'column_invisible': [('parent.state', 'not in', ('done','cancel'))]}"/>
+                     <field name="sd_precio_unitario" attrs="{'column_invisible': [('parent.state', 'in', ('done','cancel'))]}"/>
+                     <field name="sd_total_precio" string="Total" sum="Costo Previsto" attrs="{'column_invisible': [('parent.state','in', ('done','cancel'))]}"/>
+<!--                     <field name="state"/>-->
+                 </field>
+                 <xpath expr="//tree" position="attributes">
+                    <attribute name="delete">1</attribute>
+                 </xpath>
+                 <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-muted" />
+                </xpath>
+             </field>
+        </record>
+    </data>
+    <template id="sd_report_mrporder_inherit" inherit_id="mrp.report_mrporder">
+        <xpath expr="//div[@class='row mt32 mb32'][1]/div[@class='col-3'][2]" position="after">
+            <div class="col-3">
+                <strong>Categoria:</strong><br/>
+                <span t-field="o.sd_category_product_id"/>
+            </div>
+            <div class="col-3">
+                <strong>Cuenta analitica de Proceso:</strong><br/>
+                <span t-field="o.sd_account_analitica_out"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@class='row mt32 mb32'][2]/div[@class='col-3'][2]" position="after">
+            <div class="col-3">
+                <strong>Costo total:</strong><br/>
+                <span t-field="o.sd_total_costo"/>
+            </div>
+            <div class="col-3">
+                <strong>Costo Previsto:</strong><br/>
+                <span t-field="o.sd_costo_previsto"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@class='row mt32 mb32'][2]" position="after">
+            <div class="row mt32 mb32">
+                <div class="col-3">
+                    <strong>Autor:</strong><br/>
+                    <span t-field="o.sd_autor_id"/>
+                </div>
+                <div class="col-3">
+                    <strong>Autor 2:</strong><br/>
+                    <span t-field="o.sd_autor_2_id"/>
+                </div>
+                <div class="col-3">
+                    <strong>Correccion:</strong><br/>
+                    <span t-field="o.sd_correccion_id"/>
+                </div>
+                <div class="col-3">
+                    <strong>Diagramacion:</strong><br/>
+                    <span t-field="o.sd_diagramacion_id"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32">
+                <div class="col-3">
+                    <strong>Cotizacion:</strong><br/>
+                    <t t-if="o.sd_cotizacion">
+                        <span>Verdadero</span>
+                    </t>
+                    <t t-if="not o.sd_cotizacion">
+                        <span>Falso</span>
+                    </t>
+<!--                    <span t-field="o.sd_cotizacion"/>-->
+                </div>
+                <div class="col-3">
+                    <strong>Contrato:</strong><br/>
+                    <t t-if="o.sd_contrato">
+                        <span>Verdadero</span>
+                    </t>
+                    <t t-if="not o.sd_contrato">
+                        <span>Falso</span>
+                    </t>
+<!--                    <span t-field="o.sd_contrato"/>-->
+                </div>
+                <div class="col-3">
+                    <strong>Tapa:</strong><br/>
+                    <span t-field="o.sd_tapa_id"/>
+                </div>
+                <div class="col-3">
+                    <strong>Formato:</strong><br/>
+                    <span t-field="o.sd_formato"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32">
+                <div class="col-3">
+                    <strong>ISBN:</strong><br/>
+                    <span t-field="o.sd_ISBN"/>
+                </div>
+                <div class="col-3">
+                    <strong>Paginas BN:</strong><br/>
+                    <span t-field="o.sd_paginas_bn"/>
+                </div>
+                <div class="col-3">
+                    <strong>Paginas Color:</strong><br/>
+                    <span t-field="o.sd_paginas_color"/>
+                </div>
+                <div class="col-3">
+                    <strong>Paginas Total:</strong><br/>
+                    <span t-field="o.sd_paginas_total"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32">
+                <div class="col-3">
+                    <strong>Cliente:</strong><br/>
+                    <span t-field="o.sd_client_id"/>
+                </div>
+                <div class="col-3">
+                    <strong>Nit:</strong><br/>
+                    <span t-field="o.sd_nit"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32">
+                <div class="col-12">
+                    <strong>Notas:</strong><br/>
+                    <span t-field="o.sd_nota"/>
+                </div>
+
+            </div>
+        </xpath>
+        <xpath expr="//table/thead/tr" position="inside">
+            <th style="text-align: right;">Precio</th>
+            <th style="text-align: right;">Total</th>
+        </xpath>
+        <xpath expr="//table/tbody/t/tr" position="replace">
+            <tr t-foreach="o.move_raw_ids" t-as="raw_line">
+                <td>
+                    <span t-field="raw_line.product_id"/>
+                </td>
+                <td t-attf-class="{{ 'text-right' if not has_product_barcode else '' }}" style="text-align: right;">
+                    <t t-if="raw_line.product_uom_qty == 0.0">
+                        <span t-field="raw_line.quantity_done"/>
+                    </t>
+                    <t t-else="">
+                        <span t-field="raw_line.product_uom_qty"/>
+                    </t>
+                    <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
+                </td>
+                <td t-if="has_product_barcode" width="15%" class="text-center">
+                    <t t-if="raw_line.product_id.barcode">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', raw_line.product_id.barcode, 600, 100)" style="width:100%;height:35px" alt="Barcode"/>
+                    </t>
+                </td>
+                <t t-if="o.state not in ('done','cancel')">
+                    <td style="text-align: right;">
+                        <t t-esc="round(raw_line.product_id.standard_price, 2)" />
+                    </td>
+                    <td style="text-align: right;">
+                        <t t-if="raw_line.product_uom_qty == 0.0">
+                            <t t-esc="round(raw_line.quantity_done * raw_line.product_id.standard_price, 2)" />
+                        </t>
+                        <t t-else="">
+                            <t t-esc="round(raw_line.product_uom_qty * raw_line.product_id.standard_price, 2)" />
+                        </t>
+                    </td>
+                </t>
+                <t t-else="">
+                    <td style="text-align: right;">
+                        <t t-esc="round(round(raw_line.sd_valuation_abs, 2)/round(raw_line.quantity_done, 2),2)" />
+                    </td>
+                    <td style="text-align: right;">
+                        <t t-esc="round(raw_line.sd_valuation_abs, 2)" />
+                    </td>
+                </t>
+
+            </tr>
+        </xpath>
+        <xpath expr="//div[@class='oe_structure'][2]" position="before">
+            <t t-if="o.sd_componentes_extras">
+                <h3 t-if="o.sd_extras_move_ids">
+                    <t t-if="o.state == 'done'">
+                        Productos extras consumidos
+                    </t>
+                    <t t-else="">
+                        Productos extras a consumir
+                    </t>
+                </h3>
+
+                <table class="table table-sm" t-if="o.sd_extras_move_ids">
+                    <t t-set="has_product_barcode" t-value="any(o.move_raw_ids.filtered(lambda x: x.product_id.barcode))"/>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th t-attf-class="{{ 'text-right' if not has_product_barcode else '' }}">Cantidad</th>
+                            <th t-if="has_product_barcode" width="15%" class="text-center">Barcode</th>
+                            <th style="text-align: right;">Precio</th>
+                            <th style="text-align: right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="o.sd_extras_move_ids">
+                            <tr t-foreach="o.sd_extras_move_ids" t-as="raw_line">
+                                <td>
+                                    <span t-field="raw_line.product_id"/>
+                                </td>
+                                <td t-attf-class="{{ 'text-right' if not has_product_barcode else '' }}" style="text-align: right;">
+                                    <t t-if="raw_line.product_uom_qty == 0.0">
+                                        <span t-field="raw_line.quantity_done"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-field="raw_line.product_uom_qty"/>
+                                    </t>
+                                    <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
+                                </td>
+                                <td t-if="has_product_barcode" width="15%" class="text-center">
+                                    <t t-if="raw_line.product_id.barcode">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', raw_line.product_id.barcode, 600, 100)" style="width:100%;height:35px" alt="Barcode"/>
+                                    </t>
+                                </td>
+                                <t t-if="o.state not in ('done','cancel')">
+                                    <td style="text-align: right;">
+                                        <t t-esc="round(raw_line.product_id.standard_price, 2)" />
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <t t-if="raw_line.product_uom_qty == 0.0">
+                                            <t t-esc="round(raw_line.quantity_done * raw_line.product_id.standard_price, 2)" />
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="round(raw_line.product_uom_qty * raw_line.product_id.standard_price, 2)" />
+                                        </t>
+                                    </td>
+                                </t>
+                                <t t-else="">
+                                    <td style="text-align: right;">
+                                        <t t-esc="round(round(raw_line.sd_valuation_abs, 2)/round(raw_line.quantity_done, 2),2)" />
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <t t-esc="round(raw_line.sd_valuation_abs, 2)" />
+                                    </td>
+                                </t>
+
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+        </xpath>
+
+    </template>
+    <record model="ir.ui.view" id="sd_inherit_form_line_stock_move_mrp">
+         <field name="name">sd.inherit.form.line.stock.move.mrp</field>
+         <field name="model">stock.move</field>
+         <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+         <field name="arch" type="xml">
+             <field name="company_id" position="before">
+                 <field name="sd_precio_unitario"/>
+             </field>
+             <field name="product_id" position="after">
+                 <field name="sd_analitica_proceso"/>
+             </field>
+         </field>
+    </record>
+<!--    <record id="mrp.action_mrp_production_moves" model="ir.actions.act_window">-->
+<!--        <field name="name">Inventory Moves</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">stock.move.line</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="domain">['|', ('move_id.raw_material_production_id', '=', active_id), ('move_id.production_id', '=', active_id), ('move_id.sd_material_extra_production_id', '=', active_id)]</field>-->
+<!--    </record>-->
+
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="stock_landed_cost_view_customs" model="ir.ui.view">
+        <field name="name">stock.landed.cost.form</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate']" position="after">
+                <button 
+                    string="Cargar Plantilla de costes"
+                    name="%(action_custom_template_wizard)d"  
+                    type="action" 
+                    attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

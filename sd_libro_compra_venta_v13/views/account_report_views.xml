@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="libro_compra_venta_report_title" name="Reporte libro compra/venta"
+                  parent="account.menu_finance_reports" sequence="" action="odoo_report_view_action"/>
+        <menuitem id="libro_compra_venta_report" name="Impresion de reporte venta" action="odoo_report_view_action"
+                  parent="libro_compra_venta_report_title"/>
+<!--        <menuitem id="libro_compra_venta_report" name="Impresion de reporte" action="odoo_report_view_action"-->
+<!--                  parent="account.menu_finance_reports"/>-->
+    </data>
+</odoo>

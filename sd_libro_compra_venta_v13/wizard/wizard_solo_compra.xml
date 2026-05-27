@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_libro_solo_compra_form" model="ir.ui.view">
+            <field name="name">Report Libro compra/venta</field>
+            <field name="model">wizard.solo.compra</field>
+            <field name="arch" type="xml">
+                <form string="Reporte Libro Compra">
+                    <sheet>
+                        <group>
+                            <group col="1">
+                                <field name="estado"/>
+                                <field name="diario" widget="many2many_tags"/>
+                                <field name="fecha_inicio"/>
+                                <field name="excel_file" readonly="1" filename="file_name"/>
+                                <field name="file_name" invisible="True"/>
+                            </group>
+                            <group col="2">
+<!--                                <field name="tipo" widget='radio' required="True"/>-->
+<!--                                <field name="CAF"/>-->
+                                <field name="fecha_fin"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="print_solo_compra" string="Imprimir Excel" type="object" default_focus="1"
+                            class="oe_highlight" context="{'report_type':'excel'}"/>
+                        <button string="Cancelar" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="report_solo_compra_action" model="ir.actions.act_window">
+            <field name="name">reporte libro compra</field>
+            <field name="res_model">wizard.solo.compra</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="report_libro_solo_compra_form"/>
+            <field name="target">new</field>
+        </record>
+
+<!--        <menuitem id="libro_compra_venta_report_title" name="Reporte libro compra/venta"  parent="account.menu_finance_reports"/>-->
+        <menuitem id="libro_solo_compra_report" name="Libro Compra" action="report_solo_compra_action"
+                  parent="libro_compra_venta_report_title"/>
+    </data>
+</odoo>

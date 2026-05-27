@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Factura ventas -->
+<odoo>
+    <data>
+       <record model="ir.ui.view" id="sale_order_siat_form">
+            <field name="name">sale.order.siat.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="sd_razon_social" readonly="0" />
+<!--                    <field name="sd_nombre_facturado" attrs="{'invisible': [('state','!=','sale')]}" readonly="1"/>-->
+                    <field name="sd_codigo_tipo_documento"/>
+<!--                    <field name="sd_tipo_documento_facturado" attrs="{'invisible': [('state','!=','sale')]}" readonly="1"/>-->
+                    <field name="sd_nro_documento"/>
+<!--                    <field name="sd_nro_documento_facturado" attrs="{'invisible': [('state','!=','sale')]}" readonly="1"/>-->
+                    <field name="sd_extension" attrs="{'invisible': [('sd_codigo_tipo_documento', '!=', '1')]}"/>
+                    <field name="sd_email"/>
+<!--                    <field name="sd_email_facturado" attrs="{'invisible': [('state','!=','sale')]}" readonly="1"/>-->
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="sd_metodo_pago"/>
+                </xpath>
+            </field>
+       </record>
+    </data>
+</odoo>

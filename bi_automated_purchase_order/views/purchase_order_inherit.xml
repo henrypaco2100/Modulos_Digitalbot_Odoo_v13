@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sd_inherit_purchase_order">
+        <field name="name">inherit.inherit.purchase.order.field</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fiscal_position_id']" position="after">
+                    <field name="sd_origen_compra_id" />
+                    <field name="sd_compra_contable"/>
+                </xpath>
+                <field name="product_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+                </field>
+                <field name="work_process_order_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="sd_purchase_order_inherit_facturacion_bolivia_v13">
+                <field name="name">purchase.order.bolivia.heredar.facturaicon.bolivia.v13</field>
+                <field name="model">purchase.order</field>
+                <field name="inherit_id" ref="purchase.purchase_order_form"/>
+                <field name="arch" type="xml">
+                    <notebook position="inside">
+                        <page name="computarizado_bolivia_compra_order" string="Facturación"  >
+                            <group >
+                                <group>
+                                    <field name="fcb_es_factura_compra"/>
+                                    <field name="fcb_numero_factura"/>
+                                    <field name="fcb_autorizacion_compra_order" />
+                                    <field name="fcb_codigo_control_compra_order" />
+                                    <field name="fcb_link" widget="url"/>
+                                </group>
+                                <group>
+                                    <field name="sd_codigo_aduana"/>
+                                    <field name="fcb_numero_dim_order" />
+                                    <field name="sd_numero_dui"/>
+                                    <field name="fcb_tipo_compra_order" />
+                                    <field name="fcb_cuf" string="Cód Autorización en Linea"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="sd_purchase_presupuesto_order_filter_inherit_v13">
+                <field name="name">sd.purchase.order.presupuesto.filter.inherit.v13</field>
+                <field name="model">purchase.order</field>
+                <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+                <field name="arch" type="xml">
+                    <search position="inside">
+                        <field name="sd_numero_importacion"/>
+                        <field name="work_process_order_id"/>
+                    </search>
+                    <group position="inside">
+                        <filter string="Nro Importación" name="numero_importacion_v13" domain="[]" context="{'group_by': 'sd_numero_importacion'}"/>
+                        <filter string="Tipo de Compra" name="tipo_compra_sd" domain="[]" context="{'group_by': 'work_process_order_id'}"/>
+                    </group>
+                </field>
+        </record>
+    </data>
+    <data>
+        <record model="ir.ui.view" id="sd_purchase_order_filter_inherit_v13">
+                <field name="name">sd.purchase.order.filter.inherit.v13</field>
+                <field name="model">purchase.order</field>
+                <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+                <field name="arch" type="xml">
+                    <search position="inside">
+                        <field name="sd_numero_importacion"/>
+                        <field name="work_process_order_id"/>
+                    </search>
+                    <group position="inside">
+                        <filter string="Nro Importación" name="numero_importacion_v13" domain="[]" context="{'group_by': 'sd_numero_importacion'}"/>
+                        <filter string="Tipo de Compra" name="tipo_compra_sd" domain="[]" context="{'group_by': 'work_process_order_id'}"/>
+                    </group>
+                </field>
+        </record>
+    </data>
+</odoo>

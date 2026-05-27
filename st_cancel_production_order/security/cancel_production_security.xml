@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+        
+    <data>
+       <data>
+            <record id="group_production_cancel" model="res.groups">
+                <field name="name">Production / Button Cancel</field>
+<!--                <field name="implied_ids" eval="[(4, ref('st_cancel_production_order.group_production_cancel'))]"/>-->
+            </record>
+        </data>
+    </data>
+        
+</odoo>

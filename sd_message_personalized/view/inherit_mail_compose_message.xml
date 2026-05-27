@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sd_inherit_mail_compose_message" model="ir.ui.view">
+             <field name="name">sd.inherit.mail.compose.message</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+            <field name="arch" type="xml">
+                <field name="mail_server_id" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="string">Remitente</attribute>
+                    <attribute name="options">{'no_open': True,'no_create': True, 'no_create_edit':True}</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,12 @@
+
+=> 08/11/19 ==> 13.0.0.1 ==> Index improved according to a mobile compatible format and change related and demanded apps link.
+13.0.0.2 ==>added discount and customer ref fields.
+
+=> 13.0.0.3 : Improved an index as per latest changes.
+13.0.0.4==>fixed issue of barcode.
+
+13.0.0.5 ==> Added warning if there is a sale order which is already in confirmed or canceled state, the file will not get imported and warning will display list of confirmed and canceled sale orders. 
+
+13.0.0.6==>fixed issue of barcode with prefix 0.
+13.0.0.7==>added delivery date import functionality.
+13.0.0.8 ==>fixed issue of barcode.

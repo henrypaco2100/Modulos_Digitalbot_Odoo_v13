@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="rp_cash_flow_btc">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <!--<t t-foreach="docs" t-as="doc">-->
+                        <link rel="stylesheet" href="/btc_route_sale/static/src/css/report_style.css" />
+                        <div class="report-page">
+
+                            <div class="my_container">
+                                <div style="width: 45%;">
+                                    <img src='/web/binary/company_logo' style="width:100%" />
+                                </div>
+                                <!--<p>
+                                        <span t-field="doc.company_id.name"/>
+                                    </p>-->
+                                <div class="detail_section">
+                                    <b><span t-field="doc.company_id.name" /></b><br />
+                                    <!--<b><span t-field="doc.company_id.street"/></b><br/>-->
+                                    <b><span t-field="doc.company_id.phone" /></b><br /><br />
+                                </div>
+                                <div class="cntr">
+                                    -----------------------------------------------------------------------------------------
+                                </div>
+                                <center>
+                                    <p class="cntr"><b>DETAIL CASH</b></p>
+                                </center>
+                                <br />
+                                <div class="my_section">
+                                    Date : <span t-esc="doc.start_date" t-options='{"widget": "date"}' />
+                                    <div class="detail_section">
+                                        <b>1. INVOICED SALES</b><br />
+                                        <b> &#160; &#160; &#160; : <span t-field="doc.total_invoice" /></b><br />
+                                        <b> &#160; &#160; &#160; : <span t-field="doc.total_receipt" /></b><br />
+                                    </div>
+                                    <div class="label_section">
+                                        <span t-field="doc.count_invoice" />&#160;<b> Invoice</b><br />
+                                        <span t-field="doc.count_receipt" />&#160;<b> Receipt</b>
+                                    </div>
+                                    <div class="detail_section">
+                                        <b>SUB TOTAL:
+                                            <t t-esc="doc.total_invoice + doc.total_receipt" /></b>
+                                    </div>
+                                    <div class="date_section">
+                                        Date Print:
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')" />
+                                        <br />
+                                        Time :
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M:%S')" />
+
+                                    </div>
+
+
+                                </div>
+
+                                <br />
+
+                                <div class="cntr">
+                                    -----------------------------------------------------------------------------------------
+                                </div>
+                                <div class="detail_section">
+                                    <b>4. SALES FOR BRAND</b>
+                                </div>
+                                <center style="width:90%;">
+                                    <t t-set="amount_brand_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-set="brands" t-value="[]" />
+                                            <t t-foreach="doc.invoice_ids" t-as="inv">
+                                                <t t-foreach="inv.invoice_line_ids" t-as="line">
+                                                    <t t-set="brands"
+                                                        t-value="brands+[line.product_id.product_brand_id]" />
+                                                </t>
+                                            </t>
+                                            <t t-foreach="set(brands)" t-as="brand">
+                                                <tr>
+                                                    <td><span t-field="brand.name" /></td>
+                                                    <td>
+                                                        <t t-set="amount_brand" t-value="0" />
+                                                        <t t-set="count_brand" t-value="0" />
+                                                        <t t-foreach="doc.invoice_ids" t-as="inv">
+                                                            <t t-foreach="inv.invoice_line_ids" t-as="l">
+                                                                <t t-if="brand.id==l.product_id.product_brand_id.id">
+                                                                    <t t-set="amount_brand"
+                                                                        t-value="amount_brand + l.price_total" />
+                                                                    <t t-set="count_brand" t-value="count_brand + 1" />
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                        <t t-esc="amount_brand" />
+                                                        <t t-set="amount_brand_total"
+                                                            t-value="amount_brand_total + amount_brand" />
+
+                                                    </td>
+                                                    <td>
+                                                        <span>
+                                                            <t t-esc="count_brand" /></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+                                <div class="detail_section">
+                                    <b>SUB TOTAL:
+                                        <t t-esc="amount_brand_total" /></b>
+                                </div>
+                                <div class="cntr">
+                                    -----------------------------------------------------------------------------------------
+                                </div>
+                                <div class="detail_section">
+                                    <b>5. SALES FOR COMMERCIAL</b>
+                                </div>
+
+                                <center style="width:90%;">
+                                    <t t-set="amount_user_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-set="sorted_invoices_ids"
+                                                t-value="doc.invoice_ids.sorted(key=lambda r: r.user_id.display_name)" />
+                                            <t t-foreach="sorted_invoices_ids" t-as="move">
+                                                <tr>
+                                                    <td><span t-field="move.user_id.name" /></td>
+                                                    <td>
+                                                        <span t-field="move.amount_total" />
+                                                        <t t-set="amount_user_total"
+                                                            t-value="amount_user_total + move.amount_total" />
+                                                    </td>
+                                                    <td style="text-align: right !important;">
+                                                        <span t-field="move.nro_factura" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+                                <div class="detail_section">
+                                    <b>SUB TOTAL:
+                                        <t t-esc="amount_user_total" /></b>
+                                </div>
+                                <div class="cntr">
+                                    -----------------------------------------------------------------------------------------
+                                </div>
+
+                                <div class="detail_section">
+                                    <b>6. DETAIL OF COLLECTIONS/PAYMENTS </b>
+                                </div>
+
+                                <center style="width:90%;">
+                                    <t t-set="amount_payment_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-foreach="doc.payment_ids" t-as="move_pay">
+                                                <tr>
+                                                    <td style="width: 25% !important;"><span
+                                                            t-field="move_pay.name_number" /></td>
+                                                    <td style="width: 20% ;text-align: right !important;">
+                                                        <span t-field="move_pay.amount_total_signed" />
+                                                        <t t-set="amount_payment_total"
+                                                            t-value="amount_payment_total + move_pay.amount_total_signed" />
+                                                    </td>
+                                                    <td style="width: 55% ;text-align: right !important;">
+                                                        <span t-field="move_pay.journal_id" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+
+                                <div class="detail_section">
+                                    <b>7. TOTAL INGRESOS </b>
+                                </div>
+
+                                <center style="width:90%;">
+                                    <t t-set="amount_payment_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-foreach="doc.get_values_to_incomes()" t-as="move_payet">
+                                                <tr>
+                                                    <td style="width: 60% !important;"><span
+                                                            t-esc="move_payet['diario']" /></td>
+                                                    <td style="width: 40% ;text-align: right !important;">
+                                                        <span t-esc="'{0:,.2f}'.format(move_payet['debito'])" />
+                                                    </td>
+
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+
+                                <div class="detail_section">
+                                    <b>8. TOTAL EGRESOS </b>
+                                </div>
+
+                                <center style="width:90%;">
+                                    <t t-set="amount_payment_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-foreach="doc.get_values_to_ecomes()" t-as="move_payet">
+                                                <tr>
+                                                    <td style="width: 60% !important;"><span
+                                                            t-esc="move_payet['diario']" /></td>
+                                                    <td style="width: 40% ;text-align: right !important;">
+                                                        <span t-esc="'{0:,.2f}'.format(move_payet['credito'])" />
+                                                    </td>
+
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+
+                                <div class="detail_section">
+                                    <b>9. SALDOS </b>
+                                </div>
+
+                                <center style="width:90%;">
+                                    <t t-set="amount_payment_total" t-value="0" />
+                                    <table class="my_table">
+                                        <tbody>
+                                            <t t-foreach="doc.get_difference_by_date()" t-as="move_payet">
+                                                <tr>
+                                                    <td style="width: 60% !important;"><span
+                                                            t-esc="move_payet['name_journal']" /></td>
+                                                    <td style="width: 40% ;text-align: right !important;">
+                                                        <span t-esc="'{0:,.2f}'.format(move_payet['sustraction'])" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </center>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

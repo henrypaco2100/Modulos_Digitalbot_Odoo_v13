@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="view_cost_supplier_tree" model="ir.ui.view">
+            <field name="name">cost.supplier.tree</field>
+            <field name="model">cost.supplier</field>
+<!--            <field name="priority">1</field>-->
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="sequence"  widget="handle"/>
+                    <field name="partner_id"/>
+                    <field name="date_cuotation"/>
+                    <field name="product_ids"/>
+                    <field name="price"/>
+                    <field name="quantity"/>
+                    <field name="obs_text"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_cost_supplier_form" model="ir.ui.view">
+            <field name="name">cost.supplier.form</field>
+            <field name="model">cost.supplier</field>
+<!--            <field name="priority">1</field>-->
+            <field name="arch" type="xml">
+                <form string="Cotizaciones de Compras">
+                    <sheet>
+                        <group>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="sequence"  widget="handle"/>
+                            <field name="partner_id"/>
+                            <field name="date_cuotation"/>
+                            <field name="product_ids"/>
+                            <field name="price"/>
+                            <field name="quantity"/>
+                            <field name="obs_text"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cost_supplier_search" model="ir.ui.view">
+            <field name="name">cost.supplier.search</field>
+            <field name="model">cost.supplier</field>
+            <field name="arch" type="xml">
+                <search string="Search Cost Supplier">
+                    <field name="partner_id"/>
+                    <field name="product_ids"/>
+<!--                    <field name="order_id"/>-->
+<!--                    <field name="product_id"/>-->
+<!--                    <field name="partner_id" string="Vendor" filter_domain="[('partner_id', 'child_of', self)]"/>-->
+                    <filter name="partner_id" string="Proveedores"/>
+                    <filter name="date_cuotation" string="Fecha Cotizacion"/>
+                    <group expand="0" string="Group By">
+                        <filter name="partner_id" string="Proveedor" domain="[]" context="{'group_by' : 'partner_id'}" />
+                        <filter name="product_ids" string="Producto" domain="[]" context="{'group_by' : 'product_ids'}" />
+<!--                        <filter string="Order Reference" name="order_reference" domain="[]" context="{'group_by' :'order_id'}"/>-->
+<!--                        <filter string="Status" name="status" domain="[]" context="{'group_by' : 'state'}" />-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="cost_supplier" model="ir.actions.act_window">
+            <field name="name">Cotizaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cost.supplier</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_cost_supplier_tree"/>
+<!--            <field name="domain">[]</field>-->
+<!--            <field name="context">{}</field>-->
+            <field name="search_view_id" ref="cost_supplier_search"/>
+<!--            <field name="context">{'quotation_only': True}</field>-->
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Crea una cotizacion de tu proveedor.
+              </p><p>
+                Esta cotizacion contendra una lista detallada del proveedor, producto, precio fecha y cantidad de tu solicitud.
+              </p>
+            </field>
+        </record>
+
+    <menuitem action="cost_supplier" id="menu_cost_supplier"
+            parent="purchase.menu_procurement_management"
+            sequence="16" name="Cotizaciones"/>
+</odoo>

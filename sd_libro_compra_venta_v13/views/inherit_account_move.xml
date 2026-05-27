@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="account_move_inherit_show">
+
+        <field name="name">account.move.inherit.show</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="sd_credito_fiscal" attrs="{'invisible': [('type', 'in', ('out_invoice','out_refund'))]}"/>
+            </xpath>
+            <xpath expr="//page[@id='other_tab_entry']" position="after">
+                <page string="Compras Iva" name="compras_iva" attrs="{'invisible': [('sd_credito_fiscal', '=', False)]}">
+                    <field name="sd_compra_iva_ids" mode="tree,form" widget="section_and_note_one2many">
+                        <tree string="Compras Iva">
+                            <field name="sd_fecha_fact" string="Fecha"/>
+                            <field name="partner_id" string="Razón social"/>
+                            <field name="sd_nro_fact" string="Fac."/>
+                            <field name="account_account_id"/>
+                            <field name="sd_importe_total" string="Total Compras"/>
+                            <field name="sd_importe_nscf" string="No sujeto a CF"/>
+                            <field name="sd_subtotal" string="Subtotal"/>
+                            <field name="sd_importe_base" string="Base CF"/>
+                            <field name="sd_credito_fiscal" string="CF"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="sd_fecha_fact" string="Fecha"/>
+                                    <field name="partner_id" string="Razón social"/>
+                                    <field name="sd_nit" string="NIT"/>
+                                    <field name="sd_nro_fact" string="Fac."/>
+                                    <field name="sd_nro_dui" string="DUI."/>
+                                    <field name="sd_autorizacion"/>
+                                    <field name="sd_cuf"/>
+                                    <field name="sd_importe_total" string="Total Compras"/>
+                                    <field name="account_account_id"/>
+                                    <field name="account_analytic_id"/>
+                                </group>
+                                <group>
+                                    <field name="sd_importe_nscf" string="No sujeto a CF"/>
+                                    <field name="sd_subtotal" string="Subtotal"/>
+                                    <field name="sd_descuentos_iva" string="Dsctos. R2_e"/>
+                                    <field name="sd_importe_base" string="Base CF"/>
+                                    <field name="sd_credito_fiscal" string="CF"/>
+                                    <field name="sd_codigo_control"/>
+                                    <field name="sd_tipo"/>
+                                    <field name="store_id"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>

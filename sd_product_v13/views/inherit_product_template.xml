@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <data>
+        <record id="sd_inherit_product_template_tree_view" model="ir.ui.view">
+            <field name="name">sd.inherit.product.template.product.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"></field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="description" optional="hide"/>
+                    <field name="sd_codigo_interno" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+       <record id="inherit_product_template_form_view" model="ir.ui.view">
+            <field name="name">inherit.product.template.form</field>
+            <field name="model">product.template</field>
+    <!--        <field name="mode">primary</field>-->
+    <!--        <field name="priority" eval="8" />-->
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="categ_id" position="after">
+                    <field name="sd_codigo_interno"/>
+                </field>
+            </field>
+       </record>
+
+       <record id="sd_inherit_product_product_tree" model="ir.ui.view">
+           <field name="name">sd.inherit.product.product.tree</field>
+           <field name="model">product.product</field>
+           <field name="inherit_id" ref="product.product_product_tree_view"></field>
+           <field name="arch" type="xml">
+               <field name="name" position="after">
+                   <field name="description" optional="hide"/>
+                   <field name="sd_codigo_interno" optional="hide"/>
+               </field>
+           </field>
+       </record>
+   </data>
+</odoo>

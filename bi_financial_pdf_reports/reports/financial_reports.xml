@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        BALANCE GENERAL-->
+<!--        Balance predeterminado-->
+        <report
+            id="action_report_balancesheet"
+            string="Balance General"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.report_balancesheet"
+            name="bi_financial_pdf_reports.report_balancesheet"
+        />
+
+<!--        Balance personalizado SODIGITALIM HENRY-->
+        <report
+            id="action_report_balancesheet_personalizado"
+            string="Balance General v2"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.sd_report_balance_person"
+            name="bi_financial_pdf_reports.sd_report_balance_person"
+        />
+        <template id="sd_internal_layout_template_balance_personalizado">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+
+<!--        Balance general v3 SODIGITALIM LUIS-->
+        <report
+            id="action_report_balancesheet_v3"
+            string="Balance General"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.sd_report_balance_v3"
+            name="bi_financial_pdf_reports.sd_report_balance_v3"
+        />
+        <template id="sd_internal_layout_template_balance_v3">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+
+
+<!--        ESTADOS DE RESULTADO-->
+<!--        Estado de resultado predeterminado-->
+        <report
+            id="action_report_estado_resultado"
+            string="Estado de Resultado"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.report_balancesheet"
+            name="bi_financial_pdf_reports.report_balancesheet"
+        />
+<!--        Estado resultado Personalizado-->
+        <report
+            id="action_report_estado_resultado_personalizado"
+            string="Estado de Resultado v2"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.sd_report_er"
+            name="bi_financial_pdf_reports.sd_report_er"
+        />
+        <template id="sd_internal_layout_template_estado_resultado_person">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+
+        <!--        Estado resultado v3-->
+        <report
+            id="action_report_estado_resultado_v3"
+            string="Estado de Resultado"
+            model="accounting.report.bi"
+            report_type="qweb-pdf"
+            file="bi_financial_pdf_reports.sd_report_er_v3"
+            name="bi_financial_pdf_reports.sd_report_er_v3"
+        />
+        <template id="sd_internal_layout_template_estado_resultado_v3">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+
+<!--            BALANCE TOTAL NO LO USAMOS-->
+            <report
+            id="action_report_trial_balance"
+            model="accounting.report.bi"
+            string="Balance Total"
+            report_type="qweb-pdf"
+            name="bi_financial_pdf_reports.report_trialbalance"
+            file="bi_financial_pdf_reports.report_trialbalance"
+            />
+
+<!--        LIBRO MAYOR-->
+        <report
+            id="action_report_general_ledger"
+            model="accounting.report.bi"
+            string="Libro mayor"
+            report_type="qweb-pdf"
+            name="bi_financial_pdf_reports.report_generalledger"
+            file="bi_financial_pdf_reports.report_generalledger"
+            />
+        <report
+            id="action_report_general_ledger_v2"
+            model="accounting.report.bi"
+            string="Libro mayor"
+            report_type="qweb-pdf"
+            name="bi_financial_pdf_reports.report_generalledger_v2"
+            file="bi_financial_pdf_reports.report_generalledger_v2"
+            />
+        <template id="sd_internal_layout_template_libro_mayor_v2">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0" />
+            </div>
+        </template>
+
+    </data>
+
+</odoo>

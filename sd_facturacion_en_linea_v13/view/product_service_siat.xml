@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_product_service_siat" model="ir.actions.act_window">
+                <field name="name">Productos Siat</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">product.service.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Producto Siat
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_product_service_siat" model="ir.ui.view">
+            <field name="name">arbol.product.service.siat</field>
+            <field name="model">product.service.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sd_codigo_actividad"/>
+                    <field name="sd_codigo_producto"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sd_form_product_service_siat" model="ir.ui.view">
+                <field name="name">fields.form.product.service.siat</field>
+                <field name="model">product.service.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+
+                        </header>
+                        <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="sd_codigo_actividad" readonly="1" options="{'no_open': True}"/>
+                                    <field name="sd_codigo_producto" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="sd_descripcion_producto" readonly="1"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </group>
+                            </group>
+                            <notebook>
+
+                                <page string="Nandina" name="sd_nandina">
+                                    <field
+                                    name="sd_nandina_ids"
+                                    widget="section_and_note_one2many"
+                                    mode="tree,form"
+                                    >
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="sd_product_id" readonly="1"/>
+                                                    <field name="sd_codigo_nandina" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                        <tree string="CUFD" editable="bottom" delete="0" create="0">
+                                            <field name="sd_product_id" readonly="1"/>
+                                            <field name="sd_codigo_nandina" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+    </data>
+</odoo>

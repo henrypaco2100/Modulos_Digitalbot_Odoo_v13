@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data >
+
+		<record id="sd_group_adjustment_inventory" model="res.groups">
+			<field name="name">Ajuste de inventario/Heredar fecha</field>
+		</record>
+		<record id="sd_group_landed_cost_date" model="res.groups">
+			<field name="name">Coste de Destino/Heredar fecha</field>
+		</record>
+	</data>
+</odoo>

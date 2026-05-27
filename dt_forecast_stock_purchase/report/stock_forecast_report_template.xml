@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="stock_forecast_report_template_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><span style="font-weight:bold;font-size:20px;">Forecast Report</span></center>
+                    <br/>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span t-field="docs.company_id"/></td>
+                                <td>
+                                    <span t-esc="(docs.fsp_range_from).strftime('%d-%m-%Y')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="(docs.fsp_range_to).strftime('%d-%m-%Y')"/>
+                                </td>
+                                <td><span t-field="docs.fsp_cat_product"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th class="text-center">Expected Inventory</th>
+                                <t t-if="docs.fsp_type_analisis == 'monthly'">
+                                    <th class="text-center">Average Quantity for sale per month</th>
+                                </t>
+                                <t t-if="docs.fsp_type_analisis == 'annual'">
+                                    <th class="text-center">Average Quantity for sale per year</th>
+                                </t>
+                                <th class="text-center">Future Inventory</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <span t-set="lines_data" t-value="docs.get_forecats_inventory_data()"/>
+                            <tr t-foreach="lines_data" t-as="l">
+                                <td><span t-esc="l['product']"/></td>
+                                <td class="text-center"><span t-esc="l['expacted_inventory']"/></td>
+                                <td class="text-center"><span t-esc="l['avg_qty_sale_per_month']"/></td>
+                                <td class="text-center"><span t-esc="l['future_inventory']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="stock_forecast_report_template">
+            <t t-call="web.html_container">
+                <t t-call="dt_forecast_stock_purchase.stock_forecast_report_template_document"/>
+            </t>
+        </template>
+ 
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+        <record id="view_partner_tree_custom_partner_type" model="ir.ui.view">
+            <field name="name">res.partner.tree.custom.partner.type</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                        <field name="day" optional="hide"/>
+                        <field name="sale_zone_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_form_custom_partner_type" model="ir.ui.view">
+            <field name="name">res.partner.form.custom.partner.type</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale']//field[@name='user_id']" position="after">
+                        <field name="sale_zone_id"/>
+                        <field name="day"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

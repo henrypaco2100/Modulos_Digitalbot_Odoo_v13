@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de pedido compra-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="purchase_order_bolivia_heredar_campos_compra">
+            <field name="name">purchase.order.bolivia.heredar.campos.compra</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="computarizado_bolivia_compra_order" string="Computarizado"  >
+                        <group >
+                            <group>
+                                <field name="fcb_autorizacion_compra_order" />
+                                <field name="fcb_codigo_control_compra_order" />
+                            </group>
+                            <group>
+                                <field name="fcb_numero_dim_order" />
+                                <field name="fcb_tipo_compra_order" />
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+    </record>
+   </data>
+</odoo>

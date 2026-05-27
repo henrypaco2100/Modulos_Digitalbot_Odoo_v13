@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+        <record id="view_partner_sale_zone_tree" model="ir.ui.view">
+            <field name="name">partner.sale.zone.tree</field>
+            <field name="model">partner.sale.zone</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Sale Zone">
+                     <field name="code" optional="hide"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_sale_zone_form" model="ir.ui.view">
+            <field name="name">partner.sale.zone.form</field>
+            <field name="model">partner.sale.zone</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Partner Sale Type">
+                     <sheet>
+                        <group>
+                             <field name="code"/>
+                            <field name="name"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_partner_sale_zone_filter" model="ir.ui.view">
+            <field name="name">partner.sale.zone.list.select</field>
+            <field name="model">partner.sale.zone</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Partner Sale Zone">
+                     <field name="code"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter string="Inactive" name="Inactive" domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+         <record id="action_partner_sale_zone" model="ir.actions.act_window">
+            <field name="name">Partner Sale Zone</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">partner.sale.zone</field>
+            <field name="view_mode">search,tree,form</field>
+             <field name="search_view_id" ref="view_partner_sale_zone_filter"/>
+        </record>
+
+        <menuitem id="menu_expense_sale_structure_root"
+                  action="action_partner_sale_zone"
+                  name="Partner Sale Zone"
+                  sequence="16"
+                  parent="contacts.res_partner_menu_config"/>
+
+</odoo>

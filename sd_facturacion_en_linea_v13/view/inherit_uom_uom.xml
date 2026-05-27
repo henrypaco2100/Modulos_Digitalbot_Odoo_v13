@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="sd_heredar_unidad_medida_siat">
+            <field name="name">sd_heredar_uom_uom_siat</field>
+            <field name="model">uom.uom</field>
+            <field name="inherit_id" ref="uom.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='active_rounding']" position="after">
+                    <group name="factura_linea" string="Facturación en Linea">
+                        <field name="sd_unidad_medida_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                    </group>
+                </xpath>
+            </field>
+    </record>
+   </data>
+</odoo>

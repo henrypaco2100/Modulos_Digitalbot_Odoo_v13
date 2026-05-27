@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Factura compra-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="account_move_bolivia_heredar_campos_compra">
+            <field name="name">account.move.bolivia.heredar.campos.compra</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="computarizado_bolivia_compra" string="Computarizado" attrs="{'invisible': [('type','!=','in_invoice')]}" >
+                        <group >
+                            <group>
+                                <field name="fcb_autorizacion_compra" />
+                                <field name="fcb_codigo_control_compra" />
+                            </group>
+                            <group>
+                                <field name="fcb_numero_dim" />
+                                <field name="fcb_tipo_compra" />
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+    </record>
+   </data>
+</odoo>

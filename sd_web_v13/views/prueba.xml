@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-extend="website_sale.productsRecentlyViewed">
+        <t t-name="website_sale.productsRecentlyViewed">
+            <!-- Agrega "Hola Mundo" después del precio -->
+            <t t-set="product_price" t-value="product.price"/>
+            <t t-call="website_sale.price">
+                <t t-set="line_class" t-value="'o_product_line'"/>
+                <t t-set="line_style" t-value="'display: inline-block;'"/>
+                <span class="hola-mundo" style="color: green;">Hola Mundo</span>
+                <t t-raw="product_price"/>
+            </t>
+        </t>
+    </t>
+</templates>

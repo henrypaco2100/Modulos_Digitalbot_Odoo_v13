@@ -1,0 +1,11 @@
+
+
+1) v 13.0.0.1
+Fixed issue of unreserve for stock move cancel
+
+
+2)13.0.0.2",
+The On Hand quantity is correct in both the source and destination location, but the quantity is still reserved on the source location...
+
+3)13.0.0.3 ,
+related journal entries is not getting cancelled 

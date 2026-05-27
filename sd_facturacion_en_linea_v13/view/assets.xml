@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/sd_facturacion_en_linea_v13/static/src/js/import_action.js"></script>
+            </xpath>
+        </template>
+    </data>
+<!--    <data>-->
+<!--        <template id="assets_backend" name="custom_pos_assets" inherit_id="point_of_sale.pos_assets_backend">-->
+<!--            <xpath expr="." position="inside">-->
+<!--                <script type="text/javascript" src="/sd_facturacion_en_linea_v13/static/src/js/pos_partner_save.js"></script>-->
+<!--            </xpath>-->
+<!--        </template>-->
+<!--    </data>-->
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+        
+    <data>
+        <record id="group_picking_cancel" model="res.groups">
+            <field name="name">Inventario / Cancelar Transferencias</field>
+            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+        </record>
+    </data>
+        
+</odoo>

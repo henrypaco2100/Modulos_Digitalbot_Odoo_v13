@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="sd_mrp_group_show_and_write_date_finished" model="res.groups">
+            <field name="name">Produccion/Mostrar y escribir Fecha final</field>
+        </record>
+
+        <record id="sd_action_write_date_finished_state_done" model="res.groups">
+            <field name="name">Produccion/ Forzar Fecha final en estado Hecho </field>
+        </record>
+    </data>
+
+</odoo>

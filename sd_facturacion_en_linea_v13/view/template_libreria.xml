@@ -1,0 +1,7 @@
+<template>
+    <t t-extend="web.assets_backend">
+        <t t-jquery="script" t-operation="append">
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+        </t>
+    </t>
+</template>

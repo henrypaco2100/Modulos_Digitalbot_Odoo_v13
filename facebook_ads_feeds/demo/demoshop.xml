@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="facebook_shop1" model="fb.facebook.shop">
+            <field name="website_id" ref="website.default_website"/>
+            <field name="name">Demo Shop with Multi Image/Variant</field>
+            <field name="content_language_id" ref="base.lang_en"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="field_mapping_id" ref="facebook_ads_feeds.field_mapping_1"/>
+            <field name="limit">0</field>
+            <field name="sync_product_variant">True</field>
+            <field name="multi_images">True</field>
+            <field name="enable_token">True</field>
+        </record>
+
+        <record id="facebook_shop2" model="fb.facebook.shop">
+            <field name="website_id" ref="website.default_website"/>
+            <field name="name">Demo Shop2</field>
+            <field name="content_language_id" ref="base.lang_en"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="field_mapping_id" ref="facebook_ads_feeds.field_mapping_1"/>
+            <field name="limit">0</field>
+            <field name="sync_product_variant">False</field>
+            <field name="multi_images">False</field>
+            <field name="feeds_security">manual</field>
+        </record>
+
+        <function model="fb.facebook.shop" name="regenerate_token" eval="[[ref('facebook_shop1')]]"/>
+        <function model="fb.facebook.shop" name="create_xml" eval="[[ref('facebook_shop1')]]"/>
+        <function model="fb.facebook.shop" name="create_xml" eval="[[ref('facebook_shop2')]]"/>
+        <function model="fb.facebook.shop" name="create_cron" eval="[[ref('facebook_shop1')]]"/>
+        <function model="fb.facebook.shop" name="create_cron" eval="[[ref('facebook_shop2')]]"/>
+
+        
+    </data>
+</odoo>

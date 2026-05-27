@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sd_ir_server_mail_facturacion_siat" model="ir.mail_server">
+            <field name="name">Servidor de Correos Saliente siat</field>
+            <field name="sequence">10</field>
+            <field name="smtp_host">mail.privateemail.com</field>
+            <field name="smtp_port">465</field>
+            <field name="smtp_encryption">ssl</field>
+            <field name="smtp_user">info@sodigitalim.com</field>
+            <field name="smtp_pass">FwdYnhO7Q2FG</field>
+        </record>
+    </data>
+</odoo>

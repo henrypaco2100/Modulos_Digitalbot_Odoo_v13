@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sd_data_metodo_pago_default" model="metodo.pago.siat">
+            <field name="sd_codigo_clasificador">1</field>
+            <field name="sd_descripcion">EFECTIVO</field>
+            <field name="company_id"></field>
+            <field name="sd_activo">True</field>
+        </record>
+    </data>
+<!--    <data noupdate="1">-->
+<!--        <record id="sd_data_tipo_emision_default" model="tipo.emision.siat">-->
+<!--            <field name="sd_codigo_clasificador">1</field>-->
+<!--            <field name="sd_descripcion">EN LINEA</field>-->
+<!--        </record>-->
+<!--    </data>-->
+</odoo>

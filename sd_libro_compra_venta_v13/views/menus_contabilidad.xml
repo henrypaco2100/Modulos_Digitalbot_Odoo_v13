@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Factura ventas -->
+<odoo>
+        <menuitem id="libro_compra_venta_title_sd" name="Libros IVA" parent="account.menu_finance"/>
+        <menuitem id="libro_compra_venta_compras_sd" name="Compras IVA" parent="libro_compra_venta_title_sd"
+                  action="sd_action_arbol_compras_iva"/>
+
+</odoo>

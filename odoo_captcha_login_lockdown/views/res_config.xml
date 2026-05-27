@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2017-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.wk.captcha</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='access_rights']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="auth_signup_uninvited"/>
+                        <div class="text-muted">
+                            Let your customers log in to see their documents
+                        </div>
+                        <div class="mt8">
+                            <field name="enabled_captcha" class="oe_inline"/>
+                            <label for="enabled_captcha"/>
+                        </div>
+                        <div attrs="{'invisible': [('enabled_captcha', '!=', True)]}">
+
+                            <label for="auth_captcha_site_key"/>
+                            <field name="auth_captcha_site_key" password="True" class="oe_inline"/>
+                            <br/>
+                            <label for="auth_captcha_secret_key"/>
+                            <field name="auth_captcha_secret_key" password="True" class="oe_inline"/>
+
+                            <p>
+                                <b>Login Lockdown after  <field name='max_error_attmept' class="oe_inline"/>
+                                    attempt .
+                                </b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="custom_landed_template_cost_form" model="ir.ui.view">
+            <field name="name">Landed Cost Template View</field>
+            <field name="model">landed.cost.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name='name'/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="additional_costs" string="Plantilla de costos">
+                            <group>
+                                <field name="custom_line_ids" widget="section_and_note_one2many" mode="tree" nolabel="1">
+                                    <form string="Cost Lines">
+                                        <group>
+                                            <group>
+                                                <field name='custom_template_id' invisible='1'/>
+                                                <field name="custom_product_id"/>
+                                                <field name="custom_price_unit"/>
+                                            </group>
+                                            <group>
+                                                <field name="custom_split_method"/>
+                                                <field name="custom_account_id" options="{'no_create': True}"/>
+                                            </group>
+                                        </group>
+                                        <label for="name"/>
+                                        <field name="name"/>
+                                    </form>
+                                    <tree string="Líneas de Costo" editable="bottom">
+                                        <field name="custom_product_id"
+                                            />
+                                        <field name="name"/>
+                                        <field name="custom_account_id" options="{'no_create': True}"/>
+                                        <field name="custom_split_method"/>
+                                        <field name="custom_price_unit"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+                       
+        <record id="view_custom_landed_cost_template_tree" model="ir.ui.view">
+            <field name="name">Landed Cost Template Tree View</field>
+            <field name="model">landed.cost.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="custom_action_landed_cost_template">
+            <field name="name">Plantilla de Coste en Destino</field>
+            <field name="res_model">landed.cost.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+        id="landed_cost_template_custom_menu"
+        name="Landed Cost Template"
+        action="landed_cost_template.custom_action_landed_cost_template"
+        parent="stock.menu_stock_config_settings"/>
+        
+    </data>
+</odoo>
+
+

@@ -1,0 +1,21 @@
+{
+    'name': 'Actualizacion Mrp Production Fechas',
+    'version': '1.0',
+    'category': 'Fabricacion',
+    'summary': '',
+    'sequence': '10',
+    'author': 'soluciones digitales para el comercio internacional',
+    'maintainer': 'soluciones digitales para el comercio internacional',
+    'depends': ['mrp','sd_message_personalized'],
+    'data': [
+        'security/mrp_group_write_date.xml',
+        'view/inherit_order_mrp_date.xml',
+        # 'view/inherit_stock_production_lot.xml',
+        # 'view/inherit_order_mrp.xml',
+        # 'view/inherit_stock_move_views.xml',
+    ],
+    'demo': [],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

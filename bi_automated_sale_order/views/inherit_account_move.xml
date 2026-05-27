@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_form_automated_sale_and_purchase" model="ir.ui.view">
+        <field name="name">view.form.field.automated.recibo.factura</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="/form/sheet/group/group/field[@name='ref']" position="before">
+               <field name="sd_is_numero_recibo" invisible="True"/>
+               <field name="sd_is_numero_factura" invisible="True"/>
+               <field name="sd_is_ref_sale" invisible="True"/>
+               <field name="sd_ref_entrega_sale" attrs="{'invisible': [('sd_is_ref_sale', '=', False)],'readonly':[('state','in',('posted','cancel'))]}"/>
+               <field name="sd_numero_recibo" attrs="{'invisible': [('sd_is_numero_recibo', '=', False)],'readonly':[('state','in',('posted','cancel'))]}"/>
+               <field name="sd_numero_factura" attrs="{'invisible': [('sd_is_numero_factura', '=', False)],'readonly':[('state','in',('posted','cancel'))]}"/>
+           </xpath>
+        </field>
+    </record>
+</odoo>

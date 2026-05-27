@@ -1,0 +1,950 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* btc_route_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-13 21:35+0000\n"
+"PO-Revision-Date: 2023-01-13 17:43-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.1\n"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,print_report_name:btc_route_sale.cash_flow_report_btc
+msgid "'Cash Flow Report'"
+msgstr "'Informe de Flujo de Caja'"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,print_report_name:btc_route_sale.payment_sale_report_btc_v2
+msgid "'Collection Report'"
+msgstr "'Reporte de Cobranzas'"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,print_report_name:btc_route_sale.invoice_open_report_btc_pu
+msgid "'Invoice Open Payable Report'"
+msgstr "'Informe de cuentas por pagar'"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,print_report_name:btc_route_sale.invoice_open_report_btc
+msgid "'Invoice Open Report'"
+msgstr "'Facturas por Cobrar'"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b> Invoice</b><br/>"
+msgstr "<b> Factura</b><br/>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b> Receipt</b>"
+msgstr "<b> Nota de Venta</b>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b>1. INVOICED SALES</b><br/>"
+msgstr "<b>1. VENTAS FACTURADAS</b><br/>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b>4. SALES FOR BRAND</b>"
+msgstr "<b>4. VENTAS POR MARCA</b>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b>5. SALES FOR COMMERCIAL</b>"
+msgstr "<b>5. VENTAS PARA COMERCIALES</b>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b>DETAIL CASH</b>"
+msgstr "<b>DETALLE CAJA</b>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid ""
+"<br/>\n"
+"                                        Time :"
+msgstr ""
+"<br/>\n"
+"                                        Hora :"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Amount</strong>"
+msgstr "<strong>Importe</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Charged for</strong>"
+msgstr "<strong>Cobrado por</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Customer Code</strong>"
+msgstr "<strong>Código Cliente</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Customer</strong>"
+msgstr "<strong>Cliente</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Código Cliente</strong>"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Date of Receipt</strong>"
+msgstr "<strong>Fecha de recepción</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Date</strong>"
+msgstr "<strong>Fecha</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Day</strong>"
+msgstr "<strong>Día</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Days</strong>"
+msgstr "<strong>Días</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Diario</strong>"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Due</strong>"
+msgstr "<strong>Monto Impaga</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Gloss</strong>"
+msgstr "<strong>Glosa</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Group</strong>"
+msgstr "<strong>Grupo</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Invoice number</strong>"
+msgstr "<strong>Número de Factura</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Number</strong>"
+msgstr "<strong>Número</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Pay Type</strong>"
+msgstr "<strong>Tipo pago</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Payments</strong>"
+msgstr "<strong>Pagos</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>Purchase Total</strong>"
+msgstr "<strong>Total Compra</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+msgid "<strong>Sales Total</strong>"
+msgstr "<strong>Total de ventas</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>State</strong>"
+msgstr "<strong>Estado</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "<strong>Zone</strong>"
+msgstr "<strong>Zona</strong>"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "<strong>commercial</strong>"
+msgstr "<strong>Vendedor</strong>"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__account_partial_reconcile_id
+msgid "Account Partial Reconcile"
+msgstr "Conciliación parcial de la cuenta"
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.action_move_out_invoice_type_new
+#: model:ir.ui.menu,name:btc_route_sale.menu_action_move_out_invoice_type_new
+msgid "Accounts Receivable Report"
+msgstr "Reporte de Cobranzas"
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.act_wizard_get_report_open_invoice_pu
+msgid "Action Accounts Payable Report"
+msgstr "Acción de Cuentas a pagar"
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.act_wizard_get_report_open_invoice
+msgid "Action Accounts Receivable Report"
+msgstr "Acción de Cuentas a cobrar"
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.act_wizard_cash_flow
+msgid "Action Cash Flow"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Amount Due"
+msgstr "Importe adeudado"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__amount_paid_tmp
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__amount_paid_tmp
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__amount_paid_tmp
+msgid "Amount Paid"
+msgstr "Importe pagado"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__branch_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__branch_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__branch_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__branch_id
+msgid "Branch"
+msgstr "Sucursal"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_cash_flow_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_get_report_payment_bleichner_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_pu_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_rp_cash_flow
+msgid "Cash Flow"
+msgstr "Flujo de caja"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__code
+msgid "Code"
+msgstr "Código"
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.act_wizard_get_report_payment_bleichner
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "Collection Report"
+msgstr "Reporte de Cobranzas"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__company_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__count_invoice
+msgid "Count Invoice"
+msgstr "Número de facturas"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__count_receipt
+msgid "Count Receipt"
+msgstr "Número de Nota de Venta"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__create_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__create_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Customer Code"
+msgstr "Código Cliente"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "Date :"
+msgstr "Fecha :"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "Date Print:"
+msgstr "Fecha de impresión:"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_users__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__day
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__day
+msgid "Day"
+msgstr "Día"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__due_days_rute
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__due_days_rute
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__due_days_rute
+msgid "Days"
+msgstr "Días"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_invoice_open_xlsx__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_payment_sale_bleichner_xlsx__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__display_name
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__end_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__end_date
+msgid "End Date"
+msgstr "Fecha Fin"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "From"
+msgstr "Desde"
+
+#. module: btc_route_sale
+#: model:ir.ui.menu,name:btc_route_sale.wizard_get_report_bleichner
+msgid "Generate Collection Report"
+msgstr "Generar Reporte de Cobranzas"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_wizard_cash_flow
+msgid "Get Cash Flow"
+msgstr "Obtenga flujo de efectivo"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_wizard_get_report_payment_custom_bcl
+msgid "Get Report"
+msgstr "Obtener Informe"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_wizard_report_open_invoice
+msgid "Get Report Open Invoice"
+msgstr "Obtener Informe Facturas a Cobrar"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_wizard_report_open_invoice_pu
+msgid "Get Report Open Invoice Purchase"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__has_invoices
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__has_invoices
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__has_invoices
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__has_invoices
+msgid "Has Invoices"
+msgstr "Tiene facturas"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_invoice_open_xlsx__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_payment_sale_bleichner_xlsx__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__id
+msgid "ID"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_partner_sale_zone_filter
+msgid "Inactive"
+msgstr "Inactivo"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__invoice_ids
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__invoice_ids
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__invoice_ids
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__invoice_ids
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Invoice Date"
+msgstr "Fecha factura"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+msgid "Invoice Open Payable Report"
+msgstr "Informe de cuentas por pagar"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+msgid "Invoice Open Report"
+msgstr "Factura por Cobrar"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Estadísticas de facturas"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__is_account_receivable
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__is_account_receivable
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__is_account_receivable
+msgid "Is Account Receivable"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__jueves
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__jueves
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__jueves
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__jueves
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__jueves
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__jueves
+msgid "Jueves"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_invoice_report____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_invoice_open_xlsx____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_payment_sale_bleichner_xlsx____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice____last_update
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__write_uid
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__write_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__lunes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__lunes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__lunes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__lunes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__lunes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__lunes
+msgid "Lunes"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__martes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__martes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__martes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__martes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__martes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__martes
+msgid "Martes"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__miercoles
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__miercoles
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__miercoles
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__miercoles
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__miercoles
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__miercoles
+msgid "Miercoles"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__move_id_credit
+msgid "Move Credit"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__move_id_debit
+msgid "Move Debit"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__move_line_id_credit
+msgid "Move Line Credit"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__move_line_id_debit
+msgid "Move Line Debit"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__name
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_rp_open_invoice_report
+msgid "Open Invoice Report"
+msgstr "Factura por Cobrar"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_rp_open_invoice_report_pu
+msgid "Open Invoice Report Purchase"
+msgstr "Abrir informe de factura Compra"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,name:btc_route_sale.invoice_open_report_btc
+msgid "Open Invoice Route Sale"
+msgstr "Obtener Informe Facturas a Cobrar"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,name:btc_route_sale.invoice_open_report_btc_pu
+msgid "Open Invoice Route Sale PU"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_report_report_xlsx_rp_invoice_open_xlsx
+msgid "Open invoice XLSX Report"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_invoice_open_report_btc_view_pu
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "Página: <span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__partner_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__partner_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__partner_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_partner_sale_zone_form
+msgid "Partner Sale Type"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.actions.act_window,name:btc_route_sale.action_partner_sale_zone
+#: model:ir.ui.menu,name:btc_route_sale.menu_expense_sale_structure_root
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_move_invoice_filter
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_partner_sale_zone_filter
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_partner_sale_zone_tree
+msgid "Partner Sale Zone"
+msgstr "Zona"
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_partner_sale_zone
+msgid "Partner sale zone"
+msgstr "Zona"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Pay Day"
+msgstr "Día de Pago"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,name:btc_route_sale.payment_sale_report_btc_v2
+msgid "Payment Route Sale"
+msgstr ""
+
+#. module: btc_route_sale
+#: code:addons/btc_route_sale/report/rp_invoice_open_xlsx.py:0
+#: code:addons/btc_route_sale/report/rp_payment_sale_xlsx.py:0
+#, python-format
+msgid "Payment Sale Bleichner"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_report_report_xlsx_rp_payment_sale_bleichner_xlsx
+msgid "Payment Sale Bleichner XLSX Report"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__payment_sale_lines
+msgid "Payment Sale Lines"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_rp_payment_sale_route
+msgid "Payment Sale Route"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model,name:btc_route_sale.model_rp_payment_sale_route_line
+msgid "Payment Sale Route Line"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.ui.menu,name:btc_route_sale.wizard_get_report_open_invoice_pu
+msgid "Print Accounts Payable Report"
+msgstr "Imprimir Cuentas a pagar"
+
+#. module: btc_route_sale
+#: model:ir.ui.menu,name:btc_route_sale.wizard_get_report_open_invoice
+msgid "Print Accounts Receivable Report"
+msgstr "Imprimir Cuentas a cobrar"
+
+#. module: btc_route_sale
+#: model:ir.ui.menu,name:btc_route_sale.wizard_get_cash_flow
+msgid "Print Cash Flow"
+msgstr "Imprimir Flujo de Caja"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_get_report_payment_bleichner_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_form_view
+msgid "Print Excel"
+msgstr "Imprimir Excel"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_cash_flow_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_get_report_payment_bleichner_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_form_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_pu_form_view
+msgid "Print Pdf"
+msgstr "Imprimir Pdf"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,name:btc_route_sale.invoice_open_report_btc_xlsx
+#: model:ir.actions.report,name:btc_route_sale.payment_sale_report_btc_xlsx
+msgid "Print to XLSX"
+msgstr "Imprimir Excel"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__partner_ref
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__partner_ref
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__partner_ref
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: btc_route_sale
+#: model:ir.actions.report,name:btc_route_sale.cash_flow_report_btc
+msgid "Report Cash Flow"
+msgstr "Reportar Flujo de Caja"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "SUB TOTAL:"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__sabado
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__sabado
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__sabado
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__sabado
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__sabado
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__sabado
+msgid "Sabado"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_bank_statement_line__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_payment__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_users__sale_zone_id
+msgid "Sale Zone"
+msgstr "Zona"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Sales Person"
+msgstr "Vendedor"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_move_invoice_filter
+msgid "Salesperson"
+msgstr "Vendedor"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_invoice_report__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_move__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_invoice_open_xlsx__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_report_report_xlsx_rp_payment_sale_bleichner_xlsx__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_res_partner__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route_line__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__smart_search
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__smart_search
+msgid "Smart Search"
+msgstr "Busqueda inteligente"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_open_invoice_report_pu__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_payment_sale_route__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__start_date
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__start_date
+msgid "Start Date"
+msgstr "Fecha Inicio"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,help:btc_route_sale.field_account_bank_statement_line__partner_ref
+#: model:ir.model.fields,help:btc_route_sale.field_account_move__partner_ref
+#: model:ir.model.fields,help:btc_route_sale.field_account_payment__partner_ref
+msgid "The Unique Code"
+msgstr "El código único"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Total"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__total_invoice
+msgid "Total Invoice"
+msgstr "Factura total"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Total Pay"
+msgstr "Total Pagado"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_rp_cash_flow__total_receipt
+msgid "Total Receipt"
+msgstr "Recibo Nota Venta"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Total Sale"
+msgstr "Total Venta"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_account_invoice_report__price_total
+msgid "Total including taxes"
+msgstr "Total impuestos incluidos"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__user_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__user_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__user_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__user_id
+msgid "User"
+msgstr "Usuario"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Vendor"
+msgstr "Proveedor"
+
+#. module: btc_route_sale
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__account_move__day__viernes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__res_partner__day__viernes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_cash_flow__day__viernes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_get_report_payment_custom_bcl__day__viernes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice__day__viernes
+#: model:ir.model.fields.selection,name:btc_route_sale.selection__wizard_report_open_invoice_pu__day__viernes
+msgid "Viernes"
+msgstr ""
+
+#. module: btc_route_sale
+#: model:ir.model.fields,help:btc_route_sale.field_account_bank_statement_line__day
+#: model:ir.model.fields,help:btc_route_sale.field_account_move__day
+#: model:ir.model.fields,help:btc_route_sale.field_account_payment__day
+#: model:ir.model.fields,help:btc_route_sale.field_res_partner__day
+#: model:ir.model.fields,help:btc_route_sale.field_res_users__day
+#: model:ir.model.fields,help:btc_route_sale.field_wizard_cash_flow__day
+#: model:ir.model.fields,help:btc_route_sale.field_wizard_get_report_payment_custom_bcl__day
+#: model:ir.model.fields,help:btc_route_sale.field_wizard_report_open_invoice__day
+#: model:ir.model.fields,help:btc_route_sale.field_wizard_report_open_invoice_pu__day
+msgid "Visit Day."
+msgstr "Día de Visita"
+
+#. module: btc_route_sale
+#: model:ir.model.fields,field_description:btc_route_sale.field_partner_sale_zone__name
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_cash_flow__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_get_report_payment_custom_bcl__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice__sale_zone_id
+#: model:ir.model.fields,field_description:btc_route_sale.field_wizard_report_open_invoice_pu__sale_zone_id
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.view_account_invoice_report_route_tree
+msgid "Zone"
+msgstr "Zona"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_get_report_payment_bleichner_form_view
+msgid "or"
+msgstr "o"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_payment_sale_report_btc_view
+msgid "to"
+msgstr "al"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_cash_flow_form_view
+msgid "wizard Cash Flow"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_get_report_payment_bleichner_form_view
+msgid "wizard get report"
+msgstr "Obtener Informe"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_form_view
+msgid "wizard get report open invoice"
+msgstr "Obtener Informe Facturas a Cobrar"
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.wizard_wizard_report_open_invoice_pu_form_view
+msgid "wizard get report open invoice Purchase"
+msgstr ""
+
+#. module: btc_route_sale
+#: model_terms:ir.ui.view,arch_db:btc_route_sale.rp_cash_flow_btc
+msgid "<b>6. DETAIL OF COLLECTIONS/PAYMENTS </b>"
+msgstr "<b>6. DETALLE DE COBROS/PAGOS </b>"

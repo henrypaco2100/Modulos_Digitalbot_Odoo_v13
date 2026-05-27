@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de contactos-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="sd_heredar_productos_template_siat">
+            <field name="name">sd_heredar_productos_template_siat</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="sd_codigo_product_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="sd_unidad_medida_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                </field>
+            </field>
+    </record>
+   </data>
+
+    <data>
+    <record model="ir.ui.view" id="sd_heredar_productos_siat">
+            <field name="name">sd_heredar_productos_siat</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="sd_codigo_product_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="sd_unidad_medida_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                </field>
+            </field>
+    </record>
+   </data>
+</odoo>

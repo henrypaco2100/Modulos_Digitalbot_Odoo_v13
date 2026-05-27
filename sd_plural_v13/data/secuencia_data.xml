@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+          <record id="sd_secuence_account_pro" model="ir.sequence">
+            <field name="name">plural secuencia cuenta pro </field>
+            <field name="code">plural.cuenta.pro</field>
+            <field name="active">True</field>
+            <field name="implementation">standard</field>
+            <field name="padding">7</field>
+        </record>
+        <record id="sd_secuence_account_reg" model="ir.sequence">
+            <field name="name">plural secuencia cuenta reg</field>
+            <field name="code">plural.cuenta.reg</field>
+            <field name="active">True</field>
+            <field name="implementation">standard</field>
+            <field name="padding">7</field>
+        </record>
+        <record id="sd_secuence_account_coe" model="ir.sequence">
+            <field name="name">plural secuencia cuenta coe pro</field>
+            <field name="code">plural.cuenta.coe_reg</field>
+            <field name="active">True</field>
+            <field name="implementation">standard</field>
+            <field name="padding">7</field>
+        </record>
+        <record id="sd_secuence_account_coe_reg" model="ir.sequence">
+            <field name="name">plural secuencia cuenta coe reg</field>
+            <field name="code">plural.cuenta.coe_reg</field>
+            <field name="active">True</field>
+            <field name="implementation">standard</field>
+            <field name="padding">7</field>
+        </record>
+    </data>
+</odoo>

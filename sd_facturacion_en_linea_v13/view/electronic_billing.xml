@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record  id="sd_action_arbol_facturacion_electronica" model="ir.actions.act_window">
+                <field name="name">Facturacion Electronica en Linea</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">online.billing.siat</field>
+                <field name="view_mode">tree,form</field>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Crear Formulario Facturacion Electronica en Linea
+                    </p>
+                </field>
+        </record>
+        <record id="sd_arbol_facturacion_electronica_en_linea" model="ir.ui.view">
+            <field name="name">arbol.despacho.importacion.order</field>
+            <field name="model">online.billing.siat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="state"/>
+                    <field name="sd_fecha_vigencia_cuis"/>
+                </tree>
+            </field>
+        </record>
+        <record id="sd_form_facturacion_electronica_en_linea" model="ir.ui.view">
+                <field name="name">fields.form.facturacion.electronica</field>
+                <field name="model">online.billing.siat</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <header>
+                            <button name="confirmar_facturacion_electronica" class="oe_highlight" type="object" string="Confirmar"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}" />
+                            <button name="solicitudCuis" class="oe_highlight" type="object" string="1 Solicitar CUIS"
+                            attrs="{'invisible': [('state', '!=', 'open')]}" />
+                            <button name="solicitudCufd" type="object" string="2 Solicitar CUFD"/>
+                            <button name="sincronizacioncatalogos" class="oe_highlight" type="object" string="Sincronizacion catalogos" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                            <button name="action_registrar_evento" type="object" string="Registrar Evento"
+                            attrs="{'invisible': [('state', '!=', 'cufd')]}"/>
+                            <button name="action_registrar_emision_paquete" type="object" string="Registrar Emision de Paquete"
+                            attrs="{'invisible': [('state', '!=', 'cufd')]}"/>
+                            <field name="state" widget="statusbar" statusbar_visible="cuis,sicronizacion_cat,cufd"/>
+
+        <!--                         button test-->
+                            <button name="test_solicitud_cuis"  type="object" string="Test Cuis" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_sincronizacion_catalogos" type="object" string="Test sincronizacion" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_cud" type="object" string="Test cufd" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_factura_individual" type="object" string="Test factura individual" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_factura_masiva" type="object" string="Test masiva" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_factura_rectificadas" type="object" string="Test rectificada" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_eventos_significativos" type="object" string="Test eventos significativos" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_facturacion_paquetes" type="object" string="Test factura paquete" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_anulacion_factura" type="object" string="Test anulacion factura" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group"/>
+                            <button name="test_cierre_sistema" type="object" string="cierre sistema" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group" confirm="¿Estas Seguro que quieres Realizar el Cierre del Sistema?"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group">
+                                <button name="action_list_view_eventos_significativos_siat" icon="fa-list" class="oe_stat_button"
+                                    string="Eventos" type="object" />
+                                <button name="action_list_view_emision_paquetes_siat" icon="fa-files-o" class="oe_stat_button"
+                                    string="Paquetes" type="object" />
+                                <button name="action_list_view_factura_siat" icon="fa-pencil-square-o" class="oe_stat_button"
+                                    string="Facturas" type="object" />
+                            </div>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" />
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+    <!--                                <field name="name" />-->
+                                    <field name="sd_journal_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                    <field name="sd_contador_conexion" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="start_date"/>
+                                    <field name="company_id"/>
+                                    <field name="sd_fecha_vigencia_cuis" />
+                                    <field name="sd_factura_online_padre" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Campos de Entrada" name="fields_in">
+                                    <group>
+    <!--                                    <field name="fcb_tipo_factura_electronica" />-->
+                                        <field name="sd_codigo_ambiente" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_tipo_sistema" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_codigo_sistema" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_nombre_sistema" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_nit_em" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_nombre_company"/>
+                                        <field name="sd_nro_company"/>
+                                        <field name="sd_municipio" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                        <field name="sd_codigo_modalidad" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+
+                                        <field name="sd_tipo_factura"/>
+                                        <field name="sd_codigo_sucursal" />
+                                        <field name="sd_es_punto_venta"/>
+                                        <field name="sd_codigo_punto_venta" attrs="{'invisible': [('sd_es_punto_venta', '!=', True)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="sd_codigo_documento_sector" options="{'no_create': True, 'no_create_edit':True}"/>
+                                        <field name="sd_token" style="white-space: normal;word-break: break-word;" attrs="{'readonly': [('state', 'not in', ('draft', 'open'))]}"/>
+                                    </group>
+                                </page>
+                                <page string="Campos de Salida" name="fields_out">
+                                    <group>
+                                        <group>
+                                            <field name="sd_cuis" />
+                                            <field name="sd_fecha_vigencia_cuis"/>
+                                        </group>
+                                        <group>
+                                            <field name="sd_cufd" />
+                                            <field name="sd_fecha_vigencia_cufd"/>
+                                            <field name="sd_codigo_control"/>
+                                            <field name="sd_direccion"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="seguimiento" name="sd_seguimientos">
+                                    <field
+                                    name="sd_follow_line"
+                                    widget="section_and_note_one2many"
+                                    mode="tree,kanban"
+                                    >
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="sd_mensaje"/>
+                                                    <field name="sd_codigo"/>
+                                                    <field name="sd_date_solicitud"/>
+                                                    <field name="sd_transaccion"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                        <tree string="Seguimiento" editable="bottom" delete="0" create="0">
+                                            <field name="sd_mensaje"/>
+                                            <field name="sd_codigo"/>
+                                            <field name="sd_date_solicitud"/>
+                                            <field name="sd_transaccion"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Cufd" name="sd_cufds">
+                                    <field
+                                    name="sd_cufd_ids"
+                                    widget="section_and_note_one2many"
+                                    mode="tree,kanban"
+                                    >
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="sd_cufd"/>
+                                                    <field name="sd_contador_factura"/>
+                                                    <field name="sd_fecha_vigencia"/>
+                                                    <field name="sd_codigo_control"/>
+                                                    <field name="sd_direccion"/>
+                                                    <field name="sd_fecha_string"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                        <tree string="CUFD" editable="bottom" delete="0" create="0">
+                                            <field name="sd_cufd"/>
+                                            <field name="sd_contador_factura"/>
+                                            <field name="sd_fecha_vigencia"/>
+                                            <field name="sd_codigo_control"/>
+                                            <field name="sd_direccion"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Evento significativo Actual" name="fields_events">
+                                    <group>
+                                        <group>
+                                            <field name="sd_name_evento" />
+                                            <field name="sd_codigo_recepcion_evento"/>
+                                            <field name="sd_contingencia_evento"/>
+                                        </group>
+                                        <group>
+                                            <field name="sd_cufd_evento_id"/>
+                                            <field name="sd_cufd_evento_string"/>
+                                            <field name="sd_fecha_evento_ini"/>
+                                            <field name="sd_fecha_evento_fin"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Campos de entrada Test" name="fields_out_test" groups="sd_facturacion_en_linea_v13.sd_facturacion_en_linea_test_group">
+                                    <group>
+
+                                        <group string="Facturacion test ">
+                                            <field name="sd_es_test"/>
+                                            <field name="sd_tipo_venta_automate_id" />
+                                            <field name="sd_partner_id"/>
+                                            <field name="sd_products_ids" widget="many2many_tags"/>
+                                            <field name="sd_codigo_documento_sector_test"/>
+                                            <field name="sd_fecha_test"/>
+                                            <field name="sd_is_refund"/>
+                                            <field name="sd_facturas_originales" widget="many2many_tags"/>
+                                        </group>
+                                        <group string="Evento significativo test">
+                                            <field name="sd_tipo_evento_id"/>
+                                            <field name="sd_cufd_test_ids"/>
+                                        </group>
+                                        <group string="Emision paquete test">
+                                            <field name="sd_evento_significativo_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                                            <field name="sd_numero_facturas"/>
+                                            <field name="sd_cafc_test"/>
+<!--                                            <field name="sd_invoices_ids"/>-->
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Otra Información" name="fields_otra_informacion">
+                                    <group>
+                                        <group>
+                                            <field name="sd_tipo_emision" />
+                                            <field name="sd_pantilla_pdf_id"/>
+                                            <field name="sd_multiple_linea_pdf"/>
+                                            <field name="public_cert_filename"/>
+                                        </group>
+                                        <group>
+                                            <field name="sd_es_enviar_correo"/>
+                                            <field name="sd_servidor_correo"/>
+                                            <field name="sd_correo_respuesta"/>
+                                            <field name="private_cert_filename"/>
+                                        </group>
+
+
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+<!--        <record id="sd_action_account_move_form_evento_significativo" model="ir.actions.act_window">-->
+<!--            <field name="name">Evento significativo</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">wizard.evento.significativo</field>-->
+<!--            <field name="domain">[]</field>-->
+<!--            <field name="target">new</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="sd_facturacion_en_linea_v13.account_move_tree_crear_evento_significativo_wizard"/>-->
+<!--            <field name="binding_model_id" ref="model_online_billing_siat"/>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--        </record>-->
+<!--        <record id="sd_action_paquete_factura_form_online_billing" model="ir.actions.act_window">-->
+<!--            <field name="name">Paquete de Facturas</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">wizard.paquete.factura</field>-->
+<!--            <field name="domain">[]</field>-->
+<!--            <field name="target">new</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="sd_facturacion_en_linea_v13.online_billing_tree_crear_paquete_factura_wizard"/>-->
+<!--            <field name="binding_model_id" ref="model_online_billing_siat"/>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--        </record>-->
+        <menuitem
+                id="sd_menu_facturacion_siat"
+                name="Facturación Siat"
+                parent="account.menu_finance_configuration"
+                action="sd_action_arbol_facturacion_electronica"
+                groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"
+                sequence="3"/>
+        <menuitem
+                id="sd_menu_facturacion_en_linea"
+                name="Facturación en Linea"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_facturacion_electronica"
+                sequence="1"/>
+        <menuitem
+                id="sd_menu_products_service"
+                name="Productos Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_product_service_siat"
+                sequence="2"/>
+        <menuitem
+                id="sd_menu_mensaje_service"
+                name="Mensajes Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_mensaje_service_siat"
+                sequence="3"/>
+        <menuitem
+                id="sd_menu_metodo_pago_service"
+                name="Métodos de Pago"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_metodo_pago_service_siat"
+                sequence="3"/>
+        <menuitem
+                id="sd_menu_eventos_significativos"
+                name="Eventos Significativos Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_evento_significativo_siat"
+                sequence="4"/>
+        <menuitem
+                id="sd_menu_punto_venta"
+                name="Punto Venta Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_punto_venta_siat"
+                sequence="5"/>
+        <menuitem
+                id="sd_menu_emision_paquete"
+                name="Emision Paquete Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_emision_paquete_siat"
+                sequence="6"/>
+        <menuitem
+                id="sd_menu_emision_masiva"
+                name="Factura Masiva"
+                parent="account.menu_finance_receivables"
+                action="sd_action_arbol_emision_masiva_siat"
+                groups="sd_facturacion_en_linea_v13.sd_emision_masiva_group"
+                sequence="1"/>
+        <menuitem
+                id="sd_menu_motivo_anulacion"
+                name="Motivo anulacion Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_motivo_anulacion_siat"
+                sequence="7"/>
+        <menuitem
+                id="sd_menu_leyenda_service"
+                name="Leyenda Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_leyenda_service_siat"
+                sequence="8"/>
+        <menuitem
+                id="sd_menu_sucursal_siat"
+                name="Sucursales Siat"
+                parent="sd_facturacion_en_linea_v13.sd_menu_facturacion_siat"
+                action="sd_action_arbol_sucursal_factura_siat"
+                sequence="8"/>
+    </data>
+</odoo>

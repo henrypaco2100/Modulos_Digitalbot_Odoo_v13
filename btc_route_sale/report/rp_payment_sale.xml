@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="rp_payment_sale_report_btc_view">
+            <t t-call="web.basic_layout">
+                <div class="header">
+                  <div class="row">
+                            <div class="col-6">
+                                     <p>
+                                    </p>
+                                    <div><b> <span t-esc="o.company_id.partner_id.name" style="text-transform: uppercase;" /> </b></div>
+                             </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-3">
+                      </div>
+                      <div class="col-3">
+                          <b>
+                              <h5 style="text-align: center; text-transform: uppercase;">Collection Report</h5>
+                          </b>
+                          <h6 style="text-align: center;"><small>From <span t-esc="o.start_date" t-options='{"widget": "date"}'/> to <span t-esc="o.end_date" t-options='{"widget": "date"}'/></small></h6>
+                       </div>
+                      <div class="col-3">
+                      </div>
+                  </div>
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+                <div class="page">
+
+                            <table class="table table-sm" style="font-size: 0.9rem; border: 1px solid #000000 !important;">
+                                 <thead>
+                                    <tr>
+                                        <th style="text-align: center; width: 8%;border: 1px solid #000000 !important;">
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 12%;border: 1px solid #000000 !important;">
+                                            <strong>Código Cliente</strong>
+                                        </th>
+                                         <th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                           <strong>Customer</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 20%;border: 1px solid #000000 !important;">
+                                            <strong>Diario</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 20%;border: 1px solid #000000 !important;">
+                                            <strong>Gloss</strong>
+                                        </th>
+
+                                        <th style="text-align: center; width: 20%;border: 1px solid #000000 !important;">
+                                            <strong>Pay Type</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 10%;border: 1px solid #000000 !important;">
+                                            <strong>Number</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                            <strong>Charged for</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 20%;border: 1px solid #000000 !important;">
+                                            <strong>Day</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                            <strong>Zone</strong>
+                                        </th>
+                                        <th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                            <strong>Amount</strong>
+                                        </th>
+                                        <!--<th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                            <strong>Amount Bs</strong>
+                                        </th>-->
+                                        <!--<th style="text-align: center; width: 25%;border: 1px solid #000000 !important;">
+                                            <strong>Days Past Due</strong>
+                                        </th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total" t-value="0"/>
+                                     <t t-foreach="o.payment_sale_lines" t-as="line">
+                                         <!--<t t-set="json_payment_ids" t-value="json.loads(line.invoice_payments_widget)"/>
+                                         <t t-set="payment_ids" t-value="json_payment_ids['content']"/>
+                                         <t t-foreach="payment_ids" t-as="pay">-->
+                                          <tr>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <!--<span t-field="line.date"/>-->
+                                                    <span t-esc="line.move_line_id_credit.date" t-options='{"widget": "date"}'/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-esc="line.move_line_id_credit.partner_id.partner_code"/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                     <span t-field="line.move_line_id_credit.partner_id.name"/>
+                                                </td>
+                                              <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-esc="line.move_id_credit.journal_id.name"/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-field="line.move_id_debit.narration"/>
+                                                </td>
+                                              <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-esc="line.move_line_id_credit.name"/>
+                                                </td>
+                                               <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                        <span t-field="line.move_id_debit.nro_factura"/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-field="line.move_id_debit.user_id"/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-esc="line.move_id_debit.day"/>
+                                                </td>
+                                                <td style="padding: 0;border: 1px solid #000000 !important;">
+                                                    <span t-field="line.move_id_debit.sale_zone_id"/>
+                                                </td>
+
+
+                                            <td style="text-align: right;padding: 0;border: 1px solid #000000 !important;">
+                                                <!--<span t-esc="'{0:,.2f} {money}'.format(round(line.amount,2), money=line.currency_id.symbol)"/>-->
+
+                                                <span t-esc="'{0:,.2f}'.format(round(line.account_partial_reconcile_id.amount,2))"/>
+                                                <!--<span t-esc="'{0:,.2f} {money}'.format(round(line.account_partial_reconcile_id.amount,2), money=line.account_partial_reconcile_id.credit_currency_id.symbol)"/>-->
+                                                <t t-set="total" t-value="total + line.account_partial_reconcile_id.amount"/>
+                                            </td>
+
+                                              <!--<td style="text-align: right; padding: 0;border: 1px solid #000000 !important;">
+                                                  <t t-set="amount_local" t-value="o.get_amount_currency_company(pay['amount'],line.currency_id)"/>
+                                                  <span t-esc="'{0:,.2f}'.format(round(amount_local,2))"/>
+                                                  <t t-set="total" t-value="total + amount_local"/>
+                                              </td>-->
+                                                <!--<td style="text-align: right; padding: 0;border: 1px solid #000000 !important;">
+                                                    <t t-set="diff_days" t-value="o.get_days_difference(line.invoice_date_due,line.date)"/>
+                                                    <span t-esc="diff_days"/>
+                                                </td>-->
+                                          </tr>
+                                         <!--</t>-->
+                                     </t>
+                                    <tr>
+                                        <th>Total</th><th></th>
+                                        <th></th><th></th>
+                                        <th></th><th></th>
+                                        <th></th><th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th style="text-align: right; padding: 0;border: 1px solid #000000 !important;">
+                                             <t t-esc="'{0:,.2f}'.format(round(total,2))"/>
+                                        </th>
+                                        <!--<th></th>-->
+                                    </tr>
+                                  </tbody>
+
+                            </table>
+
+
+
+                </div>
+            </t>
+        </template>
+
+        <template id="rp_payment_sale_report_btc_v2">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="btc_route_sale.rp_payment_sale_report_btc_view" />
+                   <!-- <t t-call="btc_bleichner_sale.rp_payment_sale_report_btc_view" t-lang="o.company_id.partner_id.lang"/>-->
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

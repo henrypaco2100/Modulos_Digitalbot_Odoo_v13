@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model='ir.ui.view' id='sd_action_create_wizard_pagos_factura_masiva_form'>
+        <field name="name">Pagos Factura Masiva</field>
+        <field name="model">account.move.wizard.pagos.factura.masiva</field>
+        <field name="arch" type="xml">
+            <form string="Realizar pagos">
+                 <div class="oe_title">
+                    <h1>
+                        ¿Está seguro que desea realizar los pagos de las facturas?
+                    </h1>
+                 </div>
+                <group>
+                    <group>
+                        <field name="siat_factura_masiva_id" />
+<!--                        <field name="facturas_ids" widget="many2many"/>-->
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_pagar_facturas" string="Pagar"
+                            type="object" class="btn-primary" />
+                    <button string="Cancelar" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model='ir.actions.act_window' id='sd_action_create_wizard_pagos_factura_masiva'>
+        <field name="name">Pagos de Factura Masiva</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move.wizard.pagos.factura.masiva</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

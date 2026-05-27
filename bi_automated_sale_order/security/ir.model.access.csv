@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_automated_sale_order,sale_access_automated_permission,model_automated_sale,,1,1,1,1
+access_product_product_order,sale_product_product_permission,product.model_product_product,,1,0,0,0
+access_product_template_order,sale_product_template_permission,product.model_product_template,,1,0,0,0

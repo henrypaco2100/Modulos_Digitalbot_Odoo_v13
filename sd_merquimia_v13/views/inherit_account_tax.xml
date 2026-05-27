@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_account_tax_form" model="ir.ui.view">
+        <field name="name">inherit.sale.account.tax.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/group/group/field[@name='type_tax_use']" position="after">
+                         <field name="sd_show" />
+            </xpath>
+        </field>
+    </record>
+    <record id="sd_inherit_account_move_filtro_impuestos_form" model="ir.ui.view">
+        <field name="name">inherit.sale.account.move.filtro.impuestos.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='tax_ids']" position="attributes">-->
+                     <attribute name="domain">[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('sd_show', '=', True),('company_id', '=', parent.company_id)]</attribute>
+                 </xpath>
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='tax_ids']" position="attributes">
+                       <field name="invoice_user_id" />
+                </xpath>
+        </field>
+    </record>
+    <record id="sd_inherit_sale_orders_filtro_impuestos_form" model="ir.ui.view">
+        <field name="name">inherit.sale.orders.filtro.impuestos.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='tax_id']" position="attributes">-->
+                     <attribute name="domain">[('type_tax_use','=','sale'),('sd_show', '=',True),('company_id','=',parent.company_id)]</attribute>
+                 </xpath>
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='tax_id']" position="attributes">
+                       <field name="invoice_user_id" />
+                </xpath>
+        </field>
+    </record>
+    <record id="sd_inherit_purchases_order_filtro_impuestos_form" model="ir.ui.view">
+        <field name="name">inherit.purchase.orders.filtro.impuestos.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='taxes_id']" position="attributes">-->
+                     <attribute name="domain">[('type_tax_use','=','purchase'),('sd_show', '=',True), ('company_id', '=', parent.company_id)]</attribute>
+                 </xpath>
+                 <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='taxes_id']" position="attributes">
+                       <field name="invoice_user_id" />
+                </xpath>
+        </field>
+    </record>
+</odoo>

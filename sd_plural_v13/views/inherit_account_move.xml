@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sd_view_account_move_parent_visible" model="ir.ui.view">
+            <field name="name">account.move.parent.visible</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="partner_id" attrs="{'invisible': [('type','!=','entry')]}"/>
+                </field>
+            </field>
+        </record>
+
+
+
+
+        <record id="sd_view_account_move_line_sequence" model="ir.ui.view">
+            <field name="name">account.move.line.sequence</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree" position="attributes">
+                    <attribute name="sortable">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='sequence']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="widget">handle</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="before">
+                    <field name="sequence" invisible="0" widget="handle"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="sd_view_account_move_add_mrp" model="ir.ui.view">
+            <field name="name">account.move.line.add.mrp</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@id='invoice_tab']/field/tree/field[@name='tax_ids']" position="after">
+                    <field name="produccion" attrs="{'column_invisible': [('parent.type', 'not in', ('in_invoice'))]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@id='aml_tab']/field/tree/field[@name='tax_ids']" position="after">
+                    <field name="produccion" attrs="{'column_invisible': 'True'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

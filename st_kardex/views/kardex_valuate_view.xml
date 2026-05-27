@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="kardex_lines_view_form" model="ir.ui.view">
+            <field name="name">kardex.lines.form</field>
+            <field name="model">kardex.valuate.lines</field>
+            <field name="arch" type="xml">
+            <form string="Lineas de Kardex Fisico" create="0" edit="0">
+                <header>
+                    <button name="search_lines_stock_move_lines" string="Actualizar Campos" type="object" default_focus="1"
+                            class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <field name="company_id" invisible="1"/>
+<!--                    <field name="picking_id" invisible="1"/>-->
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="reference" string="Referencia"/>
+<!--                            <field name="origin"/>-->
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                        </group>
+                        <group>
+                            <label for="qty_done" string="Cantidad Echa"/>
+                            <div class="o_row">
+                                <field name="qty_done"/>
+                                <field name="cost_valuation"/>
+                                <field name="cost_valuation_total"/>
+                                <field name="state_id"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+        <record id="kardex_lines_view_tree" model="ir.ui.view">
+            <field name="name">Lineas de Kardex Fisico Valorado</field>
+            <field name="model">kardex.valuate.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas del Movimiento de Productos" default_order="date">
+
+                    <field name="date"/>
+                    <field name="reference" string="Referencia"/>
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="qty_done" string="Cantidad Realizada"/>
+                    <field name="cost_valuation"/>
+                    <field name="cost_valuation_total"/>
+                    <field name="state_id"/>
+                    <field name="company_id" groups="base.group_multi_company" force_save="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="kardex_valuate_view_action" model="ir.actions.act_window">
+            		<field name="name">Kardex Valuate view action</field>
+            		<field name="res_model">kardex.valuate.lines</field>
+<!--            		<field name="type">ir.actions.act_window</field>-->
+            		<field name="view_mode">tree,form</field>
+            		<field name="view_id" eval="False"/>
+            		<field name="help" type="html">
+             			<p class="oe_view_nocontent_create">
+                			Haga Click Para Crear las Lineas.
+              			</p>
+            		</field>
+		</record>
+
+        <menuitem id="kardex_fisico_report" name="Lineas del Kardex Fisico Valorado" action="kardex_valuate_view_action"
+                  parent="stock.menu_warehouse_report" sequence="250"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <report
+            id="partner_xlsx"
+            model="kardex.report"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="st_kardex.product_xlsx"
+            file="st_kardex.product_xlsx"
+            attachment_use="False"
+        />
+
+
+    </data>
+</odoo>

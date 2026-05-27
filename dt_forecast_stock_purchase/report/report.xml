@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="action_stock_forecast_report"
+            model="wizard.stock.forecast"
+            string="Stock Forecast Report"
+            report_type="qweb-pdf"
+            name="dt_forecast_stock_purchase.stock_forecast_report_template"
+            file="dt_forecast_stock_purchase.stock_forecast_report_template"
+            menu="False"
+        />
+
+    </data>
+</odoo>

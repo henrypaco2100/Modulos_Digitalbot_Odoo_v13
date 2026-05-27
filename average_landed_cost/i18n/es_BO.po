@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * stock_landed_costs
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-18 14:06+0000\n"
+"PO-Revision-Date: 2015-09-24 20:04+0000\n"
+"Last-Translator: Martin Trigaux\n"
+"Language-Team: Spanish (Bolivia) (http://www.transifex.com/odoo/odoo-9/"
+"language/es_BO/)\n"
+"Language: es_BO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: average_landed_cost_lines
+#: code:odoo-custom-addons/average_landed_cost/average_landed_cost.py:80
+#, python-format
+
+#. module: average_landed_cost_lines
+#: model:ir.model.fields,field_description:stock_landed_costs.field_average_landed_cost_lines_product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: average_landed_cost_lines
+#: model:ir.model.fields,field_description:stock_landed_costs.field_average_landed_cost_lines_quantity
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: average_landed_cost_lines
+#: model:ir.model.fields,field_description:stock_landed_costs.field_average_landed_cost_lines_average_landed_cost
+msgid "Average Landed Cost"
+msgstr "Coste promedio de aterrizaje"
+
+#. module: average_landed_cost_lines
+#: model:ir.model.fields,field_description:stock_landed_costs.field_average_landed_cost_lines_cost_landed_unit
+msgid "Cost Landed Unit"
+msgstr "Costo de terrizaje unitario"

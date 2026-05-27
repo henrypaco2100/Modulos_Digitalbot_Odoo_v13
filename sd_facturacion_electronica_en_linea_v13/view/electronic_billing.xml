@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record  id="sd_action_arbol_facturacion_electronica" model="ir.actions.act_window">
+            <field name="name">Facturacion Electronica en Linea</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">electronic.billing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Formulario Facturacion Electronica en Linea
+                </p>
+            </field>
+    </record >
+    <record id="sd_arbol_facturacion_electronica_en_linea" model="ir.ui.view">
+        <field name="name">arbol.despacho.importacion.order</field>
+        <field name="model">electronic.billing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="state"/>
+                <field name="sd_fecha_vigencia_cuis"/>
+            </tree>
+        </field>
+    </record>
+    <record id="sd_form_facturacion_electronica_en_linea" model="ir.ui.view">
+			<field name="name">fields.form.facturacion.electronica</field>
+			<field name="model">electronic.billing</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirmar_facturacion_electronica" class="oe_highlight" type="object" string="Confirmar"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}" />
+                        <button name="solicitudCuis" class="oe_highlight" type="object" string="1 Solicitar CUIS"
+                        attrs="{'invisible': [('state', '!=', 'open')]}" />
+                        <button name="solicitudCufd" class="oe_highlight" type="object" string="2 Solicitar CUFD"
+                        attrs="{'invisible': [('state', '!=', 'cuis')]}"/>
+                        <button name="sincronizacioncatalogos" class="oe_highlight" type="object" string="Sincronizacion catalogos"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,cuis,sicronizacion_cat,cufd"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="sd_journal_id"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="company_id"/>
+                                <field name="sd_fecha_vigencia_cuis" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Campos de Entrada" name="fields_in">
+                                <group>
+<!--                                    <field name="fcb_tipo_factura_electronica" />-->
+                                    <field name="sd_codigo_ambiente" />
+                                    <field name="sd_codigo_sistema" />
+                                    <field name="sd_nit_em" />
+                                    <field name="sd_codigo_modalidad" />
+                                    <field name="sd_codigo_sucursal" />
+                                    <field name="sd_es_punto_venta"/>
+                                    <field name="sd_codigo_punto_venta" attrs="{'invisible': [('sd_es_punto_venta', '!=', True)]}"/>
+                                    <field name="sd_token" style="white-space: normal;word-break: break-word;"/>
+                                </group>
+                            </page>
+                            <page string="Campos de Salida" name="fields_out">
+                                <group>
+                                    <group>
+                                        <field name="sd_cuis" />
+                                        <field name="sd_fecha_vigencia_cuis"/>
+                                    </group>
+                                    <group>
+                                        <field name="sd_cufd" />
+                                        <field name="sd_fecha_vigencia_cufd"/>
+                                        <field name="sd_codigo_control"/>
+                                        <field name="sd_direccion"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="seguimiento" name="sd_seguimientos">
+                                <field
+                                name="sd_follow_line"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                >
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="sd_mensaje"/>
+                                                <field name="sd_codigo"/>
+                                                <field name="sd_date_solicitud"/>
+                                                <field name="sd_transaccion"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree string="Seguimiento" editable="bottom" delete="0" create="0">
+                                        <field name="sd_mensaje"/>
+                                        <field name="sd_codigo"/>
+                                        <field name="sd_date_solicitud"/>
+                                        <field name="sd_transaccion"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+    <menuitem
+			id="sd_menu_facturacion_electronica_linea"
+			name="Facturacion Electronica en Linea"
+			parent="account.account_invoicing_menu"
+			action="sd_action_arbol_facturacion_electronica"
+			sequence="5"/>
+</odoo>

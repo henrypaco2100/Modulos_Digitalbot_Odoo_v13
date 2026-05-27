@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+# Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
+
+
+from odoo import api, models
+
+class GeneralLedgerReport(models.AbstractModel):
+    _name = 'report.bi_financial_pdf_reports.report_generalledger'
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        return {
+            'doc_ids': docids,
+            'doc_model': 'accounting.report.bi',
+            'data': data,
+        }
+
+class GeneralLedgerReportV2(models.AbstractModel):
+    _name = 'report.bi_financial_pdf_reports.report_generalledger_v2'
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        return {
+            'doc_ids': docids,
+            'doc_model': 'accounting.report.bi',
+            'data': data,
+        }

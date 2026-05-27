@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="costo_move_line_fabricacion_productos_finalizados">
+                 <field name="name">costo.move.line.fabricacion.productos.finalizados</field>
+                 <field name="model">stock.move.line</field>
+                 <field name="inherit_id" ref="mrp.view_finisehd_move_line"/>
+                 <field name="arch" type="xml">
+                     <xpath expr="/form/group/group/field[@name='product_id']"  position="after">
+                         <field name="st_costo_unit" string="Costo Unidad"/>
+                         <field name="st_costo_subtotal" string="Subtotal"/>
+                     </xpath>
+                 </field>
+    </record>
+    <record model="ir.ui.view" id="costo_mrp_line_fabricacion_productos_finalizados">
+                 <field name="name">costo.mrp.line.fabricacion.productos.finalizados</field>
+                 <field name="model">mrp.production</field>
+                 <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+                 <field name="arch" type="xml">
+                     <xpath expr="//field[@name='qty_done']"  position="after">
+                         <field name="st_costo_unit" string="Costo Unidad"/>
+                         <field name="st_costo_subtotal" string="Subtotal"/>
+                     </xpath>
+                     <xpath expr="//field[@name='finished_move_line_ids']"  position="after">
+                         <group name="total_costo" col="6">
+                             <group colspan="4">
+
+                             </group>
+                             <group class="oe_subtotal_footer oe_right" colspan="2" name="Costo_total_final" attrs="{'invisible': [('state', '!=', 'done')]}">
+                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                     <label for="st_costo_total" />
+                                 </div>
+                                 <field name="st_costo_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <button name="hallar_costo_total_produccion" string="Compute" type="object" class="oe_right btn-secondary"/>
+                             </group>
+                         </group>
+                     </xpath>
+                 </field>
+    </record>
+
+</odoo>

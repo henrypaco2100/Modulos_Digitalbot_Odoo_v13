@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sd_inherit_sale_mejora_form_merquimia_v13" model="ir.ui.view">
+        <field name="name">sd.inherit.sale.mejora.form.merquimia.v13</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="/form/sheet/group/group/field[@name='payment_term_id']" position="after">
+                    <field name="user_id" string="Comercial"   />
+                    <field name="team_id"/>
+             </xpath>
+             <xpath expr="/form/sheet/notebook/page/group/group/field[@name='user_id']" position="attributes">
+                   <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+             </xpath>
+        </field>
+    </record>
+    <record id="sd_inherit_sale_mejora_form_ocultar_validar_venta_comercial" model="ir.ui.view">
+        <field name="name">sd.inherit.sale.mejora.form.ocultar.validar.venta.comercial</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="bi_automated_sale_order.view_button_automate_sale_order"/>
+        <field name="arch" type="xml">
+             <button name="action_automate" position="attributes">
+                   <attribute name="groups">sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager</attribute>
+             </button>
+        </field>
+    </record>
+</odoo>

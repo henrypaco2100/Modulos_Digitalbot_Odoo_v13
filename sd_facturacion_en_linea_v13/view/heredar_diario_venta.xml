@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modificaciones en el Formulario de Diario venta-->
+<odoo>
+   <data>
+    <record model="ir.ui.view" id="sd_journal_inherit_facturacion_electronica_linea">
+            <field name="name">sd_journal_inherit_facturacion_electronica_linea</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="fcb_es_electronico" attrs="{'invisible': [('type', '!=', 'sale')]}"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Facturacion en linea" name="online.billing.siat" attrs="{'invisible': [('fcb_es_electronico', '!=', True)]}">
+                        <group>
+
+                            <group string="Datos generales">
+                                <field name="sd_codigo_cuis" />
+                                <field name="sd_fecha_vigencia_cuis" />
+                                <field name="fcb_siguiente_Numero"/>
+                                <field name="sd_factura_online_id" readonly="1" groups="sd_facturacion_en_linea_v13.sd_facturacion_electronica_en_linea_group"/>
+                                <field name="sd_siguiente_leyenda_id" readonly="1"/>
+                                <field name="sd_siguiente_numero_debito_credito" />
+                                <field name="sd_documento_sector_siat"/>
+                            </group>
+                            <group string="Datos cufd">
+                                <field name="sd_cufd" />
+                                <field name="sd_fecha_vigencia_cufd"/>
+                                <field name="sd_direccion"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+
+
+</odoo>

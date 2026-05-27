@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="load_export_selected_js" inherit_id="web.assets_backend" name="Load Export Selected JS">
+            <xpath expr="//script[last()]" position="after">
+                <script type="text/javascript" src="/sd_plural_v13/static/src/js/export_selected.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

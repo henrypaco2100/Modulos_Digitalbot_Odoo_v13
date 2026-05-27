@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--	<data noupdate="1">-->
+<!--		 <record model="ir.module.category" id="sd_padre_del_padre_permisos_facturacion_line">-->
+<!--			<field name="name">Reporte Facturacion en Linea</field>-->
+<!--			<field name="description">Modulo para gestion de facturacion en linea</field>-->
+<!--			<field name="sequence">10</field>-->
+<!--		</record>-->
+<!--	</data>-->
+<!--	<data noupdate="1">-->
+<!--		<record id="sd_permisos_reportes_facturacion_linea" model="ir.module.category">-->
+<!--			<field name="name">Facturacion en linea</field>-->
+<!--			<field name="sequence" eval="1"/>-->
+<!--			<field name="parent_id" ref="sd_padre_del_padre_permisos_facturacion_line"/>-->
+<!--		</record>-->
+<!--	</data>-->
+    <data noupdate="1" >
+		<record id="sd_facturas_pdf_1_group" model="res.groups">
+			<field name="name">Factura pdf 1</field>
+            <field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+	<data noupdate="1" >
+		<record id="sd_facturas_pdf_2_group" model="res.groups">
+			<field name="name">Factura pdf 2</field>
+            <field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+    </data>
+	<data noupdate="1">
+		<record id="sd_facturas_pdf_rollo_group" model="res.groups">
+			<field name="name">Factura rollo pdf</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="sd_facturas_pdf_rollo_pos_group" model="res.groups">
+			<field name="name">Factura rollo POS pdf</field>
+			<field name="category_id" ref="sd_facturacion_en_linea_v13.sd_permisos_reportes_facturacion_linea"/>
+		</record>
+	</data>
+</odoo>

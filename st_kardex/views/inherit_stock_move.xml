@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sd_inherit_stock_move_para_kardex">
+             <field name="name">sd_inherit_stock_move_para_kardex</field>
+             <field name="model">stock.move</field>
+             <field name="inherit_id" ref="stock.view_move_form"/>
+             <field name="arch" type="xml">
+                 <field name="location_dest_id" position="after">
+                     <field name="sd_almacen_origen"/>
+                     <field name="sd_almacen_destino"/>
+                     <button name="rellenar_almacenes"
+					           		string="Rellenar almacenes"
+					            	type="object" icon="fa-refresh"
+                                    />
+                 </field>
+             </field>
+        </record>
+    </data>
+</odoo>

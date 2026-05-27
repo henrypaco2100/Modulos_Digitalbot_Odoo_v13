@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="action_report_factura_pdf"
+                string="Factura Computarizada"
+                model="account.move"
+                report_type="qweb-pdf"
+                name="st_facturacion_computarizada_bolivia_v13.factura_report_pdf_template"
+                menu="False"
+        />
+    </data>
+    <template id="factura_report_pdf_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="factura">
+                    <t t-foreach="factura.copia_original()" t-as="estado">
+                        <t t-call="st_facturacion_computarizada_bolivia_v13.internal_layout_facturacion_computarizada_">
+                            <div class="page" >
+                                <table class="table table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th >Cantidad</th>
+                                        <th>Unid</th>
+                                        <th>Descripcion</th>
+                                        <th >Precio U.</th>
+                                        <th >Subtotal</th>
+                                    </tr>
+                                </thead>
+                                     <tbody>
+                                        <tr t-foreach="factura.linea_producto()" t-as="linea" style="font-size: 13px;">
+                                            <td>
+                                                <span t-att-style="style" t-esc="linea['cantidad']"/>
+                                            </td>
+                                            <td>
+                                                <span t-att-style="style" t-esc="linea['unidad']"/>
+                                            </td>
+                                            <td>
+                                                <span t-att-style="style" t-esc="linea['detalle']"/>
+                                            </td >
+                                            <td>
+                                                 <span t-att-style="style" t-esc="linea['precio_unitario']" t-options = '{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                            <td>
+                                                <t t-set="cantidad" t-value="linea['cantidad']"/>
+                                                <t t-set="unidad" t-value="linea['precio_unitario']"/>
+                                                <t t-set="subtotal" t-value="(cantidad)*(unidad)"/>
+                                                <span t-att-style="style" t-esc="subtotal" t-options = '{"widget": "float", "precision": 2}'/>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5  style='float:right;'><strong>TOTAL Bs <span t-esc="factura.amount_total" t-options = '{"widget": "float", "precision": 2}'/></strong></h5>
+                            </div>
+                         </t>
+                        <div class="footer" >
+                            <div>
+                                <div style='float:right;width:84%;text-align:left'><br/>
+                                    <h7>Son : <span t-esc="factura.numero_to_letras(factura.amount_total)"/><br/>
+                                    CODIGO DE CONTROL : <span t-esc="factura.fcb_codigo_de_control"/><br/>
+                                    FECHA LIMITE DE EMISION : <span t-esc="factura.fecha_limite_emision()"/></h7>
+                                </div>
+                                <div style='float:left;width:16%;text-align:left'>
+                                    <img t-attf-src="data:image/png;base64,{{factura.generate_factura_qr()}}"
+                                         alt="Red dot" height="130px" width="130px"/>
+                                </div>
+                            </div>
+                            <br/><br/><br/><br/><br/><br/>
+                            <div>
+                                <p style="text-align: center;line-height: 80%"><small>"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS. EL USO ILÍCITO DE ÉSTA SERÁ SANCIONADO DE ACUERDO A LEY"</small><br/>
+                                <small><small>"Ley N° 453: Los servicios deben suministrarse en condiciones de inocuidad, calidad y seguridad."</small></small></p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+    </template>
+
+    <record id="factura_formato_papel" model="report.paperformat">
+        <field name="name">factura computarizada</field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">78</field>
+        <field name="margin_bottom">48</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">72</field>
+        <field name="dpi">88</field>
+        <field name="report_ids" eval="[(4, ref('st_facturacion_computarizada_bolivia_v13.action_report_factura_pdf'))]"/>
+    </record>
+    <template id="external_layout_header_inherit_cr"
+            inherit_id="st_facturacion_computarizada_bolivia_v13.internal_layout_facturacion_computarizada_">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header" >
+                    <img t-attf-src="data:image/png;base64,{{factura.company_id.logo}}"
+                                      height="60px" width="300px"           alt="Red dot" /><!--factura.env.user.company_id.logo-->
+                    <div style='float:right;'>
+                        <span class="page" /> / <span class="topage" />
+                    </div><hr></hr>
+                    <div style="float: left;text-align: center;width:40%" >
+                        <p style="line-height: 85%;text-transform: capitalize;">
+                            <t t-if="factura.journal_id.fcb_type_company=='uni_personal'">
+                                <strong>De: <span t-esc="factura.company_id.partner_id.st_nombre_compañia_facturar"/></strong><br/><!-- factura.env.user.company_id.name-->
+                            </t>
+                            <t t-else="">
+                                <strong><span t-esc="factura.company_id.partner_id.st_nombre_compañia_facturar"/></strong><br/>
+                            </t>
+                            Casa Matriz<br/>
+                            <small><span t-esc="factura.journal_id.fcb_direccion_matriz"/></small><br/>
+                            <small>Télf.: <span t-esc="factura.journal_id.fcb_telefono_matriz"/></small>-
+                            <small><span t-esc="factura.journal_id.fcb_ciudad_matriz"/>-Bolivia</small><br/>
+                            <t t-if="factura.journal_id.fcb_casa_matriz==False">
+                                <small style="text-transform: uppercase;"><span t-esc="factura.journal_id.fcb_tipo_de_sucursal_factura"/></small><br/>
+                                <small><span t-esc="factura.journal_id.fcb_direccion_sucursal_factura"/></small><br/>
+                                <small>Télf.: <span t-esc="factura.journal_id.fcb_telefono_sucursal"/></small>-
+                                <small><span t-esc="factura.journal_id.fcb_ciudad_sucursal"/>-Bolivia</small>
+                            </t>
+                        </p>
+                    </div>
+                    <div  style='float:right;border-image: initial; border: 2px solid black;border-radius:7px;text-align: center;height:82px; width:250px'>
+                        <h6 style="line-height: 110%"><br/> <strong>NIT: <span t-esc="factura.env.user.company_id.vat"/></strong><br/>
+                            <strong>Nº FACTURA: <span t-esc="factura.fcb_numero_factura_computarizada"/></strong> <br/>
+                            Autorización No. <span t-esc="factura.journal_id.fcb_numero_autorizacion_diario"/></h6>
+                    </div><br/><br/>
+                    <div >
+                        <center>
+                            <h2>FACTURA</h2>
+                        </center>
+                    </div>
+                    <div style='float:right;line-height: 120%'>
+                        <h5 style='text-align: right'><strong><span t-esc="estado"/></strong></h5>
+                        <h6 style='text-align: center'><span t-esc="factura.journal_id.fcb_actividad_economica"/></h6>
+                    </div>
+                    <br/><br/><hr></hr>
+                    <div>
+                        <h6 style="line-height: 100%" xml:space="preserve"><span t-esc="factura.fecha_a_palabras()"/>
+                            <t t-if="factura.fcb_nit_a_facturar">
+                                <span style='float:right'>NIT/CI: <span t-esc="factura.fcb_nit_a_facturar"/></span><br/>
+                            </t>
+                            <t t-else="">
+                                <span style='float:right'>NIT/CI: <span t-esc="factura.partner_id.vat"/></span><br/>
+                            </t>
+                            Señor(es) :
+                            <t t-if="factura.fcb_nombre_a_facturar">
+                                <span t-esc="factura.fcb_nombre_a_facturar"/>
+                            </t>
+                            <t t-else="">
+                                <t t-if="factura.partner_id.st_nombre_compañia_facturar">
+                                    <span t-esc="factura.partner_id.st_nombre_compañia_facturar"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="factura.partner_id.name"/>
+                                </t>
+                            </t>
+                        </h6>
+                    </div>
+                </div>
+            </xpath>
+    </template>
+</odoo>

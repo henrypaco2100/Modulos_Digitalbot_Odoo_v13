@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+		<record id="sd_facturacion_electronica_en_linea_group" model="res.groups">
+			<field name="name">Facturacion Electronica en linea</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+		</record>
+    </data>
+</odoo>

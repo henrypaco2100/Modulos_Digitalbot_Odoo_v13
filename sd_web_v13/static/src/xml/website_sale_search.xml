@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve" inherit_id="website_sale.template">
+
+    <t t-extend="website_sale.productsSearchBar.autocomplete">
+        <t t-jquery="div.flex-shrink-0" t-operation="replace">
+            <b class="text-nowrap">
+                <t t-esc="product['price'].replace('&lt;span class=&quot;oe_currency_value&quot;&gt;', '').replace('00&lt;/span&gt;', '')"/>
+            </b>
+        </t>
+    </t>
+</templates>

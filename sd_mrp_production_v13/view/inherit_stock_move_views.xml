@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="sd_inherit_view_stock_move_lots">
+         <field name="name">sd_mrp_inherit_stock.move.lots.form</field>
+         <field name="model">stock.move</field>
+         <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+         <field name="arch" type="xml">
+             <xpath expr="/form/field/tree/field[@name='product_uom_qty']" position="after">
+                 <field name="sd_product_reserve_qty"/>
+             </xpath>
+         </field>
+    </record>
+</odoo>
