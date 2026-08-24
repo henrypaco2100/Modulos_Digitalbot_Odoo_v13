@@ -2,52 +2,33 @@
 <odoo>
 
     <!--
-        CORRECCIÓN PWA PARA ODOO 13 / CHROME ACTUAL
+        PWA ODOO 13 - CORRECCIÓN REAL
 
-        PROBLEMA DETECTADO:
-        El manifest estaba insertado dentro de "web.assets_backend".
-        Chrome cargaba el archivo /manifest.json/1 si se abría manualmente,
-        pero NO encontraba ningún <link rel="manifest"> dentro del HEAD real
-        de /web. Por eso DevTools mostraba:
+        En Odoo 13 el webclient utiliza:
 
-            No manifest detected
+            <t t-set="head_web">
+                ...
+            </t>
 
-        SOLUCIÓN:
-        1) Insertar el manifest directamente dentro del bloque "head"
-           de la plantilla web.webclient_bootstrap.
-        2) Mantener únicamente index.js dentro de web.assets_backend,
-           porque ese archivo sí es un asset JavaScript.
-        3) Mantener apple-touch-icon también en el HEAD real.
+        y posteriormente:
+
+            <t t-set="head" t-value="head_web + (head or '')"/>
+
+        Por eso el manifest debe insertarse dentro de head_web.
     -->
-
-
-    <!-- ================================================================
-         1. MANIFEST + APPLE ICON EN EL HEAD REAL DEL WEBCLIENT
-         ================================================================ -->
 
     <template id="sh_pwa_webclient_head"
               name="PWA Webclient Head"
               inherit_id="web.webclient_bootstrap">
 
-        <!--
-            En Odoo 13, web.webclient_bootstrap construye el <head>
-            mediante un <t t-set="head">...</t>.
-            Insertamos aquí los metadatos PWA para que lleguen al HTML final.
-        -->
-        <xpath expr="//t[@t-set='head']" position="inside">
+        <xpath expr="//t[@t-set='head_web']" position="inside">
 
-            <!--
-                Web App Manifest.
-                La compañía activa determina qué configuración PWA utilizar.
-            -->
+            <!-- Manifest PWA -->
             <link rel="manifest"
                   id="shmanifiest"
                   t-att-href="'/manifest.json/' + str(request.env.user.company_id.id)"/>
 
-            <!--
-                Apple Touch Icon para iPhone/iPad.
-                Se mantiene usando el endpoint existente del módulo.
-            -->
+            <!-- Icono para iPhone/iPad -->
             <link rel="apple-touch-icon"
                   id="iphone_shmanifiest"
                   sizes="180x180"
@@ -58,21 +39,16 @@
     </template>
 
 
-    <!-- ================================================================
-         2. INDEX.JS SIGUE SIENDO UN ASSET DEL BACKEND
-         ================================================================ -->
-
+    <!--
+        index.js continúa dentro de assets_backend
+        porque registra el Service Worker.
+    -->
     <template id="sh_pwa_assets_backend"
               name="PWA Backend Assets"
               inherit_id="web.assets_backend">
 
         <xpath expr="." position="inside">
 
-            <!--
-                Este JS registra /sw.js como Service Worker.
-                A diferencia del manifest, este archivo sí debe cargarse
-                como parte de los assets JavaScript del backend.
-            -->
             <script type="text/javascript"
                     src="/sh_pwa_backend/static/index.js"></script>
 
