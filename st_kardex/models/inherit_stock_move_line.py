@@ -79,7 +79,7 @@ class StockMoveLine(models.Model):
                 stock_move_line_id.cost_valuation_total = stock_move_line_id.qty_done * (costo_total_move / stock_move_line_id.move_id.quantity_done if costo_total_move != 0 else 0)
                 # stock_move_line_id.sd_qty =  stock_move_line_id.qty_done * (costo_total_move /abs(costo_total_move)) if costo_total_move != 0 else 0
                 # PARA CORTEAR IMPORTACION HENRY
-                stock_move_line_id.costo_dest = stock_move_line_id.costo_dest_total / cantidad if stock_move_line_id.costo_dest_total != 0 else 0
+                stock_move_line_id.costo_dest = stock_move_line_id.costo_dest_total / stock_move_line_id.move_id.quantity_done if stock_move_line_id.costo_dest_total != 0 else 0
             else:
                 stock_move_line_id.cost_valuation = 0
                 stock_move_line_id.costo_dest = 0

@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>      
-     <template id="sh_assets_backend" name="pwa assets" inherit_id="web.assets_backend">
-          <xpath expr="." position="inside">
-	          <script>
-	          // fetch company id
-	          var cid = $.bbq.getState().cids;
-	          if(cid){
-	               
-	               $("#shmanifiest").attr('href','/manifest.json/'+cid);
-	               $("#iphone_shmanifiest").attr('href','/iphone.json/'+cid);
-	          }
-	          </script>          		
-           	  <link rel="manifest" id="shmanifiest" t-att-href="'/manifest.json/'+str(request.env.user.company_id.id)"/>
-           	  <link rel="apple-touch-icon" id="iphone_shmanifiest" sizes="200x200" t-att-href="'/iphone.json/'+str(request.env.user.company_id.id)"/>
-			  <script type="text/javascript" src="/sh_pwa_backend/static/index.js"></script>
-          </xpath>
-      </template> 
+<odoo>
+
+    <!--
+        ACTUALIZADO PARA PWA / CHROME ACTUAL + ODOO 13
+
+        El código original intentaba cambiar el manifest con JavaScript usando:
+            $.bbq.getState().cids
+
+        Eso es frágil y además modificar el <link rel="manifest"> después de
+        cargar la página no es la forma más fiable para que Chrome evalúe
+        la instalación PWA.
+
+        Aquí el manifest correcto se entrega directamente desde QWeb usando
+        la compañía activa al cargar la página.
+    -->
+
+    <template id="sh_assets_backend"
+              name="PWA Assets"
+              inherit_id="web.assets_backend">
+
+        <xpath expr="." position="inside">
+
+            <!-- Manifest PWA de la compañía actual -->
+            <link rel="manifest"
+                  id="shmanifiest"
+                  t-att-href="'/manifest.json/' + str(request.env.user.company_id.id)"/>
+
+            <!-- Apple Touch Icon.
+                 180x180 es el tamaño habitual recomendado para iPhone. -->
+            <link rel="apple-touch-icon"
+                  id="iphone_shmanifiest"
+                  sizes="180x180"
+                  t-att-href="'/iphone.json/' + str(request.env.user.company_id.id)"/>
+
+            <!-- Registro del Service Worker -->
+            <script type="text/javascript"
+                    src="/sh_pwa_backend/static/index.js"></script>
+
+        </xpath>
+    </template>
+
 </odoo>

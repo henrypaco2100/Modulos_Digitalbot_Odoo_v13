@@ -623,14 +623,14 @@ class KardexReport(models.Model):
                                 LEFT JOIN stock_warehouse sw_dest ON sm.sd_almacen_destino = sw_dest.id
                                 LEFT JOIN stock_inventory si ON sm.inventory_id = si.id
                                 LEFT JOIN mrp_production prod ON sm.production_id = prod.id
-                                LEFT JOIN stock_valuation_layer svl ON sm.id = svl.stock_move_id
+                                LEFT JOIN stock_valuation_layer svl ON sm.id = svl.stock_move_id AND svl.quantity <> 0
                                 WHERE sm.state = 'done' {consulta_fecha} {consulta_categoria}
                                 ORDER BY date ASC
 
                             """.format(consulta_fecha=date_conditions, consulta_categoria=consulta_categoria)
         self.env.cr.execute(query)
         results = self.env.cr.dictfetchall()
-        # print('result reporte previo : ', len(results))
+        print('result reporte previo : ', len(results))
 
         # print('stock move ids: ', stock_move_ids)
         kardex_almacenes = {}
@@ -828,7 +828,7 @@ class KardexReport(models.Model):
                         LEFT JOIN stock_warehouse sw_dest ON sm.sd_almacen_destino = sw_dest.id
                         LEFT JOIN stock_inventory si ON sm.inventory_id = si.id
                         LEFT JOIN mrp_production prod ON sm.production_id = prod.id
-                        LEFT JOIN stock_valuation_layer svl ON sm.id = svl.stock_move_id
+                        LEFT JOIN stock_valuation_layer svl ON sm.id = svl.stock_move_id AND svl.quantity <> 0
                         WHERE sm.state = 'done' {consulta_fecha} {consulta_categoria}
                         ORDER BY date ASC
 
@@ -914,16 +914,16 @@ class KardexReport(models.Model):
 
                     kardex_almacenes[almacen_actual] = {stock_move_id["product_category"]: {stock_move_id["product_name"]: [stock_move_id]}}
 
-        # for almacen in kardex_almacenes:
-        #     print('almacen: ', almacen)
-        #     for categoria in kardex_almacenes[almacen]:
-        #         print('---categoria: ', categoria)
-        #         for producto in kardex_almacenes[almacen][categoria]:
-        #             print('------producto: ', producto)
-        #             for tipo in kardex_almacenes[almacen][categoria][producto]:
-        #                 print('---------tipo: ', tipo)
-        # print('kardex_almacenes: ', kardex_almacenes)
-        # print('termino datos kardex')
+        for almacen in kardex_almacenes:
+            print('almacen: ', almacen)
+            for categoria in kardex_almacenes[almacen]:
+                print('---categoria: ', categoria)
+                for producto in kardex_almacenes[almacen][categoria]:
+                    print('------producto: ', producto)
+                    for tipo in kardex_almacenes[almacen][categoria][producto]:
+                        print('---------tipo: ', tipo)
+        print('kardex_almacenes: ', kardex_almacenes)
+        print('termino datos kardex')
         return kardex_almacenes
     def construct_date_conditions_ini_end(self, date_start, date_end):
         conditions = []

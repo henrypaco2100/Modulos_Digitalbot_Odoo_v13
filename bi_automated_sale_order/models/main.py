@@ -469,39 +469,39 @@ class InheritSale(models.Model):
 		res = super().read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 		return res
 
-class SdSaleReport(models.Model):
-	_inherit = 'sale.report'
-	work_process_order_id = fields.Many2one(
-			'automated.sale',
-			string='Tipo de venta',
-			readonly=True
-		)
-	def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
-		fields = fields.copy()
-		fields['work_process_order_id'] = ", s.work_process_order_id as work_process_order_id"
-		groupby += ", s.work_process_order_id"
-		return super()._query(with_clause, fields, groupby, from_clause)
-
-	def init(self):
-		tools.drop_view_if_exists(self.env.cr, self._table)
-		self.env.cr.execute("""CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query()))
-	@api.model
-	def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
-		user = self.env.user
-		# print('user', self.env.user.name)
-		# if superadmin, do not apply
-		if not self.env.is_superuser():
-			args += ['|', ('work_process_order_id', '=', False),
-					 ('work_process_order_id', 'in', user.automated_sale_ids.ids)]
-		return super()._search(args, offset, limit, order, count=count, access_rights_uid=access_rights_uid)
-
-	@api.model
-	def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-		user = self.env.user
-		# print('user', self.env.user.name)
-		if not self.env.is_superuser():
-			# Filtrar los registros por los IDs permitidos para el usuario actual
-			allowed_automated_sale_ids = user.automated_sale_ids.ids
-			domain += [('work_process_order_id', 'in', allowed_automated_sale_ids)]
-		res = super().read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
-		return res
+# class SdSaleReport(models.Model):
+# 	_inherit = 'sale.report'
+# 	work_process_order_id = fields.Many2one(
+# 			'automated.sale',
+# 			string='Tipo de venta',
+# 			readonly=True
+# 		)
+# 	def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
+# 		fields = fields.copy()
+# 		fields['work_process_order_id'] = ", s.work_process_order_id as work_process_order_id"
+# 		groupby += ", s.work_process_order_id"
+# 		return super()._query(with_clause, fields, groupby, from_clause)
+#
+# 	def init(self):
+# 		tools.drop_view_if_exists(self.env.cr, self._table)
+# 		self.env.cr.execute("""CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query()))
+# 	@api.model
+# 	def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+# 		user = self.env.user
+# 		# print('user', self.env.user.name)
+# 		# if superadmin, do not apply
+# 		if not self.env.is_superuser():
+# 			args += ['|', ('work_process_order_id', '=', False),
+# 					 ('work_process_order_id', 'in', user.automated_sale_ids.ids)]
+# 		return super()._search(args, offset, limit, order, count=count, access_rights_uid=access_rights_uid)
+#
+# 	@api.model
+# 	def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+# 		user = self.env.user
+# 		# print('user', self.env.user.name)
+# 		if not self.env.is_superuser():
+# 			# Filtrar los registros por los IDs permitidos para el usuario actual
+# 			allowed_automated_sale_ids = user.automated_sale_ids.ids
+# 			domain += [('work_process_order_id', 'in', allowed_automated_sale_ids)]
+# 		res = super().read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+# 		return res
