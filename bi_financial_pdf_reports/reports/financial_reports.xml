@@ -87,7 +87,7 @@
             <report
             id="action_report_trial_balance"
             model="accounting.report.bi"
-            string="Balance Total"
+            string="Sumas y Saldos"
             report_type="qweb-pdf"
             name="bi_financial_pdf_reports.report_trialbalance"
             file="bi_financial_pdf_reports.report_trialbalance"

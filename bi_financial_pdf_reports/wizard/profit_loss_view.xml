@@ -19,6 +19,8 @@
                         </group>
                         <group>
                             <field name="debit_credit" attrs="{'invisible': [('enable_filter','=',True)]}"/>
+                            <field name="esi_con_analitica"/>
+                            <field name="esi_partner"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>

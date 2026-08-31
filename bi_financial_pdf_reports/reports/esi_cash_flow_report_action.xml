@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="action_report_esi_cash_flow"
+        model="esi.cash.flow.report.wizard"
+        string="Flujo de Caja ESI"
+        report_type="qweb-pdf"
+        name="bi_financial_pdf_reports.report_esi_cash_flow_document"
+        file="bi_financial_pdf_reports.report_esi_cash_flow_document"
+        print_report_name="'Flujo_de_Caja_%s_%s' % (object.date_from, object.date_to)"
+    />
+</odoo>

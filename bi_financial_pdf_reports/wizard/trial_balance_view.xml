@@ -1,46 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <odoo>
-
     <record id="account_trail_balance_form" model="ir.ui.view">
-        <field name="name">Balance Genera </field>
-        <field name="model">accounting.report.bi</field>
+        <field name="name">Sumas y Saldos</field><field name="model">accounting.report.bi</field>
         <field name="arch" type="xml">
-             <form string="Report Options">
+            <form string="Sumas y Saldos">
                 <group>
-                    <group>
-                    <field name="target_move" widget="radio"/>
-                        <field name="display_account" widget="radio"/>
-                        <newline/>
-                        </group>
-                    <group>
-                        <field name="date_from"/>
-                        <field name="date_to"/>
+                    <group string="Período y movimientos">
+                        <field name="target_move" widget="radio"/><field name="display_account" widget="radio"/>
+                        <field name="date_from"/><field name="date_to"/>
+                    </group>
+                    <group string="Filtros">
+                        <field name="sd_account_id" widget="many2many_tags" options="{'no_create': True}" string="Cuentas contables"/>
+                        <field name="esi_analytic_account_ids" widget="many2many_tags" options="{'no_create': True}" string="Analítica"/>
+                        <field name="esi_partner_ids" widget="many2many_tags" options="{'no_create': True}" string="Empresa"/>
+                        <field name="esi_cash_flow_ids" widget="many2many_tags" options="{'no_create': True}" string="Cuentas de Flujo"/>
+                        <separator string="Desglose opcional"/>
+                        <field name="esi_con_analitica"/><field name="esi_partner"/>
                     </group>
                 </group>
-                 <footer>
-                    <button name="print_trial_balance" string="Print" type="object" default_focus="1" class="oe_highlight"/>
-                    <button string="Cancelar" class="btn btn-default" special="cancel" />
-                </footer>
+                <div class="text-muted">Los filtros vacíos consideran todos los registros. Puede seleccionar uno o varios valores.</div>
+                <footer><button name="print_trial_balance" string="Imprimir PDF" type="object" default_focus="1" class="oe_highlight"/><button string="Cancelar" class="btn btn-default" special="cancel"/></footer>
             </form>
-
         </field>
     </record>
-
-    <record id="action_trial_balance_report" model="ir.actions.act_window">
-        <field name="name">Balance General</field>
-        <!--field name="name">Trial Balance</field-->
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">accounting.report.bi</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="account_trail_balance_form"/>
-        <field name="target">new</field>
-    </record>
-
-<!--    <menuitem id="menu_trial_balance_report"-->
-<!--        name="Balance General"-->
-<!--        parent="bi_menu_finance_report"-->
-<!--        action="action_trial_balance_report"-->
-<!--        />-->
-    <!--name="Trial Balance"-->
+    <record id="action_trial_balance_report" model="ir.actions.act_window"><field name="name">Sumas y Saldos</field><field name="type">ir.actions.act_window</field><field name="res_model">accounting.report.bi</field><field name="view_mode">form</field><field name="view_id" ref="account_trail_balance_form"/><field name="target">new</field></record>
+    <menuitem id="menu_trial_balance_report" name="Sumas y Saldos" parent="bi_menu_finance_report" action="action_trial_balance_report" sequence="30"/>
 </odoo>

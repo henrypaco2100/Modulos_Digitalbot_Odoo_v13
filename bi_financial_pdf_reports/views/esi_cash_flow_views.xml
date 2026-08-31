@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_esi_cash_flow_tree" model="ir.ui.view">
+        <field name="name">esi.cash.flow.tree</field><field name="model">esi.cash.flow</field>
+        <field name="arch" type="xml"><tree string="Cuentas de Flujo" default_order="sequence,code,name">
+            <field name="sequence" widget="handle"/><field name="code"/><field name="name"/><field name="flow_type"/><field name="parent_id"/><field name="active"/>
+        </tree></field>
+    </record>
+    <record id="view_esi_cash_flow_form" model="ir.ui.view">
+        <field name="name">esi.cash.flow.form</field><field name="model">esi.cash.flow</field>
+        <field name="arch" type="xml"><form string="Cuenta de Flujo"><sheet><group><group><field name="code"/><field name="name"/><field name="flow_type"/></group><group><field name="parent_id"/><field name="sequence"/><field name="active"/></group></group><group><field name="note" placeholder="Notas u observaciones..."/></group></sheet></form></field>
+    </record>
+    <record id="view_esi_cash_flow_search" model="ir.ui.view">
+        <field name="name">esi.cash.flow.search</field><field name="model">esi.cash.flow</field>
+        <field name="arch" type="xml"><search string="Buscar Cuenta de Flujo"><field name="name"/><field name="code"/><field name="parent_id"/><filter string="Ingresos" name="income" domain="[('flow_type','=','income')]"/><filter string="Egresos" name="expense" domain="[('flow_type','=','expense')]"/><group expand="0" string="Agrupar por"><filter string="Tipo" name="group_flow_type" context="{'group_by':'flow_type'}"/><filter string="Categoría" name="group_parent" context="{'group_by':'parent_id'}"/></group></search></field>
+    </record>
+    <record id="action_esi_cash_flow" model="ir.actions.act_window"><field name="name">Cuentas de Flujo</field><field name="res_model">esi.cash.flow</field><field name="view_mode">tree,form</field><field name="search_view_id" ref="view_esi_cash_flow_search"/></record>
+    <menuitem id="menu_esi_cash_flow_catalog" name="Configurar Cuentas de Flujo" parent="menu_financial_report" action="action_esi_cash_flow" sequence="20" groups="account.group_account_user"/>
+</odoo>

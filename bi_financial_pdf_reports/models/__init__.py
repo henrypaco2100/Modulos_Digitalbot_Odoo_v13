@@ -5,3 +5,6 @@
 from . import account_financial_report
 from . import account_financial_report_line
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import esi_cash_flow
+from . import account_move
+from . import esi_cash_flow_report_wizard

@@ -326,6 +326,7 @@ Relatórios de Excel de contabilidade de impressão
         'wizard/inherited_balancesheet_view.xml',
         'wizard/inherited_generalledger_view.xml',
         'wizard/inherited_trialbalance_view.xml',
+        'wizard/inherited_cash_flow_view.xml',
         'wizard/excel_report.xml',
     ],
     'price': 5.99,

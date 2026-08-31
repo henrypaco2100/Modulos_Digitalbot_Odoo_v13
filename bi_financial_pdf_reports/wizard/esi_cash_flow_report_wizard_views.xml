@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_esi_cash_flow_report_wizard_form" model="ir.ui.view">
+        <field name="name">esi.cash.flow.report.wizard.form</field><field name="model">esi.cash.flow.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Flujo de Caja">
+                <group>
+                    <group string="Período y diarios">
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date_from"/><field name="date_to"/>
+                        <field name="journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <group string="Filtros">
+                        <field name="cash_flow_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="flow_type"/>
+                        <field name="analytic_account_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="partner_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="include_unclassified"/>
+                    </group>
+                </group>
+                <footer><button name="action_print_pdf" string="Imprimir PDF" type="object" class="oe_highlight"/><button string="Cancelar" class="btn-secondary" special="cancel"/></footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_esi_cash_flow_report_wizard" model="ir.actions.act_window"><field name="name">Flujo de Caja</field><field name="res_model">esi.cash.flow.report.wizard</field><field name="view_mode">form</field><field name="view_id" ref="view_esi_cash_flow_report_wizard_form"/><field name="target">new</field></record>
+    <menuitem id="menu_esi_cash_flow_report" name="Flujo de Caja" parent="bi_menu_finance_report" action="action_esi_cash_flow_report_wizard" sequence="40" groups="account.group_account_user"/>
+</odoo>

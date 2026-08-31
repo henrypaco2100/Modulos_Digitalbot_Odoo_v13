@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_details_wizard_session_filter" model="ir.ui.view">
+        <field name="name">pos.details.wizard.form.session.filter</field>
+        <field name="model">pos.details.wizard</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_details_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pos_config_ids']" position="after">
+                <field name="session_ids"
+                       string="Sesiones POS"
+                       widget="many2many_tags"
+                       colspan="4"
+                       domain="[('config_id', 'in', pos_config_ids)]"
+                       options="{'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

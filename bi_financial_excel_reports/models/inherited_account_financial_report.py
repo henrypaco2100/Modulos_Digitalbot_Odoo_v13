@@ -178,115 +178,116 @@ class AccountingReportBi(models.TransientModel):
 		else:
 			return res
 
-	def _print_general_ledger_excel_report(self,report_lines):
-		filename = 'Libro mayor.xls'
-		workbook = xlwt.Workbook(style_compression=2)
-		worksheet = workbook.add_sheet('Sheet 1', cell_overwrite_ok=True)
-		date_format = xlwt.XFStyle()
-		date_format.num_format_str = 'dd/mm/yyyy'
-		style_header = xlwt.easyxf(
-			"font:height 300; font: name Liberation Sans, bold on,color black; align: horiz center; borders: top thin, bottom thin, right thin, left thin; pattern: pattern solid, fore_colour gray25")
-		style_line = xlwt.easyxf(
-			"font:bold on,color black; align: horiz center; border: right thin, left thin, bottom thin")
-		worksheet.row(0).height_mismatch = True
-		worksheet.row(0).height = 500
-		worksheet.row(2).height = 550
-		# worksheet.col(0).width = 5500
-		worksheet.col(1).width = 5500
-		worksheet.col(2).width = 6500
-		worksheet.col(3).width = 6500
-		worksheet.col(4).width = 5500
-		worksheet.col(5).width = 8000
-		worksheet.write_merge(0, 0, 0, 8, self.env['res.users'].browse(self.env.uid).company_id.name + " : Informe del libro mayor ", style=style_header)
-		worksheet.write_merge(1, 1, 0, 1, 'Diarios', style_line)
-		worksheet.write(1, 2, 'Mostrar cuenta', style_line)
-		worksheet.write(1, 3, 'Movimientos de destino', style_line)
-		worksheet.write(1, 4, 'Ordenado por', style_line)
-		if self.date_from:
-			worksheet.write(1, 5, 'Fecha de', style_line)
-		if self.date_to:
-			worksheet.write_merge(1, 1, 6, 8, 'Fecha hasta', style_line)
-			#DAVID
 
-		style_line = xlwt.easyxf("font: height 150, color black; align: wrap yes; border: right thin, left thin, bottom thin")
-		journals = self.journal_ids
-		if journals and len(journals)>0:
-			journals_id = ', '.join([lt.code or '' for lt in journals])
-			worksheet.write_merge(2, 2, 0, 1, journals_id, style_line)
-		else:
-			journals_i = self.env['account.journal'].search([])
-			journals_ids = ', '.join([lt.code or '' for lt in journals_i])
-			worksheet.write_merge(2, 2, 0, 1, journals_ids, style_line)
+def _print_general_ledger_excel_report(self, report_lines):
+	filename = 'Libro mayor.xls'
+	workbook = xlwt.Workbook(style_compression=2)
+	worksheet = workbook.add_sheet('Sheet 1', cell_overwrite_ok=True)
+	date_format = xlwt.XFStyle()
+	date_format.num_format_str = 'dd/mm/yyyy'
+	style_header = xlwt.easyxf(
+		"font:height 300; font: name Liberation Sans, bold on,color black; align: horiz center; borders: top thin, bottom thin, right thin, left thin; pattern: pattern solid, fore_colour gray25")
+	style_line = xlwt.easyxf(
+		"font:bold on,color black; align: horiz center; border: right thin, left thin, bottom thin")
+	worksheet.row(0).height_mismatch = True
+	worksheet.row(0).height = 500
+	worksheet.row(2).height = 550
+	worksheet.col(1).width = 5500
+	worksheet.col(2).width = 6500
+	worksheet.col(3).width = 6500
+	worksheet.col(4).width = 5500
+	worksheet.col(5).width = 8000
 
-		style_line = xlwt.easyxf("font: color black; align: horiz center, vert center; border: right thin, left thin, bottom thin")
-		if self.display_account == 'all':
-			display_account = 'Todas las cuentas'
-		elif self.display_account == 'movement':
-			display_account = 'Con movimientos'
-		else:
-			display_account = 'Con saldo no igual a cero'
+	show_analytic = bool(self.esi_con_analitica)
+	analytic_col = 6 if show_analytic else None
+	debit_col = 7 if show_analytic else 6
+	credit_col = debit_col + 1
+	balance_col = debit_col + 2
+	if show_analytic:
+		worksheet.col(analytic_col).width = 6500
 
-		worksheet.write(2, 2, display_account, style_line)
-		worksheet.write(2, 3, 'Todas las entradas publicadas' if self.target_move == 'posted' else 'Todas las entradas', style_line)
-		worksheet.write(2, 4, 'Fecha' if self.sortby == 'sort_date' else 'Diario y Asociado', style_line)
+	worksheet.write_merge(0, 0, 0, balance_col,
+		self.env['res.users'].browse(self.env.uid).company_id.name + " : Informe del libro mayor ",
+		style=style_header)
+	worksheet.write_merge(1, 1, 0, 1, 'Diarios', style_line)
+	worksheet.write(1, 2, 'Mostrar cuenta', style_line)
+	worksheet.write(1, 3, 'Movimientos de destino', style_line)
+	worksheet.write(1, 4, 'Ordenado por', style_line)
+	if self.date_from:
+		worksheet.write(1, 5, 'Fecha de', style_line)
+	if self.date_to:
+		worksheet.write_merge(1, 1, 6, balance_col, 'Fecha hasta', style_line)
 
-		style_line = xlwt.easyxf("font:color black; align: horiz center, vert center; border: right thin, left thin, bottom thin")
-		if self.date_from:
-			worksheet.write(2, 5, str(self.date_from), style_line)
-		if self.date_to:
-			worksheet.write_merge(2, 2, 6, 8, str(self.date_to), style_line)
+	style_line = xlwt.easyxf("font: height 150, color black; align: wrap yes; border: right thin, left thin, bottom thin")
+	if self.journal_ids and len(self.journal_ids) > 0:
+		journals_id = ', '.join([lt.code or '' for lt in self.journal_ids])
+		worksheet.write_merge(2, 2, 0, 1, journals_id, style_line)
+	else:
+		journals_i = self.env['account.journal'].search([])
+		journals_ids = ', '.join([lt.code or '' for lt in journals_i])
+		worksheet.write_merge(2, 2, 0, 1, journals_ids, style_line)
 
-		style_line = xlwt.easyxf("font:color black; align: horiz center; border: right thin, left thin, bottom thin; pattern: pattern solid, fore_colour gray25")
-		worksheet.write(3, 0, 'Fecha', style_line)
-		worksheet.write(3, 1, 'Diario', style_line)
-		worksheet.write(3, 2, 'Asociado', style_line)
-		worksheet.write(3, 3, 'Ref', style_line)
-		worksheet.write(3, 4, 'Asiento', style_line)
-		worksheet.write(3, 5, 'Etiqueta de entrada', style_line)
-		worksheet.write(3, 6, 'Débito', style_line)
-		worksheet.write(3, 7, 'Crédito', style_line)
-		worksheet.write(3, 8, 'Balance', style_line)
-		row = 4
-		col = 0
+	style_line = xlwt.easyxf("font: color black; align: horiz center, vert center; border: right thin, left thin, bottom thin")
+	if self.display_account == 'all':
+		display_account = 'Todas las cuentas'
+	elif self.display_account == 'movement':
+		display_account = 'Con movimientos'
+	else:
+		display_account = 'Con saldo no igual a cero'
+	worksheet.write(2, 2, display_account, style_line)
+	worksheet.write(2, 3, 'Todas las entradas publicadas' if self.target_move == 'posted' else 'Todas las entradas', style_line)
+	worksheet.write(2, 4, 'Fecha' if self.sortby == 'sort_date' else 'Diario y Asociado', style_line)
+	if self.date_from:
+		worksheet.write(2, 5, str(self.date_from), style_line)
+	if self.date_to:
+		worksheet.write_merge(2, 2, 6, balance_col, str(self.date_to), style_line)
 
-		for line in report_lines:
-			# row += 1
-			style_line = xlwt.easyxf("font: bold on, color black; border: right thin, left thin, bottom thin, top thin")
-			flag = False
-			worksheet.write_merge(row, row, 0, 5, line.get('code') + line.get('name').upper(), style=style_line)
-			worksheet.write(row, col + 6, line.get('debit'), style=style_line)
-			worksheet.write(row, col + 7, line.get('credit'), style=style_line)
-			worksheet.write(row, col + 8, line.get('balance'), style=style_line)
+	style_head = xlwt.easyxf("font:color black; align: horiz center; border: right thin, left thin, bottom thin; pattern: pattern solid, fore_colour gray25")
+	headers = ['Fecha', 'Diario', 'Asociado', 'Ref', 'Asiento', 'Etiqueta de entrada']
+	for idx, title in enumerate(headers):
+		worksheet.write(3, idx, title, style_head)
+	if show_analytic:
+		worksheet.write(3, analytic_col, 'Analítica', style_head)
+	worksheet.write(3, debit_col, 'Débito', style_head)
+	worksheet.write(3, credit_col, 'Crédito', style_head)
+	worksheet.write(3, balance_col, 'Balance', style_head)
+
+	row = 4
+	for line in report_lines:
+		account_style = xlwt.easyxf("font: bold on, color black; border: right thin, left thin, bottom thin, top thin")
+		worksheet.write_merge(row, row, 0, debit_col - 1,
+			(line.get('code') or '') + (line.get('name') or '').upper(), style=account_style)
+		worksheet.write(row, debit_col, line.get('debit'), style=account_style)
+		worksheet.write(row, credit_col, line.get('credit'), style=account_style)
+		worksheet.write(row, balance_col, line.get('balance'), style=account_style)
+		row += 1
+		flag = False
+		for move_line in line.get('move_lines') or []:
+			line_style = xlwt.easyxf("font:color black; border: right thin, left thin, bottom thin, top thin")
+			worksheet.write(row, 0, str(move_line.get('ldate') or ''), line_style)
+			worksheet.write(row, 1, move_line.get('lcode') or '', line_style)
+			worksheet.write(row, 2, move_line.get('partner_name') or '', line_style)
+			worksheet.write(row, 3, move_line.get('lref') or '', line_style)
+			worksheet.write(row, 4, move_line.get('move_name') or '', line_style)
+			worksheet.write(row, 5, move_line.get('lname') or '', line_style)
+			if show_analytic:
+				worksheet.write(row, analytic_col, move_line.get('analytic_name') or '', line_style)
+			worksheet.write(row, debit_col, move_line.get('debit'), line_style)
+			worksheet.write(row, credit_col, move_line.get('credit'), line_style)
+			worksheet.write(row, balance_col, move_line.get('balance'), line_style)
+			flag = True
 			row += 1
-			for move_line in line.get('move_lines'):
-				style_line = xlwt.easyxf("font:color black; border: right thin, left thin, bottom thin, top thin")
-				worksheet.write(row, col, str(move_line.get('ldate')),style_line)
-				worksheet.write(row, col + 1, move_line.get('lcode'), style_line)
-				worksheet.write(row, col + 2, move_line.get('partner_name'), style_line)
-				worksheet.write(row, col + 3, move_line.get('lref'), style_line)
-				worksheet.write(row, col + 4, move_line.get('move_name'), style_line)
-				worksheet.write(row, col + 5, move_line.get('lname'), style_line)
-				worksheet.write(row, col + 6, move_line.get('debit'), style_line)
-				worksheet.write(row, col + 7, move_line.get('credit'), style_line)
-				worksheet.write(row, col + 8, move_line.get('balance'), style_line)
-				flag = True
-				row += 1
-			if not flag:
-				row += 1
-		fp = io.BytesIO()
-		workbook.save(fp)
+		if not flag:
+			row += 1
 
-		export_id = self.env['excel.report'].create(
-			{'excel_file': base64.encodestring(fp.getvalue()), 'file_name': filename})
-		res = {
-			'view_mode': 'form',
-			'res_id': export_id.id,
-			'res_model': 'excel.report',
-			'view_type': 'form',
-			'type': 'ir.actions.act_window',
-			'target': 'new'
-		}
-		return res
+	fp = io.BytesIO()
+	workbook.save(fp)
+	export_id = self.env['excel.report'].create(
+		{'excel_file': base64.encodestring(fp.getvalue()), 'file_name': filename})
+	return {
+		'view_mode': 'form', 'res_id': export_id.id, 'res_model': 'excel.report',
+		'view_type': 'form', 'type': 'ir.actions.act_window', 'target': 'new'
+	}
 
 	def print_general_ledger(self):
 		res = super(AccountingReportBi, self).print_general_ledger()
@@ -296,72 +297,45 @@ class AccountingReportBi(models.TransientModel):
 		else:
 			return res
 
-	def _print_trial_balance_excel_report(self,report_lines):
-		filename = 'Balance General.xls'
-		workbook = xlwt.Workbook()
-		worksheet = workbook.add_sheet('Sheet 1')
-		date_format = xlwt.XFStyle()
-		date_format.num_format_str = 'dd/mm/yyyy'
-		style_header = xlwt.easyxf(
-			"font:height 300; font: name Liberation Sans, bold on,color black; align: horiz center")
-		style_line = xlwt.easyxf(
-			"font:bold on,color black;")
-		worksheet.row(0).height_mismatch = True
-		worksheet.row(0).height = 800
-		worksheet.col(0).width = 3900
-		worksheet.col(1).width = 5500
-		worksheet.col(2).width = 5500
-		worksheet.col(3).width = 5500
-		worksheet.col(4).width = 5500
-		worksheet.col(5).width = 5500
-		worksheet.write_merge(0, 0, 0, 5, self.env['res.users'].browse(self.env.uid).company_id.name + " : Informe de balance de comprobación ", style=style_header)
-		worksheet.write(2,0,'Mostrar cuenta')
-		worksheet.write(2,1,'Movimientos de destino')
-		if self.date_from:
-			worksheet.write(2, 2, 'Fecha de')
-		if self.date_to:
-			worksheet.write(2, 3, 'Fecha hasta')
-		if self.display_account == 'all':
-			display_account = 'Todas las cuentas'
-		elif self.display_account == 'movement':
-			display_account = 'Con movimientos'
-		else:
-			display_account = 'Con saldo no igual a cero'
-		worksheet.write(3,0,display_account)
-		worksheet.write(3,1,'Todas las entradas publicadas' if self.target_move == 'posted' else 'Todas las entradas')
-		if self.date_from:
-			worksheet.write(3, 2, self.date_from,date_format)
-		if self.date_to:
-			worksheet.write(3, 3, self.date_to,date_format)
-
-		worksheet.write(4,0,'Código')
-		worksheet.write(4,1,'Cuenta')
-		worksheet.write(4,2,'Débito')
-		worksheet.write(4,3,'Crédito')
-		worksheet.write(4,4,'Balance')
-		row = 5
-		col = 0
-		for lines in report_lines:
-			worksheet.write(row,col,lines.get('code'))
-			worksheet.write(row,col+1,lines.get('name'))
-			worksheet.write(row,col+2,lines.get('debit'))
-			worksheet.write(row,col+3,lines.get('credit'))
-			worksheet.write(row,col+4,lines.get('balance'))
-			row+=1
-		fp = io.BytesIO()
-		workbook.save(fp)
-
-		export_id = self.env['excel.report'].create(
-			{'excel_file': base64.encodestring(fp.getvalue()), 'file_name': filename})
-		res = {
-			'view_mode': 'form',
-			'res_id': export_id.id,
-			'res_model': 'excel.report',
-			'view_type': 'form',
-			'type': 'ir.actions.act_window',
-			'target': 'new'
-		}
-		return res
+	def _print_trial_balance_excel_report(self, report_lines):
+		filename = 'Sumas y Saldos.xls'
+		workbook = xlwt.Workbook(style_compression=2)
+		worksheet = workbook.add_sheet('Sumas y Saldos', cell_overwrite_ok=True)
+		title = xlwt.easyxf("font:height 300,bold on,color black; align:horiz center,vert center; borders:left thin,right thin,top thin,bottom thin; pattern:pattern solid,fore_colour gray25")
+		head = xlwt.easyxf("font:bold on,color black; align:horiz center,vert center; borders:left thin,right thin,top thin,bottom thin; pattern:pattern solid,fore_colour gray25")
+		cell = xlwt.easyxf("font:color black; borders:left thin,right thin,top thin,bottom thin")
+		detail = xlwt.easyxf("font:italic on,color black; borders:left thin,right thin,top thin,bottom thin")
+		money = xlwt.easyxf("font:color black; align:horiz right; borders:left thin,right thin,top thin,bottom thin", num_format_str='#,##0.00')
+		detail_money = xlwt.easyxf("font:italic on,color black; align:horiz right; borders:left thin,right thin,top thin,bottom thin", num_format_str='#,##0.00')
+		worksheet.col(0).width = 4200; worksheet.col(1).width = 13000
+		worksheet.col(2).width = 5000; worksheet.col(3).width = 5000; worksheet.col(4).width = 5000
+		worksheet.row(0).height = 600
+		worksheet.write_merge(0, 0, 0, 4, self.company_id.name + ' : SUMAS Y SALDOS', title)
+		filters = []
+		filters.append('Movimientos: ' + ('Publicados' if self.target_move == 'posted' else 'Todos'))
+		if self.date_from: filters.append('Desde: %s' % self.date_from)
+		if self.date_to: filters.append('Hasta: %s' % self.date_to)
+		if self.sd_account_id: filters.append('Cuentas: %s' % ', '.join(self.sd_account_id.mapped('display_name')))
+		if self.esi_analytic_account_ids: filters.append('Analítica: %s' % ', '.join(self.esi_analytic_account_ids.mapped('display_name')))
+		if self.esi_partner_ids: filters.append('Empresa: %s' % ', '.join(self.esi_partner_ids.mapped('display_name')))
+		if self.esi_cash_flow_ids: filters.append('CTA Flujo: %s' % ', '.join(self.esi_cash_flow_ids.mapped('display_name')))
+		worksheet.write_merge(1, 1, 0, 4, ' | '.join(filters), cell)
+		for c, h in enumerate(['Código', 'Cuenta', 'Débito', 'Crédito', 'Balance']): worksheet.write(3, c, h, head)
+		row = 4
+		for line in report_lines:
+			is_detail = bool(line.get('esi_detail'))
+			text_style = detail if is_detail else cell
+			num_style = detail_money if is_detail else money
+			worksheet.write(row, 0, line.get('code') or '', text_style)
+			name = ('     ↳ ' if is_detail else '') + (line.get('name') or '')
+			worksheet.write(row, 1, name, text_style)
+			worksheet.write(row, 2, line.get('debit') or 0.0, num_style)
+			worksheet.write(row, 3, line.get('credit') or 0.0, num_style)
+			worksheet.write(row, 4, line.get('balance') or 0.0, num_style)
+			row += 1
+		fp = io.BytesIO(); workbook.save(fp)
+		export_id = self.env['excel.report'].create({'excel_file': base64.encodestring(fp.getvalue()), 'file_name': filename})
+		return {'view_mode':'form','res_id':export_id.id,'res_model':'excel.report','view_type':'form','type':'ir.actions.act_window','target':'new'}
 
 	def print_trial_balance(self):
 		res = super(AccountingReportBi, self).print_trial_balance()

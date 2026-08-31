@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_esi_cash_flow_document">
+<t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-set="data" t-value="o._prepare_report_data()"/><t t-call="web.external_layout">
+<div class="page">
+<h2 style="text-align:center; margin-bottom:14px;">REPORTE DE FLUJO DE CAJA</h2>
+<div class="row mb16" style="font-size:10px;">
+ <div class="col-6"><strong>Empresa:</strong> <span t-esc="o.company_id.name"/><br/><strong>Desde:</strong> <span t-esc="o.date_from"/><br/><strong>Hasta:</strong> <span t-esc="o.date_to"/></div>
+ <div class="col-6">
+  <t t-if="o.cash_flow_ids"><strong>CTA Flujo:</strong> <span t-esc="', '.join(o.cash_flow_ids.mapped('display_name'))"/><br/></t>
+  <t t-if="o.analytic_account_ids"><strong>Analítica:</strong> <span t-esc="', '.join(o.analytic_account_ids.mapped('display_name'))"/><br/></t>
+  <t t-if="o.partner_ids"><strong>Empresa:</strong> <span t-esc="', '.join(o.partner_ids.mapped('display_name'))"/></t>
+ </div>
+</div>
+<table class="table table-sm o_main_table" style="font-size:9px; width:100%; table-layout:fixed; border-collapse:collapse;">
+ <thead><tr style="background:#e6e9ed; border-top:1px solid #777; border-bottom:1px solid #777;">
+  <th style="width:9%; padding:5px 3px;">Fecha</th><th style="width:15%; padding:5px 3px;">Comprobante</th><th style="width:14%; padding:5px 3px;">CTA Flujo</th><th style="width:13%; padding:5px 3px;">Analítica</th><th style="width:15%; padding:5px 3px;">Empresa</th><th style="width:13%; padding:5px 3px;">Banco / Caja</th><th class="text-right" style="width:7%; padding:5px 3px;">Ingreso</th><th class="text-right" style="width:7%; padding:5px 3px;">Egreso</th><th class="text-right" style="width:7%; padding:5px 3px;">Neto</th>
+ </tr></thead>
+ <tbody><t t-foreach="data['rows']" t-as="r"><tr style="border-bottom:1px solid #ddd;">
+  <td style="padding:4px 3px;"><span t-esc="r['date']"/></td><td style="padding:4px 3px;"><span t-esc="r['move_name']"/></td><td style="padding:4px 3px;"><span t-esc="r['flow']"/></td><td style="padding:4px 3px;"><span t-esc="r['analytic']"/></td><td style="padding:4px 3px;"><span t-esc="r['partner']"/></td><td style="padding:4px 3px;"><span t-esc="r['account']"/></td>
+  <td class="text-right" style="padding:4px 3px;"><span t-esc="r['income']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></td><td class="text-right" style="padding:4px 3px;"><span t-esc="r['expense']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></td><td class="text-right" style="padding:4px 3px;"><span t-esc="r['net']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></td>
+ </tr></t></tbody>
+ <tfoot><tr style="border-top:2px solid #333;"><td colspan="6" style="padding:5px 3px;"><strong>TOTAL</strong></td><td class="text-right"><strong><span t-esc="data['total_income']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></strong></td><td class="text-right"><strong><span t-esc="data['total_expense']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></strong></td><td class="text-right"><strong><span t-esc="data['total_net']" t-options="{'widget':'monetary','display_currency':o.company_id.currency_id}"/></strong></td></tr></tfoot>
+</table></div></t></t></t>
+</template>
+</odoo>

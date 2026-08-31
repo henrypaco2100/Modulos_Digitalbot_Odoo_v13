@@ -173,6 +173,113 @@ class AccountingReportBi(models.TransientModel):
     sd_balance_general = fields.Many2one('account.financial.report',domain=lambda self: [('id', 'in', self._tipo_balance_general())],
                                          default=_get_default_balance_general)
 
+    # ESI: opciones de desglose para los reportes financieros.
+    esi_con_analitica = fields.Boolean(string='Mostrar cuentas analíticas')
+    esi_partner = fields.Boolean(string='Desglosar cuentas por cobrar/pagar por contacto')
+    esi_analytic_account_ids = fields.Many2many('account.analytic.account', string='Analítica')
+    esi_partner_ids = fields.Many2many('res.partner', string='Empresa')
+    esi_cash_flow_ids = fields.Many2many('esi.cash.flow', string='Cuentas de Flujo')
+
+    def _esi_trial_extra_sql(self, table='account_move_line'):
+        """Filtros de Sumas y Saldos a nivel de asiento para conservar partida doble.
+
+        Si una analítica, empresa o CTA Flujo aparece en cualquier línea del asiento,
+        se incluyen todas las líneas del asiento. Así Débito y Crédito siguen cuadrando.
+        """
+        if not self.env.context.get('esi_trial_filters'):
+            return '', []
+        sql, params = '', []
+        if self.esi_analytic_account_ids:
+            sql += (' AND EXISTS (SELECT 1 FROM account_move_line esi_af '
+                    'WHERE esi_af.move_id = %s.move_id AND esi_af.analytic_account_id IN %%s)' % table)
+            params.append(tuple(self.esi_analytic_account_ids.ids))
+        if self.esi_partner_ids:
+            sql += (' AND EXISTS (SELECT 1 FROM account_move_line esi_pf '
+                    'WHERE esi_pf.move_id = %s.move_id AND esi_pf.partner_id IN %%s)' % table)
+            params.append(tuple(self.esi_partner_ids.ids))
+        if self.esi_cash_flow_ids:
+            sql += (' AND EXISTS (SELECT 1 FROM account_move_line esi_cf '
+                    'WHERE esi_cf.move_id = %s.move_id AND esi_cf.esi_cash_flow_id IN %%s)' % table)
+            params.append(tuple(self.esi_cash_flow_ids.ids))
+        return sql, params
+
+    def _esi_compute_breakdown(self, accounts, group_field, diarios=None):
+        """Agrupa movimientos por cuenta y por analítica/contacto respetando el contexto contable."""
+        result = {}
+        if not accounts:
+            return result
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        tables = tables.replace('"', '') if tables else 'account_move_line'
+        filters = ''
+        params = [tuple(accounts.ids)]
+        if where_clause.strip():
+            filters += ' AND ' + where_clause.strip()
+            params += list(where_params)
+        if diarios:
+            filters += ' AND account_move_line.journal_id IN %s'
+            params.append(tuple(diarios.ids))
+        extra_sql, extra_params = self._esi_trial_extra_sql('account_move_line')
+        filters += extra_sql
+        params += extra_params
+        query = (
+            "SELECT account_id, %s AS group_id, "
+            "COALESCE(SUM(debit),0) AS debit, COALESCE(SUM(credit),0) AS credit, "
+            "COALESCE(SUM(debit),0) - COALESCE(SUM(credit),0) AS balance "
+            "FROM %s WHERE account_id IN %%s%s GROUP BY account_id, %s"
+        ) % (group_field, tables, filters, group_field)
+        self.env.cr.execute(query, tuple(params))
+        for row in self.env.cr.dictfetchall():
+            result.setdefault(row['account_id'], []).append(row)
+        return result
+
+    def _esi_breakdown_lines(self, account, sign, analytic_rows=None, partner_rows=None,
+                             analytic_cmp=None, partner_cmp=None):
+        """Construye líneas informativas debajo de una cuenta sin alterar su total."""
+        result = []
+        rate = self.currency_id.rate or 1
+        currency = account.company_id.currency_id
+
+        def add_rows(rows, cmp_map, model, kind):
+            rows = list(rows or [])
+            existing_groups = {row.get('group_id') for row in rows}
+            for group_id, cmp_balance in (cmp_map or {}).items():
+                if group_id not in existing_groups:
+                    rows.append({'group_id': group_id, 'debit': 0.0, 'credit': 0.0,
+                                 'balance': 0.0, 'comp_balance': cmp_balance})
+            for row in rows:
+                debit = row.get('debit') or 0.0
+                credit = row.get('credit') or 0.0
+                balance = row.get('balance') or 0.0
+                comp_balance = (cmp_map or {}).get(row.get('group_id'), row.get('comp_balance', 0.0))
+                if (currency.is_zero(debit) and currency.is_zero(credit)
+                        and currency.is_zero(balance) and currency.is_zero(comp_balance)):
+                    continue
+                # No se muestra ningún desglose cuando la línea no tiene analítica/contacto.
+                if not row.get('group_id'):
+                    continue
+                rec = self.env[model].browse(row.get('group_id'))
+                if not rec.exists():
+                    continue
+                name = rec.name
+                vals = {
+                    'number_cuenta': '', 'name': name,
+                    'balance': balance * int(sign) * rate,
+                    'type': kind, 'level': 6,
+                    'account_type': account.internal_type,
+                    'esi_detail': True,
+                }
+                if self.debit_credit:
+                    vals.update({'debit': debit, 'credit': credit})
+                if self.enable_filter:
+                    vals['balance_cmp'] = comp_balance * int(sign) * rate
+                result.append(vals)
+
+        if self.esi_con_analitica:
+            add_rows(analytic_rows, analytic_cmp, 'account.analytic.account', 'analytic')
+        if self.esi_partner and account.internal_type in ('receivable', 'payable'):
+            add_rows(partner_rows, partner_cmp, 'res.partner', 'partner')
+        return result
+
     def _compute_account_balance(self, accounts,diarios):
         """ compute the balance, debit and credit for the provided accounts
         """
@@ -295,7 +402,39 @@ class AccountingReportBi(models.TransientModel):
 
             if res[report.id].get('account'):
                 sub_lines = []
-                for account_id, value in res[report.id]['account'].items():
+                report_accounts = self.env['account.account'].browse(list(res[report.id]['account'].keys()))
+                diarios = report.st_excluir_diario or self.env['account.journal'].search([])
+                analytic_breakdown = {}
+                partner_breakdown = {}
+                analytic_cmp_breakdown = {}
+                partner_cmp_breakdown = {}
+                if self.esi_con_analitica:
+                    analytic_breakdown = self.with_context(used_context_dict)._esi_compute_breakdown(
+                        report_accounts, 'analytic_account_id', diarios)
+                if self.esi_partner:
+                    partner_breakdown = self.with_context(used_context_dict)._esi_compute_breakdown(
+                        report_accounts.filtered(lambda a: a.internal_type in ('receivable', 'payable')),
+                        'partner_id', diarios)
+                if self.enable_filter:
+                    if self.esi_con_analitica:
+                        analytic_cmp_rows = self.with_context(comparison_context_dict)._esi_compute_breakdown(
+                            report_accounts, 'analytic_account_id', diarios)
+                        analytic_cmp_breakdown = {
+                            account_id: {r.get('group_id'): r.get('balance', 0.0) for r in rows}
+                            for account_id, rows in analytic_cmp_rows.items()
+                        }
+                    if self.esi_partner:
+                        partner_cmp_rows = self.with_context(comparison_context_dict)._esi_compute_breakdown(
+                            report_accounts.filtered(lambda a: a.internal_type in ('receivable', 'payable')),
+                            'partner_id', diarios)
+                        partner_cmp_breakdown = {
+                            account_id: {r.get('group_id'): r.get('balance', 0.0) for r in rows}
+                            for account_id, rows in partner_cmp_rows.items()
+                        }
+                account_items = sorted(
+                    res[report.id]['account'].items(),
+                    key=lambda item: self.env['account.account'].browse(item[0]).code or '')
+                for account_id, value in account_items:
                     flag = False
                     account = self.env['account.account'].browse(account_id)
                     vals = {
@@ -320,7 +459,11 @@ class AccountingReportBi(models.TransientModel):
                             flag = True
                     if flag:
                         sub_lines.append(vals)
-                lines += sorted(sub_lines, key=lambda sub_line: sub_line['number_cuenta'])
+                        sub_lines += self._esi_breakdown_lines(
+                            account, report.sign,
+                            analytic_breakdown.get(account_id), partner_breakdown.get(account_id),
+                            analytic_cmp_breakdown.get(account_id), partner_cmp_breakdown.get(account_id))
+                lines += sub_lines
         return lines
 
     # Antigua funcion para imprimir Balance General
@@ -426,13 +569,19 @@ class AccountingReportBi(models.TransientModel):
         if where_clause.strip():
             wheres.append(where_clause.strip())
         filters = " AND ".join(wheres)
+        extra_sql, extra_params = self._esi_trial_extra_sql('account_move_line')
+        filters += extra_sql
         request = (
                     "SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" + \
                     " FROM " + tables + " WHERE account_id IN %s " + filters + " GROUP BY account_id")
-        params = (tuple(accounts.ids),) + tuple(where_params) #+ (tuple(ids_diario),)
+        params = (tuple(accounts.ids),) + tuple(where_params) + tuple(extra_params)
         self.env.cr.execute(request, params)
         for row in self.env.cr.dictfetchall():
             account_result[row.pop('id')] = row
+
+        analytic_breakdown = self._esi_compute_breakdown(accounts, 'analytic_account_id') if self.esi_con_analitica else {}
+        partner_accounts = accounts.filtered(lambda a: a.internal_type in ('receivable', 'payable'))
+        partner_breakdown = self._esi_compute_breakdown(partner_accounts, 'partner_id') if self.esi_partner else {}
 
         account_res = []
         for account in accounts:
@@ -444,13 +593,46 @@ class AccountingReportBi(models.TransientModel):
                 res['debit'] = account_result[account.id].get('debit')
                 res['credit'] = account_result[account.id].get('credit')
                 res['balance'] = account_result[account.id].get('balance')
-            if display_account == 'all':
-                account_res.append(res)
+            include = display_account == 'all'
             if display_account == 'not_zero' and not currency.is_zero(res['balance']):
-                account_res.append(res)
+                include = True
             if display_account == 'movement' and (
                     not currency.is_zero(res['debit']) or not currency.is_zero(res['credit'])):
+                include = True
+            if include:
                 account_res.append(res)
+                if self.esi_con_analitica:
+                    for row in analytic_breakdown.get(account.id, []):
+                        if not row.get('group_id'):
+                            continue
+                        rec = self.env['account.analytic.account'].browse(row.get('group_id'))
+                        if not rec.exists():
+                            continue
+                        account_res.append({
+                            'code': '',
+                            'name': rec.name,
+                            'debit': row.get('debit') or 0.0,
+                            'credit': row.get('credit') or 0.0,
+                            'balance': row.get('balance') or 0.0,
+                            'esi_detail': True,
+                            'esi_detail_type': 'analytic',
+                        })
+                if self.esi_partner and account.internal_type in ('receivable', 'payable'):
+                    for row in partner_breakdown.get(account.id, []):
+                        if not row.get('group_id'):
+                            continue
+                        rec = self.env['res.partner'].browse(row.get('group_id'))
+                        if not rec.exists():
+                            continue
+                        account_res.append({
+                            'code': '',
+                            'name': rec.name,
+                            'debit': row.get('debit') or 0.0,
+                            'credit': row.get('credit') or 0.0,
+                            'balance': row.get('balance') or 0.0,
+                            'esi_detail': True,
+                            'esi_detail_type': 'partner',
+                        })
         return account_res
 
     def print_trial_balance(self):
@@ -458,13 +640,14 @@ class AccountingReportBi(models.TransientModel):
             if self.date_to <= self.date_from:
                 raise UserError('End date should be greater then to start date.')
         display_account = self.display_account
-        accounts = self.env['account.account'].search([])
+        accounts = self.sd_account_id if self.sd_account_id else self.env['account.account'].search([])
         used_context_dict = {
             'state': self.target_move,
             'date_from': self.date_from,
             'date_to': self.date_to,
             'journal_ids': False,
-            'strict_range': True
+            'strict_range': True,
+            'esi_trial_filters': True
         }
         account_res = self.with_context(used_context_dict)._get_accounts(accounts, display_account)
         final_dict = {}
@@ -473,58 +656,49 @@ class AccountingReportBi(models.TransientModel):
                            'target_move': self.target_move,
                            'date_from': self.date_from,
                            'date_to': self.date_to,
-
+                           'account_names': ', '.join(self.sd_account_id.mapped('display_name')),
+                           'analytic_names': ', '.join(self.esi_analytic_account_ids.mapped('display_name')),
+                           'partner_names': ', '.join(self.esi_partner_ids.mapped('display_name')),
+                           'cash_flow_names': ', '.join(self.esi_cash_flow_ids.mapped('display_name')),
                            })
         return self.env.ref('bi_financial_pdf_reports.action_report_trial_balance').report_action(self, data=final_dict)
 
-    def _get_account_move_entry(self, accounts, init_balance, sortby, display_account,Cuentas):
-        """
-        :param:
-                accounts: the recordset of accounts
-                init_balance: boolean value of initial_balance
-                sortby: sorting by date or partner and journal
-                display_account: type of account(receivable, payable and both)
-
-        Returns a dictionary of accounts with following key and value {
-                'code': account code,
-                'name': account name,
-                'debit': sum of total debit amount,
-                'credit': sum of total credit amount,
-                'balance': total balance,
-                'amount_currency': sum of amount_currency,
-                'move_lines': list of move line
-        }
-        """
+    def _get_account_move_entry(self, accounts, init_balance, sortby, display_account, Cuentas):
+        # Obtiene las líneas del Libro Mayor y, opcionalmente, su cuenta analítica.
         cr = self.env.cr
         MoveLine = self.env['account.move.line']
         move_lines = {x: [] for x in accounts.ids}
+        analytic_ids = self.esi_analytic_account_ids.ids
 
-        # Prepare initial sql query and Get the initial move lines
         if init_balance:
-            init_tables, init_where_clause, init_where_params = MoveLine.with_context(date_from=self.env.context.get('date_from'), date_to=False, initial_bal=True)._query_get()
+            init_tables, init_where_clause, init_where_params = MoveLine.with_context(
+                date_from=self.env.context.get('date_from'), date_to=False, initial_bal=True)._query_get()
             init_wheres = [""]
             if init_where_clause.strip():
                 init_wheres.append(init_where_clause.strip())
             init_filters = " AND ".join(init_wheres)
             filters = init_filters.replace('account_move_line__move_id', 'm').replace('account_move_line', 'l')
+            analytic_filter = ''
+            analytic_params = ()
+            if analytic_ids:
+                analytic_filter = ' AND l.analytic_account_id IN %s '
+                analytic_params = (tuple(analytic_ids),)
 
-            # Henry
-            # filters = filters.replace('AND ("l"."company_id" IS NULL   OR  ("l"."company_id" in (%s)))','')
-
-            sql = ("""SELECT 0 AS lid, l.account_id AS account_id, '' AS ldate, '' AS lcode, 0.0 AS amount_currency, '' AS lref, 'Initial Balance' AS lname, COALESCE(SUM(l.debit),0.0) AS debit, COALESCE(SUM(l.credit),0.0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance, '' AS lpartner_id,\
-                '' AS move_name, '' AS mmove_id, '' AS currency_code,\
-                NULL AS currency_id,\
-                '' AS invoice_id, '' AS invoice_type, '' AS invoice_number,\
-                '' AS partner_name\
-                FROM account_move_line l\
-                LEFT JOIN account_move m ON (l.move_id=m.id)\
-                LEFT JOIN res_currency c ON (l.currency_id=c.id)\
-                LEFT JOIN res_partner p ON (l.partner_id=p.id)\
-                JOIN account_journal j ON (l.journal_id=j.id)\
-                WHERE l.account_id IN %s""" + filters +"and l.account_id IN %s "+' GROUP BY l.account_id')
-            # HENRY
-            # init_where_params.pop()
-            params = (tuple(accounts.ids),) + tuple(init_where_params)+ (tuple(Cuentas),) # + (tuple(Compañias),)
+            sql = ("SELECT 0 AS lid, l.account_id AS account_id, '' AS ldate, '' AS lcode, "
+                   "0.0 AS amount_currency, '' AS lref, 'Initial Balance' AS lname, "
+                   "COALESCE(SUM(l.debit),0.0) AS debit, COALESCE(SUM(l.credit),0.0) AS credit, "
+                   "COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance, "
+                   "'' AS lpartner_id, '' AS move_name, '' AS mmove_id, '' AS currency_code, "
+                   "NULL AS currency_id, '' AS invoice_id, '' AS invoice_type, '' AS invoice_number, "
+                   "'' AS partner_name, '' AS analytic_name "
+                   "FROM account_move_line l "
+                   "LEFT JOIN account_move m ON (l.move_id=m.id) "
+                   "LEFT JOIN res_currency c ON (l.currency_id=c.id) "
+                   "LEFT JOIN res_partner p ON (l.partner_id=p.id) "
+                   "JOIN account_journal j ON (l.journal_id=j.id) "
+                   "WHERE l.account_id IN %s" + filters + " AND l.account_id IN %s " + analytic_filter +
+                   " GROUP BY l.account_id")
+            params = (tuple(accounts.ids),) + tuple(init_where_params) + (tuple(Cuentas),) + analytic_params
             cr.execute(sql, params)
             for row in cr.dictfetchall():
                 move_lines[row.pop('account_id')].append(row)
@@ -533,31 +707,36 @@ class AccountingReportBi(models.TransientModel):
         if sortby == 'sort_journal_partner':
             sql_sort = 'j.code, p.name, l.move_id'
 
-        # Prepare sql query base on selected parameters from wizard
         tables, where_clause, where_params = MoveLine._query_get()
         wheres = [""]
         if where_clause.strip():
             wheres.append(where_clause.strip())
         filters = " AND ".join(wheres)
         filters = filters.replace('account_move_line__move_id', 'm').replace('account_move_line', 'l')
-        # Henry
-        # filters = filters.replace('AND ("l"."company_id" IS NULL   OR  ("l"."company_id" in (%s)))', '')
+        analytic_filter = ''
+        analytic_params = ()
+        if analytic_ids:
+            analytic_filter = ' AND l.analytic_account_id IN %s '
+            analytic_params = (tuple(analytic_ids),)
 
-        # Get move lines base on sql query and Calculate the total balance of move lines
-        sql = ('''SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, j.code AS lcode, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance,\
-            m.name AS move_name, c.symbol AS currency_code, p.name AS partner_name\
-            FROM account_move_line l\
-            JOIN account_move m ON (l.move_id=m.id)\
-            LEFT JOIN res_currency c ON (l.currency_id=c.id)\
-            LEFT JOIN res_partner p ON (l.partner_id=p.id)\
-            JOIN account_journal j ON (l.journal_id=j.id)\
-            JOIN account_account acc ON (l.account_id = acc.id) \
-            WHERE l.account_id IN %s ''' + filters +"and l.account_id IN %s "+''' GROUP BY l.id, l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, p.name ORDER BY ''' + sql_sort)
+        sql = ("SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, "
+               "j.code AS lcode, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, "
+               "COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, "
+               "COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance, "
+               "m.name AS move_name, c.symbol AS currency_code, p.name AS partner_name, "
+               "COALESCE(aa.name, '') AS analytic_name "
+               "FROM account_move_line l "
+               "JOIN account_move m ON (l.move_id=m.id) "
+               "LEFT JOIN res_currency c ON (l.currency_id=c.id) "
+               "LEFT JOIN res_partner p ON (l.partner_id=p.id) "
+               "LEFT JOIN account_analytic_account aa ON (l.analytic_account_id=aa.id) "
+               "JOIN account_journal j ON (l.journal_id=j.id) "
+               "JOIN account_account acc ON (l.account_id = acc.id) "
+               "WHERE l.account_id IN %s " + filters + " AND l.account_id IN %s " + analytic_filter +
+               " GROUP BY l.id, l.account_id, l.date, j.code, l.currency_id, l.amount_currency, "
+               "l.ref, l.name, m.name, c.symbol, p.name, aa.name ORDER BY " + sql_sort)
 
-        #Henry
-        # where_params.pop()
-
-        params = (tuple(accounts.ids),) + tuple(where_params) + (tuple(Cuentas),) #+ (tuple(Compañias),)
+        params = (tuple(accounts.ids),) + tuple(where_params) + (tuple(Cuentas),) + analytic_params
         cr.execute(sql, params)
 
         for row in cr.dictfetchall():
@@ -567,7 +746,6 @@ class AccountingReportBi(models.TransientModel):
             row['balance'] += balance
             move_lines[row.pop('account_id')].append(row)
 
-        # Calculate the debit, credit and balance for Accounts
         account_res = []
         for account in accounts:
             currency = account.currency_id and account.currency_id or account.company_id.currency_id
@@ -587,6 +765,7 @@ class AccountingReportBi(models.TransientModel):
                 account_res.append(res)
 
         return account_res
+
 
     def print_general_ledger(self):
         if self.date_to or self.date_from:
@@ -632,7 +811,8 @@ class AccountingReportBi(models.TransientModel):
                 'target_move': self.target_move,
                 'sortby': sortby,
                 'date_from': self.date_from,
-                'date_to': self.date_to
+                'date_to': self.date_to,
+                'esi_con_analitica': self.esi_con_analitica
             }
         )
         return self.env.ref('bi_financial_pdf_reports.' + self.sd_tipo_reporte_libro_mayor).report_action(self,data=final_dict)

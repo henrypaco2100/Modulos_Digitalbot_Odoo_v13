@@ -80,6 +80,7 @@
                                 <th width="12%">Ref</th>
                                 <th width="12%">Asiento</th>
                                 <th width="14%">Etiqueta de entrada</th>
+                                <th t-if="data.get('esi_con_analitica')">Analítica</th>
                                 <th>Débito</th>
                                 <th>Crédito</th>
                                 <th>Balance</th>
@@ -89,7 +90,7 @@
                         <tbody>
                             <t t-foreach="data['Account']" t-as="account">
                                 <tr style="font-weight: bold;">
-                                    <td colspan="6">
+                                    <td t-att-colspan="7 if data.get('esi_con_analitica') else 6">
                                         <span style="color: white;" t-esc="'..'"/>
                                         <span t-esc="account['code']"/>
                                         <span t-esc="account['name']"/>
@@ -126,6 +127,9 @@
                                     </td>
                                     <td>
                                         <span t-esc="line['lname']"/>
+                                    </td>
+                                    <td t-if="data.get('esi_con_analitica')">
+                                        <span t-esc="line.get('analytic_name') or ''"/>
                                     </td>
                                     <td class="text-right">
                                         <span t-esc="line['debit']"

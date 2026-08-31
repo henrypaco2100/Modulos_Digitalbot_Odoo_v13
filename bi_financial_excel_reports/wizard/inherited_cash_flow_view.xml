@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo><data>
+    <record id="esi_cash_flow_report_wizard_add_excel_button" model="ir.ui.view">
+        <field name="name">esi.cash.flow.report.wizard.add.excel.button</field>
+        <field name="model">esi.cash.flow.report.wizard</field>
+        <field name="inherit_id" ref="bi_financial_pdf_reports.view_esi_cash_flow_report_wizard_form"/>
+        <field name="arch" type="xml"><xpath expr="//footer/button[@name='action_print_pdf']" position="after"><button name="action_print_excel" string="Imprimir Excel" type="object" class="oe_highlight"/></xpath></field>
+    </record>
+</data></odoo>
