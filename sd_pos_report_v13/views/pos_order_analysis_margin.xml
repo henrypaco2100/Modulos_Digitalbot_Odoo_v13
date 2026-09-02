@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ESI corrección: costo y ganancia se muestran como medidas del análisis
+         de pedidos, no dentro del reporte Detalles de ventas. -->
+    <record id="view_report_pos_order_pivot_esi_margin" model="ir.ui.view">
+        <field name="name">report.pos.order.pivot.esi.margin</field>
+        <field name="model">report.pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_report_pos_order_pivot"/>
+        <field name="arch" type="xml">
+            <field name="price_total" position="after">
+                <field name="esi_cost_total" type="measure"/>
+                <field name="esi_profit_estimated" type="measure"/>
+            </field>
+        </field>
+    </record>
+</odoo>

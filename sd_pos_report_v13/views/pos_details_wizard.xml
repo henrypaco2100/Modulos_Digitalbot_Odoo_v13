@@ -6,32 +6,41 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_details_wizard"/>
         <field name="arch" type="xml">
 
-            <!-- ESI corrección: el modo tree nativo no muestra una forma cómoda
-                 de quitar POS. Con many2many_tags cada POS vuelve a tener su X. -->
-            <xpath expr="//field[@name='pos_config_ids']" position="replace">
-                <field name="pos_config_ids"
-                       string="Puntos de Venta"
-                       widget="many2many_tags"
-                       colspan="4"
-                       nolabel="1"
-                       options="{'no_create': True, 'no_create_edit': True}"/>
-            </xpath>
-
-            <!-- ESI corrección: filtro adicional por una o varias sesiones. -->
-            <xpath expr="//group[field[@name='pos_config_ids']]" position="after">
-                <group string="Sesiones">
-                    <field name="session_ids"
-                           string="Sesiones POS"
-                           widget="many2many_tags"
-                           colspan="4"
-                           nolabel="1"
-                           domain="[('config_id', 'in', pos_config_ids)]"
-                           options="{'no_create': True, 'no_create_edit': True}"/>
+            <!-- ESI corrección: layout 50/50 real. El group exterior usa dos
+                 columnas, no cuatro; así cada bloque ocupa exactamente media
+                 anchura del modal y deja de quedar amontonado a la izquierda. -->
+            <xpath expr="//group[field[@name='start_date'] and field[@name='end_date']]" position="replace">
+                <group col="2" colspan="4">
+                    <group string="Sesiones" colspan="1">
+                        <field name="session_ids"
+                               string="Sesiones POS"
+                               widget="many2many_tags"
+                               nolabel="1"
+                               domain="[('config_id', 'in', pos_config_ids)]"
+                               options="{'no_create': True, 'no_create_edit': True}"/>
+                    </group>
+                    <group string="Tipo de reporte" colspan="1">
+                        <field name="report_type" widget="radio" nolabel="1"/>
+                    </group>
                 </group>
             </xpath>
 
-            <!-- ESI corrección: primero se puede visualizar el reporte en HTML;
-                 PDF y Excel XLSX quedan como salidas adicionales. -->
+            <xpath expr="//group[field[@name='pos_config_ids']]" position="replace">
+                <group col="2" colspan="4">
+                    <group string="Puntos de Venta" colspan="1">
+                        <field name="pos_config_ids"
+                               string="Puntos de Venta"
+                               widget="many2many_tags"
+                               nolabel="1"
+                               options="{'no_create': True, 'no_create_edit': True}"/>
+                    </group>
+                    <group string="Fechas" colspan="1">
+                        <field name="start_date" string="Fecha de inicio"/>
+                        <field name="end_date" string="Fecha final"/>
+                    </group>
+                </group>
+            </xpath>
+
             <xpath expr="//footer" position="replace">
                 <footer>
                     <button name="action_view_report"

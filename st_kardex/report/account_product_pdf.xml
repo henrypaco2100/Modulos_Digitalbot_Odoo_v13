@@ -1,118 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- QWeb Reports -->
-        <!-- NAME & FILE_NAME should be the same -->
-                <report
-                    id="kardex_product_report_pdf"
-                    model="kardex.report"
-                    report_type="qweb-pdf"
-                    string="KARDEX FISICO VALORADO"
-                    name="st_kardex.kardex_valuate_pdf_report"
-                    file="st_kardex.kardex_valuate_pdf_report"
+        <report id="kardex_product_report_html"
+                model="kardex.report"
+                string="Vista Kardex Físico Valorado"
+                report_type="qweb-html"
+                name="st_kardex.kardex_report_html"
+                file="st_kardex.kardex_report_html"/>
 
-                />
+        <report id="kardex_product_report_pdf"
+                model="kardex.report"
+                string="Kardex Físico Valorado"
+                report_type="qweb-pdf"
+                name="st_kardex.kardex_report_pdf"
+                file="st_kardex.kardex_report_pdf"/>
 
-        <template id="kardex_valuate_pdf_report">
+        <record id="kardex_product_report_pdf" model="ir.actions.report">
+            <field name="paperformat_id" ref="account_product_paperformat"/>
+            <field name="print_report_name">'Kardex_%s' % (object.date_end or '')</field>
+        </record>
+
+        <template id="kardex_report_table">
+            <t t-set="data" t-value="o.get_kardex_render_data()"/>
+            <style type="text/css">
+                .esi-kardex-meta { width: 100%; margin-bottom: 10px; font-size: 11px; }
+                .esi-kardex-meta td { padding: 3px 5px; vertical-align: top; }
+                .esi-kardex-table { width: 100%; border-collapse: collapse; font-size: 8px; }
+                .esi-kardex-table th, .esi-kardex-table td {
+                    border: 1px solid #555; padding: 3px 4px; vertical-align: middle;
+                }
+                .esi-kardex-table th { text-align: center; font-weight: 700; }
+                .esi-kardex-num { text-align: right; white-space: nowrap; }
+                .esi-kardex-center { text-align: center; }
+                .esi-kardex-group td { font-weight: 700; }
+                .esi-kardex-last td { font-weight: 700; }
+                .esi-kardex-total td { font-weight: 700; }
+                .esi-kardex-note { font-size: 9px; font-style: italic; margin: 5px 0; }
+                .esi-kardex-title { text-align: center; margin: 0 0 8px 0; }
+            </style>
+
+            <h2 class="esi-kardex-title"><t t-esc="data['title']"/></h2>
+            <table class="esi-kardex-meta">
+                <tr>
+                    <td><strong>Compañía:</strong> <t t-esc="data['company']"/></td>
+                    <td><strong>Rango:</strong> <t t-esc="data['date_start']"/> - <t t-esc="data['date_end']"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Almacenes:</strong> <t t-esc="data['warehouses_label']"/></td>
+                    <td><strong>Categorías:</strong> <t t-esc="data['categories_label']"/></td>
+                </tr>
+                <tr t-if="o.seleccionproductos">
+                    <td colspan="2"><strong>Productos:</strong> <t t-esc="data['products_label']"/></td>
+                </tr>
+            </table>
+
+            <div t-if="data['uoms']" class="esi-kardex-note">
+                Las columnas de unidad de medida ubicadas después de PRODUCTO muestran el saldo acumulado convertido a cada U.M. seleccionada.
+                Cuando la U.M. no pertenece a la misma categoría de medida del producto, la celda queda vacía.
+            </div>
+            <div t-foreach="data['warnings']" t-as="warning" class="esi-kardex-note">
+                <t t-esc="warning"/>
+            </div>
+
+            <table class="esi-kardex-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Nro</th>
+                        <th rowspan="2">FECHA</th>
+                        <th rowspan="2">CATEGORIA</th>
+                        <th t-if="data['show_concept']" rowspan="2">CONCEPTO</th>
+                        <t t-if="data['show_locations']">
+                            <th rowspan="2">ORIGEN</th>
+                            <th rowspan="2">DESTINO</th>
+                        </t>
+                        <th t-if="data['show_document']" rowspan="2">DOCUMENTO</th>
+                        <th rowspan="2">PRODUCTO</th>
+                        <th t-foreach="data['uoms']" t-as="uom" rowspan="2">
+                            <t t-esc="uom['name'].upper()"/>
+                        </th>
+                        <t t-if="data['details']">
+                            <th colspan="3">ENTRADAS</th>
+                            <th colspan="3">SALIDAS</th>
+                            <th colspan="3">SALDOS</th>
+                        </t>
+                        <t t-else="">
+                            <th colspan="3">SALDOS</th>
+                        </t>
+                    </tr>
+                    <tr>
+                        <t t-if="data['details']">
+                            <th>CANTIDAD</th><th>VR UNITARIO</th><th>VR TOTAL</th>
+                            <th>CANTIDAD</th><th>VR UNITARIO</th><th>VR TOTAL</th>
+                            <th>CANTIDAD</th><th>VR UNITARIO</th><th>VR TOTAL</th>
+                        </t>
+                        <t t-else="">
+                            <th>CANTIDAD</th><th>VR UNITARIO</th><th>VR TOTAL</th>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="data['sections']" t-as="section">
+                        <tr t-if="data['group_warehouses']" class="esi-kardex-group">
+                            <td t-att-colspan="data['prefix_col_count'] + (9 if data['details'] else 3)">
+                                <t t-esc="section['name'].upper()"/>
+                            </td>
+                        </tr>
+                        <t t-foreach="section['categories']" t-as="category">
+                            <tr t-if="data['group_categories']" class="esi-kardex-group">
+                                <td t-att-colspan="data['prefix_col_count'] + (9 if data['details'] else 3)">
+                                    <t t-esc="category['name'].upper()"/>
+                                </td>
+                            </tr>
+                            <t t-foreach="category['products']" t-as="product">
+                                <tr t-foreach="product['lines']" t-as="line"
+                                    t-att-class="'esi-kardex-last' if line['is_last'] else ''">
+                                    <td class="esi-kardex-center"><t t-esc="line['nro']"/></td>
+                                    <td><t t-esc="line['date']"/></td>
+                                    <td><t t-esc="line['category_name']"/></td>
+                                    <td t-if="data['show_concept']"><t t-esc="line['concept']"/></td>
+                                    <t t-if="data['show_locations']">
+                                        <td><t t-esc="line['origin']"/></td>
+                                        <td><t t-esc="line['dest']"/></td>
+                                    </t>
+                                    <td t-if="data['show_document']"><t t-esc="line['document']"/></td>
+                                    <td><t t-esc="line['product_name']"/></td>
+                                    <td t-foreach="line['uom_values']" t-as="uom_value" class="esi-kardex-num">
+                                        <t t-if="uom_value is not None" t-esc="'{:,.4f}'.format(uom_value)"/>
+                                    </td>
+                                    <t t-if="data['details']">
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.4f}'.format(line['entry_qty'])"/></td>
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['entry_unit'])"/></td>
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['entry_total'])"/></td>
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.4f}'.format(line['output_qty'])"/></td>
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['output_unit'])"/></td>
+                                        <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['output_total'])"/></td>
+                                    </t>
+                                    <td class="esi-kardex-num"><t t-esc="'{:,.4f}'.format(line['balance_qty'])"/></td>
+                                    <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['balance_unit'])"/></td>
+                                    <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(line['balance_total'])"/></td>
+                                </tr>
+                            </t>
+                            <tr t-if="data['group_categories']" class="esi-kardex-total">
+                                <td t-att-colspan="data['prefix_col_count']">TOTAL CATEGORÍA <t t-esc="category['name']"/></td>
+                                <t t-if="data['details']"><td colspan="8"></td></t>
+                                <t t-else=""><td colspan="2"></td></t>
+                                <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(category['total_value'])"/></td>
+                            </tr>
+                        </t>
+                        <tr t-if="data['group_warehouses']" class="esi-kardex-total">
+                            <td t-att-colspan="data['prefix_col_count']">TOTAL ALMACÉN <t t-esc="section['name']"/></td>
+                            <t t-if="data['details']"><td colspan="8"></td></t>
+                            <t t-else=""><td colspan="2"></td></t>
+                            <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(section['total_value'])"/></td>
+                        </tr>
+                    </t>
+                    <tr class="esi-kardex-total">
+                        <td t-att-colspan="data['prefix_col_count']">TOTAL GENERAL</td>
+                        <t t-if="data['details']"><td colspan="8"></td></t>
+                        <t t-else=""><td colspan="2"></td></t>
+                        <td class="esi-kardex-num"><t t-esc="'{:,.2f}'.format(data['total_value'])"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+
+        <template id="kardex_report_html">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="web.internal_layout">
+                    <t t-call="web.external_layout">
                         <div class="page">
-                            <center><h2>"KARDEX FISICO VALORADO INVENTARIO"</h2></center>
-                            <br></br>
-                            <div class="row mt32 mb32">
-                                <div style="width:33.33%;">
-                                    <t t-if="o.date_start">
-                                        <strong>Fecha de :</strong>
-                                    <p>
-                                        <span t-esc="o.date_start"/>
-                                    </p>
-                                    </t>
-                                    <t t-if="o.categ_id">
-                                    <br>
-                                        <strong>Categoria de Producto:</strong>
-                                        <t t-foreach='o.categ_id' t-as='line'>
-                                        <th><t t-esc="', '.join(['' or line.name])"/></th>
-<!--                                        <t t-esc="l.name"/>-->
-                                        </t>
-                                    </br>
-                                    </t>
-                                </div>
-                                <div style="width:33.33%;">
-                                    <t t-if="o.date_end">
-                                        <strong>Fecha hasta :</strong>
-                                    <p>
-                                        <span t-esc="o.date_end"/>
-                                    </p>
-                                    </t>
-                                </div>
+                            <!-- ESI corrección: desde VER también se descarga PDF o Excel. -->
+                            <div style="margin: 0 0 12px 0; text-align: right;">
+                                <a t-att-href="'/st_kardex/pdf/%s' % o.id" class="btn btn-primary" style="margin-right: 6px;">Descargar PDF</a>
+                                <a t-att-href="'/st_kardex/excel/%s' % o.id" class="btn btn-secondary">Descargar Excel</a>
                             </div>
-
-                            <table style="width:2400px" class="table table-striped">
-                                    <thead class="thead-blue">
-                                        <tr>
-<!--                                            <th>Producto</th>-->
-                                            <th>Fecha de Movimiento</th>
-                                            <th>Codigo de Transferencia</th>
-                                            <th>Ingresos</th>
-                                            <th>Salidas</th>
-                                            <th>Saldo Ing/Sald</th>
-                                            <th>Ingresos en Bs</th>
-                                            <th>Salidas en Bs</th>
-                                            <th>Saldo In/Sal en Bs</th>
-                                            <th>Costo Unitario</th>
-                                        </tr>
-                                    </thead>
-                                <tbody>
-<!--                                    <t t-set="product_category" t-value="[]"/>-->
-<!--                                        <t t-foreach="o.order_line" t-as="l">-->
-<!--                                            <t t-set="product_category" t-value="product_category+[l.product_id.categ_id]"/>-->
-<!--                                        </t>-->
-<!--                        -->
-<!--                                    <t t-foreach="set(product_category)" t-as="category">-->
-<!--                                        <div><strong t-esc="category.name"/></div>-->
-<!--                                        <t t-foreach="o.order_line" t-as="l">-->
-<!--                                            <t t-if="category.id==l.product_id.categ_id.id">-->
-<!--                                                    <div><span t-field="l.product_id"/></div>-->
-<!--                                            </t>-->
-<!--                                        </t>-->
-<!--                                    </t>-->
-                                    <t t-foreach='o.report_lines_ids' t-as='line'>
-                                            <tr style="width:2400px">
-<!--                                                <t t-set="product_name" t-value="[]"/>-->
-<!--                                                <t t-set="product_name" t-value="product_name+[line.product_id]"/>-->
-<!--                                                <t t-foreach="set(product_name)" t-as="product">-->
-<!--                                                    <div><strong t-esc="product"/></div>-->
-<!--    &lt;!&ndash;                                                <t t-foreach="o.report_lines_ids" t-as="l">&ndash;&gt;-->
-<!--                                                        <t t-if="product==line.product_id">-->
-<!--                                                                <div><span t-field="line.product_id"/></div>-->
-<!--                                                    </t>-->
-<!--&lt;!&ndash;                                                </t>&ndash;&gt;-->
-<!--                                                </t>-->
-                                            <th><t t-esc="line.date"/></th>
-                                            <th><t t-esc="line.reference_id"/></th>
-<!--                                            <th><t t-esc="line.product_id"/></th>-->
-                                            <th><t t-esc="line.start_id"/></th>
-                                            <th><t t-esc="line.exit_id"/></th>
-                                            <th><t t-esc="line.saldo_id"/></th>
-                                            <th><t t-esc="line.ing_bs"/></th>
-<!--                                            <th><t t-esc="line.journal_id"/></th>-->
-                                            <th><t t-esc="line.sal_bs"/></th>
-                                            <th><t t-esc="line.sal_ingsal"/></th>
-                                            <th><t t-esc="line.cost_unit"/></th>
-
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
-                            </div>
+                            <t t-call="st_kardex.kardex_report_table"/>
+                        </div>
                     </t>
                 </t>
             </t>
         </template>
 
-        <record id="kardex_product_report_pdf" model="ir.actions.report">
-            <field name="paperformat_id" ref="account_product_paperformat"/>
-        </record>
-
+        <template id="kardex_report_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <t t-call="st_kardex.kardex_report_table"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
     </data>
 </odoo>

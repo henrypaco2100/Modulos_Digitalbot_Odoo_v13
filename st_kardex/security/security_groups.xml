@@ -1,13 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
+        <!-- ESI corrección: se elimina la dependencia oculta a sd_stock_v13. -->
         <record id="sd_grupo_reporte_kardex" model="res.groups">
             <field name="name">Reporte / Imprimir Kardex</field>
-            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+            <field name="category_id" ref="base.module_category_operations_inventory"/>
         </record>
         <record id="sd_tecnico_cargar_tipo_movimiento" model="res.groups">
             <field name="name">Reporte / Cargar Tipo de Movimiento</field>
-            <field name="category_id" ref="sd_stock_v13.sd_reporte_inventario_categoria"/>
+            <field name="category_id" ref="base.module_category_operations_inventory"/>
         </record>
     </data>
 </odoo>

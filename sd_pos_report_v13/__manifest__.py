@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Mejoras POS Reporte v13',
-    'version': '13.0.0.5',
-    'summary': 'Reporte POS por sesiones con vista previa, fecha, pago, PDF y Excel XLSX desde wizard o visor HTML',
+    'version': '13.0.0.9',
+    'summary': 'Reporte POS Totales/Total - detallado/Detallado compatible con múltiples UDM',
     'category': 'Point of Sale',
-    'author': 'SODIGITALIM',
+    'author': 'ESI',
     'website': 'https://sodigitalim.com/',
     'depends': ['base', 'web', 'point_of_sale'],
     'data': [
         'views/assets.xml',
         'views/pos_details_wizard.xml',
+        'views/pos_order_analysis_margin.xml',
         'views/report_actions.xml',
         'views/inherit_report_saledetail.xml',
     ],
@@ -19,4 +20,5 @@
     ],
     'installable': True,
     'application': False,
+    'post_init_hook': 'post_init_hook',
 }
