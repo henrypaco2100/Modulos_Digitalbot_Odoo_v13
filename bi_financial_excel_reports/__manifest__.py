@@ -2,7 +2,7 @@
 
 {
     'name': 'Odoo ALL Financial Reports (BS,P&L,GL,Trial Balance)(PDF/EXCEL)',
-    'version': '13.0.0.0',
+    'version': '13.0.0.1',
     'author': 'BrowseInfo',
     'website': 'www.browseinfo.in',
     'category': 'Accounting',

@@ -11,39 +11,52 @@
             </div>
         </xpath>
 
+        <!-- ESI corrección: el reporte nativo agrupa producto/precio/descuento y por
+             eso no puede mostrar fecha ni método de pago por venta. Aquí usamos líneas
+             reales de pos.order.line, sin duplicar importes. -->
         <xpath expr="//div[@class='page']/table[1]" position="replace">
-            <table class="table table-sm">
+            <table class="table table-sm" style="font-size: 11px; table-layout: fixed; width: 100%;">
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Subtotal</th>
+                        <th style="width: 28%;">Producto</th>
+                        <th style="width: 16%;">Método de pago</th>
+                        <th style="width: 17%;">Fecha</th>
+                        <th style="width: 11%; text-align: right;">Cantidad</th>
+                        <th style="width: 14%; text-align: right;">Precio Unitario</th>
+                        <th style="width: 14%; text-align: right;">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr t-foreach="products" t-as="line">
+                    <tr t-foreach="detailed_lines" t-as="line">
                         <t t-set="internal_reference"
                            t-value="line['code'] and '[%s] ' % line['code'] or ''"/>
-                        <td>
+                        <td style="word-wrap: break-word;">
                             <t t-esc="internal_reference"/>
                             <t t-esc="line['product_name']"/>
                         </td>
+                        <td style="word-wrap: break-word;">
+                            <t t-esc="line['payment_method'] or '-'"/>
+                        </td>
                         <td>
+                            <t t-esc="line['date']" t-options="{'widget': 'datetime'}"/>
+                        </td>
+                        <td style="text-align: right; white-space: nowrap;">
                             <t t-esc="line['quantity']"/>
                             <t t-if="line['uom'] != 'Units'">
                                 <t t-esc="line['uom']"/>
                             </t>
                         </td>
-                        <td>
+                        <td style="text-align: right; white-space: nowrap;">
                             <t t-esc="line['price_unit']"
                                t-options="{'widget': 'float', 'precision': currency_precision}"/>
                             <t t-if="line['discount'] != 0">
-                                Desc: <t t-esc="line['discount']"/>%
+                                <br/>Desc: <t t-esc="line['discount']"/>%
                             </t>
                         </td>
-                        <td>
-                            <t t-esc="line['quantity'] * line['price_unit'] * ((100 - line['discount']) / 100.0)"
+                        <td style="text-align: right; white-space: nowrap;">
+                            <!-- ESI corrección: usar price_subtotal_incl real de Odoo,
+                                 no qty * price_unit, para respetar impuestos/redondeos. -->
+                            <t t-esc="line['subtotal']"
                                t-options="{'widget': 'float', 'precision': currency_precision}"/>
                         </td>
                     </tr>

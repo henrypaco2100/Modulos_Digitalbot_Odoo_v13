@@ -76,3 +76,14 @@ class EsiCashFlowReportWizard(models.TransientModel):
     def action_print_pdf(self):
         self.ensure_one()
         return self.env.ref('bi_financial_pdf_reports.action_report_esi_cash_flow').report_action(self)
+
+    # ESI: vista previa HTML usando el mismo QWeb del PDF.
+    def action_view_report(self):
+        self.ensure_one()
+        return self.env['esi.financial.report.preview'].open_from_report_action(
+            self,
+            'Flujo de Caja',
+            'action_print_pdf',
+            excel_method='action_print_excel',
+            excel_uses_report_type=False,
+        )

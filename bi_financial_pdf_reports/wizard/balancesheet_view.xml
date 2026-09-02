@@ -45,7 +45,9 @@
                         </notebook>
                     </group>
                     <footer>
-                        <button name="check_report" string="imprimir" type="object" default_focus="1"
+                        <button name="action_view_balance_sheet" string="Ver" type="object"
+                                class="oe_highlight" icon="fa-eye"/>
+                        <button name="check_report" string="Imprimir PDF" type="object" default_focus="1"
                                 class="oe_highlight"/>
                         <button string="Cancelar" class="btn btn-default" special="cancel"/>
                     </footer>

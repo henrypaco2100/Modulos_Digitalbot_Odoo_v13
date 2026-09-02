@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- ESI corrección: agregar un botón Excel al panel del visor HTML de reportes.
+         El JavaScript lo muestra únicamente para la vista previa de este módulo. -->
+    <t t-extend="report.client_action.ControlButtons">
+        <t t-jquery=".o_report_buttons" t-operation="append">
+            <button type="button"
+                    class="btn btn-secondary o_sd_pos_report_excel"
+                    title="Descargar Excel"
+                    style="display: none; margin-left: 6px;">
+                Descargar Excel
+            </button>
+        </t>
+    </t>
+</templates>

@@ -9,7 +9,7 @@
                 <field name="restrict_mode_hash_table" position="after">
                     <field name="sd_show_glosa"/>
                 </field>
-        </field>
+            </field>
         </record>
     </data>
 </odoo>

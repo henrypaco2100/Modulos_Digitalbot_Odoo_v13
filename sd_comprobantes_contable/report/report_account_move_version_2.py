@@ -5,7 +5,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
     _inherit = 'account.move'
 
     sd_show_glosa = fields.Boolean(related='journal_id.sd_show_glosa')
-
     # def action_button_imprimir_comprobante(self):
     #     """prueba imprimir"""
     #     return self.env.ref('sd_comprobantes_contable.sd_action_account_move_comprobantes').sudo().report_action(self)
@@ -19,7 +18,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         # crear archivo adjunto factura/asiento normal
         # self.guardar_archivo_adjunto('Comprobante '+name, pdf_adjunto)
         return str('Comprobante '+name)
-
     def get_title_report_comprobante(self):
         """Retornar el tipo del reporte segun su tipo de asiento o factura"""
         titulo = 'COMPROBANTE CONTABLE'
@@ -93,7 +91,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
     def return_order_line_ids(self):
         order_line = sorted(self.line_ids, key=lambda l: l.id)
         return order_line
-
     def numero_to_letras(self, numero):
         indicador = [("", ""), ("MIL", "MIL"), ("MILLON", "MILLONES"), ("MIL", "MIL"), ("BILLON", "BILLONES")]
         entero = int(numero)
@@ -125,7 +122,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         else:
             numero_letras = numero_letras + " " + str(decimal) + "/100"
         return numero_letras
-
     def convierte_cifra(self, numero, sw):
         lista_centana = ["", ("CIEN", "CIENTO"), "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS",
                          "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"]
@@ -141,7 +137,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         decena = int((numero - (centena * 100)) / 10)
         unidad = int(numero - (centena * 100 + decena * 10))
         # print "centena: ",centena, "decena: ",decena,'unidad: ',unidad
-
         texto_centena = ""
         texto_decena = ""
         texto_unidad = ""
@@ -153,7 +148,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
                 texto_centena = texto_centena[1]
             else:
                 texto_centena = texto_centena[0]
-
         # Valida las decenas
         texto_decena = lista_decena[decena]
         if decena == 1:
@@ -170,7 +164,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
             if unidad == 1:
                 texto_unidad = texto_unidad[sw]
         return "%s %s %s" % (texto_centena, texto_decena, texto_unidad)
-
     def result_total_debit(self):
         result_total = 0.00
         for line_id in self.line_ids:
@@ -182,7 +175,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         for line_id in self.line_ids:
             result_total += abs(line_id.debit)
         return "{:,.2f}".format(round(result_total, 2))
-
     def result_total_credit(self):
         result_total = 0.00
         for line_id in self.line_ids:
@@ -194,7 +186,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         for line_id in self.line_ids:
             result_total += abs(line_id.credit)
         return "{:,.2f}".format(round(result_total, 2))
-
     def has_store_id(self):
         # print('bienvenido a la funcion has_store_id, tiene reservacion?')
         if hasattr(self.env['account.journal'], 'store_id'):
@@ -203,7 +194,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
         else:
             # Field does not exist
             return False
-
     # def filtrar_grupo_analitico(self, grupos):
     #     lineas = []
     #     for line in self.line_ids:
@@ -211,8 +201,6 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
     #             if line.analytic_account_id.group_id.id in grupos:
     #                 lineas.append(line)
     #     print('grupo ', grupos, ': ', lineas)
-
-
 # class BalancesheetReport(models.AbstractModel):
 #     _name = 'report.bi_financial_pdf_reports.report_balancesheet'
 #     @api.model
@@ -222,4 +210,3 @@ class SdAccountMoveComprobanteContableVersion2(models.Model):
 #             'doc_model': 'accounting.report.bi',
 #             'data': data,
 #         }
-

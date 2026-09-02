@@ -3,7 +3,6 @@ from odoo.exceptions import RedirectWarning, UserError, ValidationError, AccessE
 import base64
 class SdAccountMoveComprobanteContable(models.Model):
     _inherit = 'account.move'
-
     # def action_button_imprimir_comprobante(self):
     #     """prueba imprimir"""
     #     return self.env.ref('sd_comprobantes_contable.sd_action_account_move_comprobantes').sudo().report_action(self)
@@ -17,7 +16,6 @@ class SdAccountMoveComprobanteContable(models.Model):
         # crear archivo adjunto factura/asiento normal
         # self.guardar_archivo_adjunto('Comprobante '+name,pdf_adjunto)
         return str('Comprobante '+name)
-
     def get_title_report_comprobante(self):
         """Retornar el tipo del reporte segun su tipo de asiento o factura"""
         titulo = 'COMPROBANTE DIARIO Nº' +'  '+ self.get_name_formato()
@@ -122,7 +120,6 @@ class SdAccountMoveComprobanteContable(models.Model):
         else:
             numero_letras = numero_letras + " " + str(decimal) + "/100"
         return numero_letras
-
     def convierte_cifra(self, numero, sw):
         lista_centana = ["", ("CIEN", "CIENTO"), "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS",
                          "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"]
@@ -138,7 +135,6 @@ class SdAccountMoveComprobanteContable(models.Model):
         decena = int((numero - (centena * 100)) / 10)
         unidad = int(numero - (centena * 100 + decena * 10))
         # print "centena: ",centena, "decena: ",decena,'unidad: ',unidad
-
         texto_centena = ""
         texto_decena = ""
         texto_unidad = ""
@@ -150,7 +146,6 @@ class SdAccountMoveComprobanteContable(models.Model):
                 texto_centena = texto_centena[1]
             else:
                 texto_centena = texto_centena[0]
-
         # Valida las decenas
         texto_decena = lista_decena[decena]
         if decena == 1:
@@ -177,7 +172,6 @@ class SdAccountMoveComprobanteContable(models.Model):
         for line_id in self.line_ids:
             result_total += abs(line_id.credit)
         return result_total
-
 # class BalancesheetReport(models.AbstractModel):
 #     _name = 'report.bi_financial_pdf_reports.report_balancesheet'
 #     @api.model
@@ -187,4 +181,3 @@ class SdAccountMoveComprobanteContable(models.Model):
 #             'doc_model': 'accounting.report.bi',
 #             'data': data,
 #         }
-

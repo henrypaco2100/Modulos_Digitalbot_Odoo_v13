@@ -2,7 +2,7 @@
 
 {
     'name': 'Odoo All Financial Reports in PDF(BS,P&L,GL,Trial Balance) ',
-    'version': '13.0.0.0',
+    'version': '13.0.0.1',
     'author': 'Sodigitalim',
     'website': 'sodigitalim.com',
     'category': 'Contabilidad',
@@ -30,6 +30,7 @@
         'reports/esi_cash_flow_report_action.xml',
         'wizard/balancesheet_view.xml',
         'views/esi_cash_flow_views.xml',
+        'views/financial_report_preview_views.xml',
         'wizard/profit_loss_view.xml',
         'wizard/trial_balance_view.xml',
         'wizard/general_ledger_view.xml',

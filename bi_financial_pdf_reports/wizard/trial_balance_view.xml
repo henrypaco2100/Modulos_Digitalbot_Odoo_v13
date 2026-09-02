@@ -19,7 +19,11 @@
                     </group>
                 </group>
                 <div class="text-muted">Los filtros vacíos consideran todos los registros. Puede seleccionar uno o varios valores.</div>
-                <footer><button name="print_trial_balance" string="Imprimir PDF" type="object" default_focus="1" class="oe_highlight"/><button string="Cancelar" class="btn btn-default" special="cancel"/></footer>
+                <footer>
+                    <button name="action_view_trial_balance" string="Ver" type="object" class="oe_highlight" icon="fa-eye"/>
+                    <button name="print_trial_balance" string="Imprimir PDF" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancelar" class="btn btn-default" special="cancel"/>
+                </footer>
             </form>
         </field>
     </record>

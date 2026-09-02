@@ -36,7 +36,8 @@
                 <field name="esi_analytic_account_ids" widget="many2many_tags"/>
             </group>
             <footer>
-                <button name="print_general_ledger" string="Imprimir" type="object" default_focus="1" class="oe_highlight"/>
+                <button name="action_view_general_ledger" string="Ver" type="object" class="oe_highlight" icon="fa-eye"/>
+                <button name="print_general_ledger" string="Imprimir PDF" type="object" default_focus="1" class="oe_highlight"/>
                 <button string="Cancel" class="btn btn-default" special="cancel" />
             </footer>
         </form>

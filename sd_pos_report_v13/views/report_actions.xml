@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ESI corrección: acción HTML para revisar el reporte dentro del navegador
+         antes de decidir si se descarga PDF o Excel. -->
+    <record id="sale_details_report_html" model="ir.actions.report">
+        <field name="name">Detalles de ventas - Vista previa</field>
+        <field name="model">report.point_of_sale.report_saledetails</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">point_of_sale.report_saledetails</field>
+        <field name="report_file">point_of_sale.report_saledetails</field>
+    </record>
+</odoo>

@@ -4,22 +4,13 @@ import base64
 
 class SdAccountPaymentComprobanteContable(models.Model):
     _inherit = 'account.payment'
-
     def get_nombre_file_report_comprobante_contable(self):
         """ Retorna el nombre del archivo"""
         print('funcion del titulo')
         if not self.state == 'posted':
             raise UserError(_("El documento debe de estar publicado."))
         name = self.name
-        # pdf_adjunto = self.crear_archivo_adjunto()
-        # nombre_formato = self.get_name_formato()
-            # name = self.get_title_report_comprobante()
-            #Crear archivo adjunto despacho
-            # self.despacho_id.guardar_archivo_adjunto(name,pdf_adjunto)
-        # crear archivo adjunto factura/asiento normal
-        # self.guardar_archivo_adjunto(name, pdf_adjunto)
         return str('Comprobantes '+name)
-
     def get_title_report_comprobante(self):
         nombre_formato = self.get_name_formato()
         if self.payment_type=='transfer':
@@ -29,11 +20,8 @@ class SdAccountPaymentComprobanteContable(models.Model):
         elif self.payment_type=='outbound':
             titulo = 'COMPROBANTE DE EGRESO ' + self.name
         return titulo
-
     def get_name_formato(self):
         """Retornar Nombre formato"""
-        # print('funcion del tituloñ')
-        # self.name='kd7dh/dd'
         if self.name:
             array_cadena = self.name.split('/')[::-1]
             array_cadena.pop()
@@ -41,7 +29,6 @@ class SdAccountPaymentComprobanteContable(models.Model):
         else:
             nombre_final = ' '
         return nombre_final
-
     def crear_archivo_adjunto(self):
         pdf = self.env.ref('sd_comprobantes_contable.sd_action_account_payment_comprobantes').render_qweb_pdf(self.ids)
         b64_pdf = base64.b64encode(pdf[0])
@@ -60,11 +47,8 @@ class SdAccountPaymentComprobanteContable(models.Model):
         })
         return b64_pdf
 
-
     def fecha_a_palabras(self):
         date = self.payment_date
-        # if self.type in ['out_invoice', 'in_invoice']:
-        #     date = self.payment_date
         if date:
             diccionario = {
                 '01': 'enero',
@@ -83,11 +67,9 @@ class SdAccountPaymentComprobanteContable(models.Model):
             return date.strftime("%d") + ' DE ' + diccionario[date.strftime("%m")].upper() + ' DEL ' + date.strftime("%Y")
         else:
             return 'No definido'
-
     def get_tasa_cambio(self):
         """RETORNAR TASA DE  CAMBIO"""
         return '6.96'
-
     def get_return_total_linea_add(self):
         """Total de lineas adicionales"""
         return self.return_linea_add_report(len(self.move_line_ids))
@@ -105,7 +87,6 @@ class SdAccountPaymentComprobanteContable(models.Model):
         indicador = [("", ""), ("MIL", "MIL"), ("MILLON", "MILLONES"), ("MIL", "MIL"), ("BILLON", "BILLONES")]
         entero = int(numero)
         decimal = int(round((numero - entero) * 100))
-        # print 'decimal : ',decimal
         contador = 0
         numero_letras = ""
         while entero > 0:
@@ -132,7 +113,6 @@ class SdAccountPaymentComprobanteContable(models.Model):
         else:
             numero_letras = numero_letras + " " + str(decimal) + "/100"
         return numero_letras
-
     def convierte_cifra(self, numero, sw):
         lista_centana = ["", ("CIEN", "CIENTO"), "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS",
                          "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"]
@@ -147,21 +127,15 @@ class SdAccountPaymentComprobanteContable(models.Model):
         centena = int(numero / 100)
         decena = int((numero - (centena * 100)) / 10)
         unidad = int(numero - (centena * 100 + decena * 10))
-        # print "centena: ",centena, "decena: ",decena,'unidad: ',unidad
-
         texto_centena = ""
         texto_decena = ""
         texto_unidad = ""
-
-        # Validad las centenas
         texto_centena = lista_centana[centena]
         if centena == 1:
             if (decena + unidad) != 0:
                 texto_centena = texto_centena[1]
             else:
                 texto_centena = texto_centena[0]
-
-        # Valida las decenas
         texto_decena = lista_decena[decena]
         if decena == 1:
             texto_decena = texto_decena[unidad]
@@ -170,14 +144,11 @@ class SdAccountPaymentComprobanteContable(models.Model):
                 texto_decena = texto_decena[1]
             else:
                 texto_decena = texto_decena[0]
-        # Validar las unidades
-        # print "texto_unidad: ",texto_unidad
         if decena != 1:
             texto_unidad = lista_unidad[unidad]
             if unidad == 1:
                 texto_unidad = texto_unidad[sw]
         return "%s %s %s" % (texto_centena, texto_decena, texto_unidad)
-
     def result_total_debit(self):
         result_total = 0
         for line_id in self.move_line_ids:

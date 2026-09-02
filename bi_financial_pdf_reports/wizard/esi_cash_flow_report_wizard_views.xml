@@ -18,7 +18,11 @@
                         <field name="include_unclassified"/>
                     </group>
                 </group>
-                <footer><button name="action_print_pdf" string="Imprimir PDF" type="object" class="oe_highlight"/><button string="Cancelar" class="btn-secondary" special="cancel"/></footer>
+                <footer>
+                    <button name="action_view_report" string="Ver" type="object" class="oe_highlight" icon="fa-eye"/>
+                    <button name="action_print_pdf" string="Imprimir PDF" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
             </form>
         </field>
     </record>

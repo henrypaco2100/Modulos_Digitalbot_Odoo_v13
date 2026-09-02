@@ -15,7 +15,6 @@
           <t t-raw="0" />
         </div>
     </template>
-
     <report
         id="sd_action_account_payment_comprobantes"
         model="account.payment"
@@ -26,14 +25,11 @@
         file="sd_comprobantes_contable.report_account_payment"
         groups="sd_comprobantes_contable.sd_comprobante_contable_1_group"
     />
-<!--    attachment="(object.state == 'posted') and ((object.name or 'COMP').replace('/','_')+'.pdf')"-->
-<!--        print_report_name="(object.get_nombre_file_report_comprobante_contable())"-->
     <template id="sd_internal_layout_account_payment_comprobantes_contable">
         <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
           <t t-raw="0" />
         </div>
     </template>
-
     <report
         id="sd_action_account_payment_version_2"
         model="account.payment"
@@ -44,14 +40,11 @@
         file="sd_comprobantes_contable.report_account_payment"
         groups="sd_comprobantes_contable.sd_comprobante_contable_2_group"
     />
-<!--    attachment="(object.state == 'posted') and ((object.name or 'COMP').replace('/','_')+'.pdf')"-->
-<!--        print_report_name="(object.get_nombre_file_report_comprobante_contable())"-->
     <template id="sd_internal_layout_account_payment_version_2">
         <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
           <t t-raw="0" />
         </div>
     </template>
-
     <report
         id="sd_action_account_move_comprobantes_version_2"
         model="account.move"
@@ -67,5 +60,4 @@
           <t t-raw="0" />
         </div>
     </template>
-
 </odoo>

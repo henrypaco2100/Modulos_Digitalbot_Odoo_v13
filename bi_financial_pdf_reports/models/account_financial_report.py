@@ -820,3 +820,46 @@ class AccountingReportBi(models.TransientModel):
     def get_current_date(self):
         return (datetime.date.day + '/' + datetime.date.month + '/' + datetime.date.year)
 
+
+    # -------------------------------------------------------------------------
+    # ESI: VISTA PREVIA HTML
+    # -------------------------------------------------------------------------
+    def action_view_balance_sheet(self):
+        self.ensure_one()
+        return self.env['esi.financial.report.preview'].open_from_report_action(
+            self,
+            'Balance General',
+            'check_report',
+            excel_method='check_report',
+            excel_uses_report_type=True,
+        )
+
+    def action_view_profit_loss(self):
+        self.ensure_one()
+        return self.env['esi.financial.report.preview'].open_from_report_action(
+            self,
+            'Estado de Resultado',
+            'check_report_estado_resultado',
+            excel_method='check_report_estado_resultado',
+            excel_uses_report_type=True,
+        )
+
+    def action_view_trial_balance(self):
+        self.ensure_one()
+        return self.env['esi.financial.report.preview'].open_from_report_action(
+            self,
+            'Sumas y Saldos',
+            'print_trial_balance',
+            excel_method='print_trial_balance',
+            excel_uses_report_type=True,
+        )
+
+    def action_view_general_ledger(self):
+        self.ensure_one()
+        return self.env['esi.financial.report.preview'].open_from_report_action(
+            self,
+            'Libro Mayor',
+            'print_general_ledger',
+            excel_method='print_general_ledger',
+            excel_uses_report_type=True,
+        )

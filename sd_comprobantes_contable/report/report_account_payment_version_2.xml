@@ -26,51 +26,7 @@
                                 <div style="width: 3%"/>
                             </div>
                         </div>
-<!--                        <div style="width:100%; height:100%">-->
-<!--                            <div class="row" style="width:100%; height:50%">-->
-<!--                                <div style="width:2%"/>-->
-<!--                                <div style="width:33%; height:100%">-->
-<!--                                    <div style="width:100%; height:100%" align="left">-->
-<!--                                        <div>-->
-<!--                                            <img t-attf-src="data:image/png;base64,{{account_payment.company_id.logo}}" height="100px" width="100px" alt="Red dot"/>-->
-<!--                                        </div>-->
-<!--                                        <div style="width:100%; height:50%"><strong><span style="font-size:20px" t-esc="account_payment.company_id.name"/></strong></div>-->
-<!--                                    </div>-->
-<!--                                    <div style="text-transform: uppercase; width:100%; height:50%"><span style="font-size:13px" t-esc="account_payment.company_id.street"/></div>-->
-<!--                                </div>-->
-<!--                                <div style="width:34%; height:100%; margin-top: 3%">-->
-<!--                                    <center><div style="font-size: 20px"  t-esc="account_payment.get_title_report_comprobante()"/></center>-->
-<!--                                    <center><div style="font-size: 20px"  t-esc="account_payment.name"/></center>-->
-<!--                                    <center><div style="font-size: 13px; margin-top: 5px">Expresado en  <span  t-esc="account_payment.currency_id.currency_unit_label"/></div></center>-->
-<!--                                </div>-->
-<!--                                <div style="width:33%; height:100%; text-align:right; font-size: 15px; margin-top: 3%">-->
-<!--                                    <div>NIT: <span style="width:100%; height:50%; font-size: 18px" t-esc="account_payment.company_id.partner_id.vat"/></div>-->
-<!--&lt;!&ndash;                                    <div>FECHA: <span style="width:100%; height:50%; font-size: 18px" t-esc="account_payment.payment_date"/></div>&ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div style="width:100%; height:50%; margin-top:1%">-->
-<!--&lt;!&ndash;                                <center><div style="font-size: 20px"  t-esc="account_payment.get_title_report_comprobante()"/></center>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <center><div style="font-size: 13px; margin-top: 5px">Expresado en  <span  t-esc="account_payment.currency_id.currency_unit_label"/></div></center>&ndash;&gt;-->
-<!--                                <div class="row" style="margin-left: 0px">-->
-<!--                                    <div style="width:35%; font-size: 15px; margin-top: 5px">-->
-<!--                                        <t t-if="account_payment.get_asiento_contable().ref != none">-->
-<!--                                            <div>Referencia: <span  t-esc="account_payment.get_asiento_contable().ref"/></div>-->
-<!--                                        </t>-->
-<!--                                        <t t-if="account_payment.get_asiento_contable().sd_show_glosa == True">-->
-<!--                                            <div style="margin-top: 5px">Glosa: <span  t-esc="account_payment.get_asiento_contable().sd_glosa"/></div>-->
-<!--                                        </t>-->
-<!--                                    </div>-->
-<!--                                    <div style="width:30%"/>-->
-<!--                                    <div style="width:35%; font-size: 15px; margin-top: 5px" align="right">-->
-<!--                                        <div>Fecha: <span t-esc="account_payment.fecha_a_palabras()"/></div>-->
-<!--                                        <div style="margin-top: 5px">Diario: <span  t-esc="account_payment.journal_id.name"/></div>-->
-<!--    &lt;!&ndash;                                        <div style="margin-top: 5px">Compañía: <span t-esc="account_move.company_id.name"/></div>&ndash;&gt;-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
-
 
                     <div class="page">
                         <div style="width: 100%; height: 150px">
@@ -100,15 +56,10 @@
                                           <div style="width: 66%"><strong t-esc="account_payment.journal_id.store_id.name"></strong></div>
                                         </div>
                                     </t>
-<!--                                    <div class="row">-->
-<!--                                        <div style="width: 30%" align="right">TIENDA: </div>-->
-<!--                                        <div style="width: 4%"/>-->
-<!--                                        <div style="width: 66%"><strong><span t-esc="account_payment.company_id.name"/></strong></div>-->
-<!--                                    </div>-->
                                     <div class="row">
                                         <div style="width: 30%" align="right">GLOSA: </div>
                                         <div style="width: 4%"/>
-                                        <div style="width: 160%"><strong><span  t-esc="account_payment.communication"/></strong></div>
+                                        <div style="width: 160%"><strong><span t-esc="account_payment.communication"/></strong></div>
                                     </div>
                                 </div>
                                 <div style="width: 2%"/>
@@ -116,7 +67,7 @@
                                     <div class="row">
                                         <div style="width: 30%" align="right">TIPO: </div>
                                         <div style="width: 4%"/>
-                                        <div style="width: 66%"><strong><span  t-esc="account_payment.journal_id.name"/></strong></div>
+                                        <div style="width: 66%"><strong><span t-esc="account_payment.journal_id.name"/></strong></div>
                                     </div>
                                     <div class="row">
                                         <div style="width: 30%" align="right">NUMERO: </div>
@@ -139,25 +90,24 @@
                         <br/>
                         <div style="height: 20px"/>
                         <table class="table table-sm table-bordered" style="font-size: 14px">
-                          <thead class="thead-light">
-                            <tr>
-                              <th class="border-dark" style="text-align: center" scope="col" width="30%">CUENTA</th>
-                              <th class="border-dark" style="text-align: center" scope="col" width="40%">GLOSA</th>
-                              <th class="border-dark" style="text-align: center" scope="col" width="15%">DEBE</th>
-                              <th class="border-dark" style="text-align: center" scope="col" width="15%">HABER</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <t  t-foreach="account_payment.move_line_ids" t-as="line">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td class="border-dark"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>
-                                    <td class="border-dark"><span t-att-style="style" t-esc="line.name"/></td>
-                                    <td class="border-dark" style="text-align: right"><span t-esc="line.debit" t-options = '{"widget": "float", "precision": 2}'/></td>
-                                    <td class="border-dark" style="text-align: right"><span t-esc="line.credit" t-options = '{"widget": "float", "precision": 2}'/></td>
+                                    <th class="border-dark" style="text-align: center" scope="col" width="30%">CUENTA</th>
+                                    <th class="border-dark" style="text-align: center" scope="col" width="40%">GLOSA</th>
+                                    <th class="border-dark" style="text-align: center" scope="col" width="15%">DEBE</th>
+                                    <th class="border-dark" style="text-align: center" scope="col" width="15%">HABER</th>
                                 </tr>
-                            </t>
-
-                          </tbody>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="account_payment.move_line_ids" t-as="line">
+                                    <tr>
+                                        <td class="border-dark"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>
+                                        <td class="border-dark"><span t-att-style="style" t-esc="line.name"/></td>
+                                        <td class="border-dark" style="text-align: right"><span t-esc="line.debit" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        <td class="border-dark" style="text-align: right"><span t-esc="line.credit" t-options='{"widget": "float", "precision": 2}'/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
                             <tfoot>
                                 <tr class="thead-light" style="font-size: 14px">
                                     <th class="border-dark" colspan="2">
@@ -167,15 +117,12 @@
                                             <div style="width: 5%"/>
                                             <div style="width: 55%"><center>SON: <span t-esc="account_payment.numero_to_letras(account_payment.result_total_debit())"/></center></div>
                                             <div style="width: 5%"/>
-                                            <div style="width: 15%" align="right">
-                                                <div>Total Bs.</div>
-<!--                                                <div>Total $us.</div>-->
-                                            </div>
+                                            <div style="width: 15%" align="right"><div>Total Bs.</div></div>
                                             <div style="width: 3%"/>
                                         </div>
                                     </th>
-                                    <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_payment.result_total_debit2()"/></th>
-                                    <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_payment.result_total_credit()"/></th>
+                                    <th class="border-dark" style="text-align: right; font-size: 14px"><span t-esc="account_payment.result_total_debit2()"/></th>
+                                    <th class="border-dark" style="text-align: right; font-size: 14px"><span t-esc="account_payment.result_total_credit()"/></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -200,91 +147,27 @@
                                     <div class="row" style="height: 30%">
                                         <div style="width: 25%" align="right">Firma: </div>
                                         <div style="width: 10%"/>
-                                        <div style="width:55%">
-                                            <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                        </div>
+                                        <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                     </div>
                                     <div class="row" style="height: 30%">
                                         <div style="width: 25%" align="right">Aclaracion:</div>
                                         <div style="width: 10%"/>
-                                        <div style="width:55%">
-                                            <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                        </div>
+                                        <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                     </div>
                                     <div class="row" style="height: 10%">
                                         <div style="width: 25%" align="right">Documento: </div>
                                         <div style="width: 10%"/>
-                                        <div style="width:55%">
-                                            <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                        </div>
+                                        <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
                     <div class="footer" style="position:relative;z-index:10">
                         <div style="height: 10px"/>
                         <div style="width: 100%; height:200px">
-                            <div>
-                                <div style="width: 100%; border-top:1px solid #000000"><center>Página:  <span class="page"/>  /  <span class="topage"/></center></div>
-                            </div>
+                            <div><div style="width: 100%; border-top:1px solid #000000"><center>Página: <span class="page"/> / <span class="topage"/></center></div></div>
                         </div>
-<!--                        <div style="width=100%; height:200px">-->
-<!--                            <div style="height:80%">-->
-<!--                                <table class="table">-->
-<!--                                  <tbody class="table table-sm table-bordered">-->
-<!--                                      <tr class="thead-light">-->
-<!--                                        <th style="text-align: center" width="15%">TOTAL</th>-->
-<!--                                        <th style="text-align: center" width="40%">SON: <span t-esc="account_payment.numero_to_letras(account_payment.result_total_debit())"/></th>-->
-<!--                                        <th style="text-align: center" width="15%"><div>Total Bs.</div><div>Total $us.</div></th>-->
-<!--                                        <th style="text-align: right" width="15%"><span t-esc="account_payment.result_total_debit()"/></th>-->
-<!--                                        <th style="text-align: right" width="15%"><span t-esc="account_payment.result_total_credit()"/></th>-->
-<!--                                      </tr>-->
-<!--                                  </tbody>-->
-<!--                                </table>-->
-<!--                                <t t-if="account_payment.payment_type in ('inbound','transfer')" >-->
-<!--                                    <table class="table">-->
-<!--                                        <tbody class="table table-sm table-bordered">-->
-<!--                                            <tr height="125px">-->
-<!--                                                <th width="33%"><div height="100%"/></th>-->
-<!--                                                <th width="33%"><div height="100%"/></th>-->
-<!--                                                <th width="34%"><div height="100%"/></th>-->
-<!--                                            </tr>-->
-<!--                                            <tr class="thead-light" height="20%">-->
-<!--                                                <th style="text-align: center" scope="col" width="33%">ELABORADO POR</th>-->
-<!--                                                <th style="text-align: center" scope="col" width="33%">REVISADO POR</th>-->
-<!--                                                <th style="text-align: center" scope="col" width="34%">APROBADO POR</th>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </t>-->
-
-<!--                                <t t-if="account_payment.payment_type == 'outbound'" >-->
-<!--                                    <table class="table">-->
-<!--                                        <tbody class="table table-sm table-bordered">-->
-<!--                                            <tr height="125px">-->
-<!--                                                <th width="25%"><div height="100%"/></th>-->
-<!--                                                <th width="25%"><div height="100%"/></th>-->
-<!--                                                <th width="25%"><div height="100%"/></th>-->
-<!--                                                <th width="25%"><div height="100%"/><div style="margin-top:10%">Nombre:</div><div style="margin-top:15%">CI:</div></th>-->
-<!--                                            </tr>-->
-<!--                                            <tr class="thead-light" height="20%">-->
-<!--                                                <th style="text-align: center" scope="col" width="25%">ELABORADO POR</th>-->
-<!--                                                <th style="text-align: center" scope="col" width="25%">REVISADO POR</th>-->
-<!--                                                <th style="text-align: center" scope="col" width="25%">APROBADO POR</th>-->
-<!--                                                <th style="text-align: center" scope="col" width="25%">RECIBI CONFORME</th>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </t>-->
-
-<!--                            </div>-->
-
-<!--                        </div>-->
                     </div>
                 </t>
             </t>
@@ -307,7 +190,3 @@
         <field name="report_ids" eval="[(4, ref('sd_comprobantes_contable.sd_action_account_payment_version_2'))]"/>
     </record>
 </odoo>
-
-
-
-

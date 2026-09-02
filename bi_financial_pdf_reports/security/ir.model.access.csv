@@ -1,5 +1,7 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_bi_financial_report","bi_financial_report usuario","model_account_financial_report",,1,1,1,1
-"access_bi_financial_report_line","bi_financial_report line usuario","model_account_financial_report_line",,1,1,1,1access_esi_cash_flow_user,esi.cash.flow user,model_esi_cash_flow,account.group_account_user,1,1,1,0
+"access_bi_financial_report_line","bi_financial_report line usuario","model_account_financial_report_line",,1,1,1,1
+access_esi_cash_flow_user,esi.cash.flow user,model_esi_cash_flow,account.group_account_user,1,1,1,0
 access_esi_cash_flow_manager,esi.cash.flow manager,model_esi_cash_flow,account.group_account_manager,1,1,1,1
 access_esi_cash_flow_report_wizard,esi.cash.flow.report.wizard,model_esi_cash_flow_report_wizard,account.group_account_user,1,1,1,1
+access_esi_financial_report_preview,esi.financial.report.preview,model_esi_financial_report_preview,account.group_account_user,1,1,1,1

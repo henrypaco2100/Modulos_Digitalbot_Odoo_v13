@@ -8,3 +8,5 @@ from . import account_financial_report_line
 from . import esi_cash_flow
 from . import account_move
 from . import esi_cash_flow_report_wizard
+
+from . import financial_report_preview

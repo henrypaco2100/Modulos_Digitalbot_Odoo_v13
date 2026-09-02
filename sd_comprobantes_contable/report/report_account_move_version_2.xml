@@ -27,7 +27,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="width: 100%; height: 150px">
                         <center><u><div style="font-size: 20px" t-esc="account_move.get_title_report_comprobante()"/></u></center>
                         <div style="height: 10px"/>
@@ -55,11 +54,6 @@
                                       <div style="width: 66%"><strong t-esc="account_move.journal_id.store_id.name"></strong></div>
                                     </div>
                                 </t>
-<!--                                <div class="row">-->
-<!--                                    <div style="width: 30%" align="right">TIENDA: </div>-->
-<!--                                    <div style="width: 4%"/>-->
-<!--                                    <div style="width: 66%"><strong><span t-esc="account_move.company_id.name"/></strong></div>-->
-<!--                                </div>-->
                                 <div class="row">
                                     <div style="width: 30%" align="right">GLOSA: </div>
                                     <div style="width: 4%"/>
@@ -71,7 +65,7 @@
                                 <div class="row">
                                     <div style="width: 30%" align="right">TIPO: </div>
                                     <div style="width: 4%"/>
-                                    <div style="width: 66%"><strong><span  t-esc="account_move.journal_id.name"/></strong></div>
+                                    <div style="width: 66%"><strong><span t-esc="account_move.journal_id.name"/></strong></div>
                                 </div>
                                 <div class="row">
                                     <div style="width: 30%" align="right">NUMERO: </div>
@@ -93,94 +87,64 @@
                     </div>
                     <br/>
                     <div style="height: 20px"/>
-                    <t t-if="account_move.sd_is_fecha == True">
-                        <div class="page">
-                            <table class="table table-sm table-bordered" style="font-size: 14px">
-                              <thead class="thead-light">
-                                <tr>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="20%"><strong>CUENTA</strong></th>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="20%"><strong>EMPRESA</strong></th>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="25%"><strong>DESCRIPCION</strong></th>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="15%"><strong>FECHA</strong></th>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="10%"><strong>DEBE</strong></th>
-                                  <th class="border-dark" style="text-align: center" scope="col" width="10%"><strong>HABER</strong></th>
+
+                    <!-- ESI correccion 2026-09-01:
+                         Una sola tabla para todas las combinaciones de columnas.
+                         Se conserva FECHA=line.date en este formato Version 2. -->
+                    <div class="page">
+                        <table class="table table-sm table-bordered"
+                               t-att-style="'font-size: 11px; table-layout: fixed; width: 100%;' if (account_move.sd_show_cash_flow or account_move.sd_show_analytic) else 'font-size: 14px; table-layout: fixed; width: 100%;'">
+                            <colgroup>
+                                <col style="width:17%"/>
+                                <col style="width:11%"/>
+                                <col style="width:18%"/>
+                                <col t-if="account_move.sd_show_cash_flow" style="width:14%"/>
+                                <col t-if="account_move.sd_show_analytic" style="width:14%"/>
+                                <col t-if="account_move.sd_is_fecha" style="width:10%"/>
+                                <col style="width:8%"/>
+                                <col style="width:8%"/>
+                            </colgroup>
+                            <thead class="thead-light">
+                                <tr style="text-align:center">
+                                    <th class="border-dark" scope="col"><strong>CUENTA</strong></th>
+                                    <th class="border-dark" scope="col"><strong>EMPRESA</strong></th>
+                                    <th class="border-dark" scope="col"><strong>DESCRIPCION</strong></th>
+                                    <th t-if="account_move.sd_show_cash_flow" class="border-dark" scope="col"><strong>CTA FLUJO</strong></th>
+                                    <th t-if="account_move.sd_show_analytic" class="border-dark" scope="col"><strong>ANALITICA</strong></th>
+                                    <th t-if="account_move.sd_is_fecha" class="border-dark" scope="col"><strong>FECHA</strong></th>
+                                    <th class="border-dark" scope="col"><strong>DEBE</strong></th>
+                                    <th class="border-dark" scope="col"><strong>HABER</strong></th>
                                 </tr>
-                              </thead>
-                              <tbody>
-                                <t  t-foreach="account_move.return_order_line_ids()" t-as="line">
+                            </thead>
+                            <tbody>
+                                <t t-foreach="account_move.return_order_line_ids()" t-as="line">
                                     <tr>
-                                        <td class="border-dark" align="center"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>
-                                        <td class="border-dark"><span t-att-style="style" t-esc="line.partner_id.name"/></td>
-                                        <td class="border-dark"><span t-att-style="style" t-esc="line.name"/></td>
-                                        <td class="border-dark"><span t-att-style="style" t-esc="line.date"/></td>
-                                        <td class="border-dark" style="text-align: right"><span t-att-style="style" t-esc="line.debit" t-options = '{"widget": "float", "precision": 2}'/></td>
-                                        <td class="border-dark" style="text-align: right"><span t-att-style="style" t-esc="line.credit" t-options = '{"widget": "float", "precision": 2}'/></td>
+                                        <td class="border-dark" style="word-wrap:break-word;"><span t-att-style="style" t-esc="line.account_id.display_name"/></td>
+                                        <td class="border-dark" style="word-wrap:break-word;"><span t-att-style="style" t-esc="line.partner_id.name or ''"/></td>
+                                        <td class="border-dark" style="word-wrap:break-word;"><span t-att-style="style" t-esc="line.name or ''"/></td>
+                                        <td t-if="account_move.sd_show_cash_flow" class="border-dark" style="word-wrap:break-word;"><span t-esc="line.esi_cash_flow_id.display_name if line.esi_cash_flow_id else ''"/></td>
+                                        <td t-if="account_move.sd_show_analytic" class="border-dark" style="word-wrap:break-word;"><span t-esc="line.analytic_account_id.display_name if line.analytic_account_id else ''"/></td>
+                                        <td t-if="account_move.sd_is_fecha" class="border-dark" style="text-align:center;"><span t-att-style="style" t-esc="line.date"/></td>
+                                        <td class="border-dark" style="text-align: right"><span t-att-style="style" t-esc="line.debit" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        <td class="border-dark" style="text-align: right"><span t-att-style="style" t-esc="line.credit" t-options='{"widget": "float", "precision": 2}'/></td>
                                     </tr>
                                 </t>
-                              </tbody>
-                                <tfoot>
-                                    <tr class="thead-light" style="font-size: 14px">
-                                        <th class="border-dark">TOTAL</th>
-                                        <th class="border-dark" colspan="2">
-                                            <div style="width: 85%">SON: <span t-esc="account_move.numero_to_letras(account_move.result_total_debit())"/></div>
-                                        </th>
-                                        <th class="border-dark"><div>Total Bs.</div><div>Total $us.</div></th>
-                                        <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_move.result_total_debit2()"/></th>
-                                        <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_move.result_total_credit2()"/></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </t>
-
-                    <t t-if="account_move.sd_is_fecha == False">
-                        <div class="page">
-                            <table class="table table-sm table-bordered" style="font-size: 14px">
-                              <thead class="thead-light">
-                                <tr style="font-size: 14px; text-align: center">
-                                  <th class="border-dark" scope="col" width="25%"><strong>CUENTA</strong></th>
-                                  <th class="border-dark" scope="col" width="20%"><strong>EMPRESA</strong></th>
-                                  <th class="border-dark" scope="col" width="35%"><strong>DESCRIPCION</strong></th>
-                                  <th class="border-dark" scope="col" width="10%"><strong>DEBE</strong></th>
-                                  <th class="border-dark" scope="col" width="10%"><strong>HABER</strong></th>
+                            </tbody>
+                            <tfoot>
+                                <tr class="thead-light">
+                                    <th class="border-dark">TOTAL</th>
+                                    <th class="border-dark"
+                                        t-att-colspan="2 + (1 if account_move.sd_show_cash_flow else 0) + (1 if account_move.sd_show_analytic else 0) + (1 if account_move.sd_is_fecha else 0)">
+                                        <div>SON: <span t-esc="account_move.numero_to_letras(account_move.result_total_debit())"/></div>
+                                        <div style="text-align:right;">Total Bs.</div>
+                                    </th>
+                                    <th class="border-dark" style="text-align: right"><span t-esc="account_move.result_total_debit2()"/></th>
+                                    <th class="border-dark" style="text-align: right"><span t-esc="account_move.result_total_credit2()"/></th>
                                 </tr>
-                              </thead>
-                              <tbody>
-                                <t  t-foreach="account_move.return_order_line_ids()" t-as="line">
-                                    <tr style="font-size: 14px">
-                                        <td class="border-dark"><span t-esc="line.account_id.display_name"/></td>
-                                        <td class="border-dark"><span t-esc="line.partner_id.name"/></td>
-                                        <td class="border-dark"><span t-esc="line.name"/></td>
-                                        <td class="border-dark" style="text-align: right; font-size: 14px"><span t-esc="line.debit" t-options = '{"widget": "float", "precision": 2}'/></td>
-                                        <td class="border-dark" style="text-align: right; font-size: 14px"><span t-esc="line.credit" t-options = '{"widget": "float", "precision": 2}'/></td>
-                                    </tr>
-                                </t>
-                              </tbody>
-                                <tfoot>
-                                    <tr class="thead-light" style="font-size: 14px">
-                                        <th class="border-dark">TOTAL</th>
-                                        <th class="border-dark" colspan="2">
-                                            <div class="row">
-                                                <div style="width: 4%"/>
-                                                <div style="width: 72%">SON: <span t-esc="account_move.numero_to_letras(account_move.result_total_debit())"/></div>
-                                                <div style="width: 5%"/>
-                                                <div style="width: 15%" align="right">
-                                                    <div>Total Bs.</div>
-<!--                                                    <div>Total $us.</div>-->
-                                                </div>
-                                                <div style="width: 4%"/>
-                                            </div>
-                                        </th>
-                                        <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_move.result_total_debit2()"/></th>
-                                        <th class="border-dark" style="text-align: right; font-size: 14px" ><span t-esc="account_move.result_total_credit2()"/></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            </tfoot>
+                        </table>
+                    </div>
 
-
-
-                        </div>
-                    </t>
                     <div style="height: 15px"/>
                     <div class="row" style="width: 100%; height: 175px; font-size: 14px; page-break-inside: avoid">
                         <div style="width: 20%; height: 100%">
@@ -202,41 +166,33 @@
                                 <div class="row" style="height: 30%">
                                     <div style="width: 25%" align="right">Firma: </div>
                                     <div style="width: 10%"/>
-                                    <div style="width:55%">
-                                        <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                    </div>
+                                    <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                 </div>
                                 <div class="row" style="height: 30%">
                                     <div style="width: 25%" align="right">Aclaracion:</div>
                                     <div style="width: 10%"/>
-                                    <div style="width:55%">
-                                        <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                    </div>
+                                    <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                 </div>
                                 <div class="row" style="height: 10%">
                                     <div style="width: 25%" align="right">Documento: </div>
                                     <div style="width: 10%"/>
-                                    <div style="width:55%">
-                                        <div style="height: 14px ;border-bottom:1px solid #000000"/>
-                                    </div>
+                                    <div style="width:55%"><div style="height: 14px ;border-bottom:1px solid #000000"/></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="footer" style="position:relative;z-index:10">
                         <div style="height: 10px"/>
                         <div style="width: 100%; height:200px">
-                            <div>
-                                <div style="width: 100%; border-top:1px solid #000000"><center>Página:  <span class="page"/>  /  <span class="topage"/></center></div>
-                            </div>
+                            <div><div style="width: 100%; border-top:1px solid #000000"><center>Página: <span class="page"/> / <span class="topage"/></center></div></div>
                         </div>
                     </div>
                 </t>
             </t>
         </t>
     </template>
+
     <record id="sd_reporte_formato_papel_account_move_comprobante_version_2" model="report.paperformat">
         <field name="name">Comprobante contable</field>
         <field name="default" eval="True" />
@@ -246,7 +202,6 @@
         <field name="orientation">Portrait</field>
         <field name="margin_top">35</field>
         <field name="margin_bottom">20</field>
-<!--        <field name="margin_bottom">50</field>-->
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False" />
@@ -255,7 +210,3 @@
         <field name="report_ids" eval="[(4, ref('sd_comprobantes_contable.sd_action_account_move_comprobantes_version_2'))]"/>
     </record>
 </odoo>
-
-
-
-
