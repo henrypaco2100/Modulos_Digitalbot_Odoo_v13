@@ -26,22 +26,22 @@ class PosDetailsWizard(models.TransientModel):
     )
 
     # ESI corrección: tres formas de presentar el mismo conjunto de ventas.
-    # Totales = convierte a UDM base y consolida por producto.
-    # Total - detallado = conserva la UDM de venta y consolida por producto + UDM.
-    # Detallado = conserva cada línea con fecha y método de pago.
+    # Total = convierte a UDM base y consolida por producto.
+    # Total - precio unitario - UDM = agrupa por producto + UDM + precio real de venta.
+    # Total detallado = conserva cada línea con fecha y método de pago.
     report_type = fields.Selection(
         selection=[
-            ('totals', 'Totales'),
-            ('total_detailed', 'Total - detallado'),
-            ('detailed', 'Detallado'),
+            ('totals', 'Total'),
+            ('total_detailed', 'Total - precio unitario - UDM'),
+            ('detailed', 'Total detallado'),
         ],
         string='Tipo de reporte',
         required=True,
         default='totals',
         help=(
-            'Totales: agrupa por producto y convierte todas las cantidades a la UDM base. '
-            'Total - detallado: agrupa por producto y por la UDM realmente vendida, sin fecha ni método de pago. '
-            'Detallado: muestra cada línea vendida con su fecha y método de pago.'
+            'Total: agrupa por producto y convierte todas las cantidades a la UDM base. '
+            'Total - precio unitario - UDM: separa cada producto por la UDM vendida y por el precio real de venta. '
+            'Total detallado: muestra cada línea vendida con su fecha y método de pago.'
         ),
     )
 
@@ -93,7 +93,7 @@ class PosDetailsWizard(models.TransientModel):
         )
 
     def action_export_xlsx(self):
-        """Generate XLSX matching Totales / Total - detallado / Detallado."""
+        """Generate XLSX matching Total / Total-precio-UDM / Total detallado."""
         self.ensure_one()
 
         # ESI corrección: HTML, PDF y Excel usan exactamente la misma lógica central.
@@ -120,11 +120,27 @@ class PosDetailsWizard(models.TransientModel):
             'valign': 'vcenter', 'text_wrap': True,
         })
         text_format = workbook.add_format({'border': 1, 'valign': 'top'})
+
+        # ESI corrección: Excel respeta las precisiones configuradas en Odoo 13.
+        # - Product Unit of Measure -> cantidades
+        # - Product Price -> precio unitario
+        # - moneda de la compañía -> importes/totales
+        qty_precision = report_data.get('uom_precision', 2)
+        price_precision = report_data.get('price_precision', 2)
+        currency_precision = report_data.get('currency_precision', 2)
+
+        def _esi_xlsx_num_format(digits):
+            digits = max(int(digits or 0), 0)
+            return '#,##0' + ('.' + ('0' * digits) if digits else '')
+
         qty_format = workbook.add_format({
-            'border': 1, 'num_format': '#,##0.00', 'align': 'right'
+            'border': 1, 'num_format': _esi_xlsx_num_format(qty_precision), 'align': 'right'
+        })
+        price_format = workbook.add_format({
+            'border': 1, 'num_format': _esi_xlsx_num_format(price_precision), 'align': 'right'
         })
         money_format = workbook.add_format({
-            'border': 1, 'num_format': '#,##0.00', 'align': 'right'
+            'border': 1, 'num_format': _esi_xlsx_num_format(currency_precision), 'align': 'right'
         })
         date_format = workbook.add_format({
             'border': 1, 'num_format': 'dd/mm/yyyy hh:mm:ss', 'align': 'center'
@@ -133,7 +149,8 @@ class PosDetailsWizard(models.TransientModel):
             'bold': True, 'border': 1, 'align': 'right'
         })
         total_money_format = workbook.add_format({
-            'bold': True, 'border': 1, 'num_format': '#,##0.00', 'align': 'right'
+            'bold': True, 'border': 1,
+            'num_format': _esi_xlsx_num_format(currency_precision), 'align': 'right'
         })
 
         report_type = report_data.get('report_type') or 'totals'
@@ -141,18 +158,18 @@ class PosDetailsWizard(models.TransientModel):
         is_total_detailed = report_type == 'total_detailed'
 
         if is_totals:
-            sheet_name = _('Totales de ventas')
+            sheet_name = _('Total de ventas')
             headers = [_('Producto'), _('Cantidad'), _('U.M.'), _('Precio total')]
             widths = [48, 16, 18, 20]
         elif is_total_detailed:
-            sheet_name = _('Total detallado')
+            sheet_name = _('Total precio UDM')
             headers = [
                 _('Producto'), _('Cantidad'), _('U.M.'),
-                _('Precio Unitario'), _('Precio total'),
+                _('Precio unitario'), _('Precio total'),
             ]
             widths = [42, 16, 18, 18, 20]
         else:
-            sheet_name = _('Detalle de ventas')
+            sheet_name = _('Total detallado')
             headers = [
                 _('Producto'), _('Método de pago'), _('Fecha'), _('Cantidad'), _('U.M.'),
                 _('Precio Unitario'), _('Precio total'),
@@ -231,7 +248,7 @@ class PosDetailsWizard(models.TransientModel):
                 worksheet.write(row, 0, product_name, text_format)
                 worksheet.write_number(row, 1, line.get('quantity') or 0.0, qty_format)
                 worksheet.write(row, 2, line.get('uom') or '', text_format)
-                worksheet.write_number(row, 3, line.get('price_unit') or 0.0, money_format)
+                worksheet.write_number(row, 3, line.get('price_unit') or 0.0, price_format)
                 worksheet.write_number(row, 4, line.get('price_total') or 0.0, money_format)
                 row += 1
         else:
@@ -250,7 +267,7 @@ class PosDetailsWizard(models.TransientModel):
                     worksheet.write(row, 2, '', text_format)
                 worksheet.write_number(row, 3, line.get('quantity') or 0.0, qty_format)
                 worksheet.write(row, 4, line.get('uom') or '', text_format)
-                worksheet.write_number(row, 5, line.get('price_unit') or 0.0, money_format)
+                worksheet.write_number(row, 5, line.get('price_unit') or 0.0, price_format)
                 worksheet.write_number(row, 6, line.get('subtotal') or 0.0, money_format)
                 row += 1
 
@@ -283,10 +300,11 @@ class PosDetailsWizard(models.TransientModel):
         label_format = workbook.add_format({'bold': True, 'border': 1})
         value_format = workbook.add_format({'border': 1})
         summary_money = workbook.add_format({
-            'border': 1, 'num_format': '#,##0.00', 'align': 'right'
+            'border': 1, 'num_format': _esi_xlsx_num_format(currency_precision), 'align': 'right'
         })
         summary_money_bold = workbook.add_format({
-            'bold': True, 'border': 1, 'num_format': '#,##0.00', 'align': 'right'
+            'bold': True, 'border': 1,
+            'num_format': _esi_xlsx_num_format(currency_precision), 'align': 'right'
         })
         summary.set_column('A:A', 30)
         summary.set_column('B:B', 42)
@@ -344,11 +362,11 @@ class PosDetailsWizard(models.TransientModel):
         output.seek(0)
 
         if is_totals:
-            mode = 'Totales'
+            mode = 'Total'
         elif is_total_detailed:
-            mode = 'Total_Detallado'
+            mode = 'Total_Precio_UDM'
         else:
-            mode = 'Detallado'
+            mode = 'Total_Detallado'
         filename = 'Detalles_de_ventas_POS_%s_%s.xlsx' % (
             mode,
             fields.Date.context_today(self).strftime('%Y%m%d'),

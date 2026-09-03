@@ -5,6 +5,7 @@ from datetime import timedelta
 import pytz
 
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_round
 from odoo.osv.expression import AND
 
 
@@ -88,6 +89,31 @@ class ReportSaleDetails(models.AbstractModel):
         return sale_uom, base_uom, base_qty, uom_to_base_factor
 
     @api.model
+    def _sd_get_decimal_precision(self, precision_name, default=2):
+        """Return Odoo Technical > Decimal Accuracy precision safely."""
+        # ESI corrección: Odoo 13 administra estas precisiones en el modelo
+        # decimal.precision (Ajustes > Técnico > Estructura de la base de datos
+        # > Precisión decimal). Si no existe el registro, usamos 2 decimales.
+        try:
+            digits = self.env['decimal.precision'].precision_get(precision_name)
+        except Exception:
+            digits = default
+        return int(digits if digits is not False and digits is not None else default)
+
+    @api.model
+    def _sd_round_quantity(self, quantity, uom=False):
+        """Round a quantity with the UDM precision and return a clean display."""
+        # ESI corrección: no mostramos 6 decimales fijos ni ruido binario.
+        # La cantidad se redondea y se presenta con la precisión técnica de Odoo
+        # "Product Unit of Measure". Por defecto son 2 decimales.
+        digits = self._sd_get_decimal_precision('Product Unit of Measure', 2)
+        clean_qty = float_round(quantity or 0.0, precision_digits=digits)
+        qty_display = ('%.*f' % (digits, clean_qty))
+        if clean_qty == 0:
+            qty_display = '%.*f' % (digits, 0.0)
+        return clean_qty, qty_display
+
+    @api.model
     def _sd_build_detailed_lines(self, orders):
         """Build non-aggregated sales lines with date, payment and real sale UOM."""
         user_currency = self.env.company.currency_id
@@ -124,6 +150,20 @@ class ReportSaleDetails(models.AbstractModel):
                     )
 
                 sale_uom, base_uom, base_qty, uom_to_base_factor = self._sd_line_uom_values(line)
+                clean_qty, quantity_display = self._sd_round_quantity(line.qty, sale_uom)
+                clean_base_qty, base_quantity_display = self._sd_round_quantity(base_qty, base_uom)
+
+                # ESI corrección: precio realmente cobrado por cada UDM vendida.
+                # Se obtiene del subtotal real de Odoo, por lo que también distingue
+                # cambios de precio hechos mediante descuento. Ej.: 12 Bs, 11 Bs,
+                # Caja 260 Bs y Caja 270 Bs quedan como grupos independientes.
+                effective_price_unit = (subtotal / line.qty) if line.qty else price_unit
+                # ESI corrección: el precio unitario respeta la precisión técnica
+                # "Product Price" de Odoo, no una cantidad arbitraria de decimales.
+                price_digits = self._sd_get_decimal_precision('Product Price', 2)
+                effective_price_unit = float_round(
+                    effective_price_unit, precision_digits=price_digits
+                )
 
                 detailed_lines.append({
                     'line_id': line.id,
@@ -136,16 +176,19 @@ class ReportSaleDetails(models.AbstractModel):
                     'code': line.product_id.default_code,
                     # ESI corrección: en Detallado respetar lo que realmente vendió
                     # el cajero: 2 Cajas, 3 Paquetes, 1 Unidad, etc.
-                    'quantity': line.qty,
+                    'quantity': clean_qty,
+                    'quantity_display': quantity_display,
                     'uom': sale_uom.name if sale_uom else '',
                     'uom_id': sale_uom.id if sale_uom else False,
                     # ESI corrección: equivalencia para el modo Totales. Ejemplo:
                     # 2 Cajas de 24 = 48 Unidades base.
-                    'base_quantity': base_qty,
+                    'base_quantity': clean_base_qty,
+                    'base_quantity_display': base_quantity_display,
                     'base_uom': base_uom.name if base_uom else '',
                     'base_uom_id': base_uom.id if base_uom else False,
                     'uom_to_base_factor': uom_to_base_factor,
                     'price_unit': price_unit,
+                    'effective_price_unit': effective_price_unit,
                     'discount': line.discount,
                     'subtotal': subtotal,
                 })
@@ -173,19 +216,39 @@ class ReportSaleDetails(models.AbstractModel):
             row['quantity'] += line['base_quantity']
             row['price_total'] += line['subtotal']
 
-        return sorted(products.values(), key=lambda row: (row['product_name'] or '').lower())
+        rows = []
+        for row in products.values():
+            uom = self.env['uom.uom'].browse(row['uom_id']) if row.get('uom_id') else False
+            row['quantity'], row['quantity_display'] = self._sd_round_quantity(row['quantity'], uom)
+            rows.append(row)
+
+        return sorted(rows, key=lambda row: (row['product_name'] or '').lower())
 
     @api.model
     def _sd_build_total_detailed_lines(self, detailed_lines):
-        """Aggregate by product + sale UOM while preserving the sold unit."""
-        # ESI corrección: nueva opción "Total - detallado".
-        # No mezcla Cajas con Unidades y tampoco repite cada ticket.
-        # Ejemplo:
-        #   PACEÑA NORMAL | 2 | CAJA     | 215 | 430
-        #   PACEÑA NORMAL | 3 | Unidades | 12  | 36
+        """Aggregate by product + sale UOM + actual unit sale price."""
+        # ESI corrección: "Total - precio unitario - UDM" separa también por el precio
+        # real cobrado. No se promedian precios distintos. Ejemplo:
+        #   PACEÑA | 4 | Unidades | 12.00 | 48.00
+        #   PACEÑA | 1 | Unidades | 11.00 | 11.00
+        #   PACEÑA | 2 | CAJA     | 260.00 | 520.00
+        #   PACEÑA | 1 | CAJA     | 270.00 | 270.00
         grouped = {}
+        currency = self.env.company.currency_id
+        price_digits = self._sd_get_decimal_precision('Product Price', 2)
+
         for line in detailed_lines:
-            key = (line['product_id'], line.get('uom_id') or 0)
+            effective_price = float_round(
+                line.get('effective_price_unit') or 0.0,
+                precision_digits=price_digits,
+            )
+            # El precio redondeado de moneda forma parte de la clave para evitar
+            # grupos falsamente distintos por ruido decimal de Python.
+            key = (
+                line['product_id'],
+                line.get('uom_id') or 0,
+                effective_price,
+            )
             row = grouped.setdefault(key, {
                 'product_id': line['product_id'],
                 'product_name': line['product_name'],
@@ -194,32 +257,30 @@ class ReportSaleDetails(models.AbstractModel):
                 'uom': line.get('uom') or '',
                 'uom_id': line.get('uom_id') or False,
                 'uom_to_base_factor': line.get('uom_to_base_factor') or 1.0,
+                'price_unit': effective_price,
                 'price_total': 0.0,
-                '_weighted_price_unit': 0.0,
             })
-            qty = line.get('quantity') or 0.0
-            row['quantity'] += qty
+            row['quantity'] += line.get('quantity') or 0.0
             row['price_total'] += line.get('subtotal') or 0.0
-            row['_weighted_price_unit'] += (line.get('price_unit') or 0.0) * qty
 
         rows = []
         for row in grouped.values():
-            qty = row['quantity']
-            # ESI corrección: si hubo distintas tarifas en la misma UDM, mostrar
-            # un precio unitario promedio ponderado sin alterar el precio total real.
-            row['price_unit'] = (
-                row['_weighted_price_unit'] / qty if qty else 0.0
+            uom = self.env['uom.uom'].browse(row['uom_id']) if row.get('uom_id') else False
+            row['quantity'], row['quantity_display'] = self._sd_round_quantity(
+                row['quantity'], uom
             )
-            row.pop('_weighted_price_unit', None)
+            row['price_unit'] = float_round(row['price_unit'], precision_digits=price_digits)
+            row['price_total'] = currency.round(row['price_total'])
             rows.append(row)
 
-        # Mismo producto junto; UDM grandes primero (Caja antes de Unidad).
+        # Producto junto; UDM grandes primero (Caja antes de Unidad), y dentro
+        # de la misma UDM cada precio de venta queda en una línea independiente.
         return sorted(
             rows,
             key=lambda row: (
                 (row['product_name'] or '').lower(),
                 -(row.get('uom_to_base_factor') or 1.0),
-                (row.get('uom') or '').lower(),
+                row.get('price_unit') or 0.0,
             ),
         )
 
@@ -270,10 +331,18 @@ class ReportSaleDetails(models.AbstractModel):
             report_type = 'totals'
         data['report_type'] = report_type
         data['report_type_label'] = {
-            'totals': 'Totales',
-            'total_detailed': 'Total - detallado',
-            'detailed': 'Detallado',
+            'totals': 'Total',
+            'total_detailed': 'Total - precio unitario - UDM',
+            'detailed': 'Total detallado',
         }[report_type]
+
+        # ESI corrección: exponer precisiones técnicas para HTML/PDF/Excel.
+        data['uom_precision'] = self._sd_get_decimal_precision(
+            'Product Unit of Measure', 2
+        )
+        data['price_precision'] = self._sd_get_decimal_precision('Product Price', 2)
+        currency = self.env.company.currency_id
+        data['currency_precision'] = int(currency.decimal_places or 2)
 
         data['session_ids'] = sessions.ids
         data['session_names'] = sessions.mapped('name')

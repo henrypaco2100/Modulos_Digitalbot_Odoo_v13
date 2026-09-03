@@ -18,7 +18,7 @@
         <!-- ESI corrección: Detalles de ventas queda enfocado solamente en ventas.
              Costo y ganancia se movieron a Informes > Análisis de pedidos. -->
         <xpath expr="//div[@class='page']/table[1]" position="replace">
-            <!-- ESI corrección: 3 modalidades del mismo reporte. -->
+            <!-- ESI corrección: 3 modalidades: Total / Total-precio-UDM / Total detallado. -->
             <t t-if="report_type == 'totals'">
                 <table class="table table-sm" style="font-size: 11px; table-layout: fixed; width: 100%;">
                     <thead>
@@ -37,7 +37,7 @@
                                 <t t-esc="line['product_name']"/>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
-                                <t t-esc="line['quantity']"/>
+                                <t t-esc="line.get('quantity_display', line['quantity'])"/>
                                 <t t-if="line['uom']"> <t t-esc="line['uom']"/></t>
                             </td>
                             <td style="text-align: right;">
@@ -58,14 +58,13 @@
             </t>
 
             <t t-elif="report_type == 'total_detailed'">
-                <!-- ESI corrección: agrupa por Producto + UDM. Sin fecha ni método
-                     de pago. Caja y Unidad quedan en líneas separadas. -->
+                <!-- ESI corrección: agrupa por Producto + UDM + precio unitario real. Sin fecha ni método de pago. -->
                 <table class="table table-sm" style="font-size: 11px; table-layout: fixed; width: 100%;">
                     <thead>
                         <tr>
                             <th style="width: 45%;">Producto</th>
                             <th style="width: 18%; text-align: right;">Cantidad</th>
-                            <th style="width: 17%; text-align: right;">Precio Unit.</th>
+                            <th style="width: 17%; text-align: right;">Precio unitario</th>
                             <th style="width: 20%; text-align: right;">Precio total</th>
                         </tr>
                     </thead>
@@ -78,12 +77,12 @@
                                 <t t-esc="line['product_name']"/>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
-                                <t t-esc="line['quantity']"/>
+                                <t t-esc="line.get('quantity_display', line['quantity'])"/>
                                 <t t-if="line['uom']"> <t t-esc="line['uom']"/></t>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
                                 <t t-esc="line['price_unit']"
-                                   t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                   t-options="{'widget': 'float', 'precision': price_precision}"/>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
                                 <t t-esc="line['price_total']"
@@ -130,12 +129,12 @@
                                 <t t-esc="line['date']" t-options="{'widget': 'datetime'}"/>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
-                                <t t-esc="line['quantity']"/>
+                                <t t-esc="line.get('quantity_display', line['quantity'])"/>
                                 <t t-if="line['uom']"> <t t-esc="line['uom']"/></t>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
                                 <t t-esc="line['price_unit']"
-                                   t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                   t-options="{'widget': 'float', 'precision': price_precision}"/>
                                 <t t-if="line['discount'] != 0">
                                     <br/>Desc: <t t-esc="line['discount']"/>%
                                 </t>

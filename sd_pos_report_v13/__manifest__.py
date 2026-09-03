@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Mejoras POS Reporte v13',
-    'version': '13.0.0.9',
-    'summary': 'Reporte POS Totales/Total - detallado/Detallado compatible con múltiples UDM',
+    'version': '13.0.0.11',
+    'summary': 'Reporte POS Total / Precio-UDM / Total detallado con precisión decimal de Odoo',
     'category': 'Point of Sale',
     'author': 'ESI',
     'website': 'https://sodigitalim.com/',
