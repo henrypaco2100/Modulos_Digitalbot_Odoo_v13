@@ -18,11 +18,6 @@ class PosDetailsWizard(models.TransientModel):
         column1='wizard_id',
         column2='session_id',
         string='Sesiones POS',
-        help=(
-            'Seleccione una o varias sesiones para limitar el reporte. '
-            'Si no selecciona ninguna sesión, el reporte conserva el filtro '
-            'estándar por fechas y puntos de venta.'
-        ),
     )
 
     # ESI corrección: tres formas de presentar el mismo conjunto de ventas.
