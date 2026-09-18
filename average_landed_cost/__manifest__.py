@@ -36,6 +36,6 @@
     'license': 'OPL-1',
     'currency': 'EUR',
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     'application': False,
 }

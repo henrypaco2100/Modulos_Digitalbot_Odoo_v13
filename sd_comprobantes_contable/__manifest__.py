@@ -29,6 +29,6 @@
         'report/report_account_payment_version_2.xml',
     ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     # "images":['static/description/digital2.png'],
 }

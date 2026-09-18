@@ -32,12 +32,7 @@ class PosDetailsWizard(models.TransientModel):
         ],
         string='Tipo de reporte',
         required=True,
-        default='totals',
-        help=(
-            'Total: agrupa por producto y convierte todas las cantidades a la UDM base. '
-            'Total - precio unitario - UDM: separa cada producto por la UDM vendida y por el precio real de venta. '
-            'Total detallado: muestra cada línea vendida con su fecha y método de pago.'
-        ),
+        default='total_detailed',
     )
 
     # ESI corrección: archivo temporal para descargar Excel directamente desde Odoo.
